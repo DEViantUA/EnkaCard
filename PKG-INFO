@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: enkanetworkcard
+Version: 0.1.2
+Summary: Wrapper module for enkanetwork.py for creating character cards.
+Home-page: https://github.com/DEViantUA/EnkaNetworkCard/wiki/Dokumentation-enkanetworkcard
+Author: None
+Requires-Python: >=3.6,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Requires-Dist: Pillow (>=9.3.0,<10.0.0)
+Requires-Dist: enkanetwork.py (>=1.2.10,<2.0.0)
+Requires-Dist: googletrans (>=3.1.0a0,<4.0.0)
+Project-URL: Repository, https://github.com/DEViantUA/Enka.GenerationBanner

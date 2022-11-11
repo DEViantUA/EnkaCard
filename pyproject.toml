@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "enkanetworkcard"
+version = "0.1.2"
+description = "Wrapper module for enkanetwork.py for creating character cards."
+authors = ["None"]
+
+repository = "https://github.com/DEViantUA/Enka.GenerationBanner"
+homepage = "https://github.com/DEViantUA/EnkaNetworkCard/wiki/Dokumentation-enkanetworkcard"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+googletrans = "^3.1.0a0"
+Pillow = "^9.3.0"
+"enkanetwork.py" = "^1.2.10"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
