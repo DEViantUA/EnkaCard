@@ -45,7 +45,7 @@ print(result)
 ```
 
 ## Description of arguments:
-``` python
+```
 --|EnkaGenshinGeneration - Main class.
 ----|lang - Takes one value to define the language. Supported languages are listed below in the documentation. The default is Russian.
 ------|Values: str
