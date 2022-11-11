@@ -44,6 +44,45 @@ print(result)
 
 ```
 
+## Description of arguments:
+``` python
+--|EnkaGenshinGeneration - Main class.
+----|lang - Takes one value to define the language. Supported languages are listed below in the documentation. The default is Russian.
+------|Values: str
+--------|Example str: EnkaGenshinGeneration(lang = "en")
+----|img - If you want to use your image on the card, then pass this argument.
+------|Values: str, list, PIL.ImageFile
+--------| str: image link or the path to the file.
+--------| PIL.ImageFile: Image opened with Image.open()
+--------| list: image link, the path to the file or PIL.ImageFile
+----------|Example str - the path to the file: EnkaGenshinGeneration(img = "img.png")
+----------|Example str - image link: EnkaGenshinGeneration(img = "https//...image.png")
+----------|Example PIL.ImageFile: EnkaGenshinGeneration(img = Image.open("img.png"))
+----------|Example list: EnkaGenshinGeneration(img = [Image.open("img.png"), "img.png", "https//...image.png"]) #list only works with the argument: random
+----|name - Needed if you want to get certain characters.
+------|Values: str
+----------|Example str - one character: EnkaGenshinGeneration(name = "Klee")
+----------|Example str - Two or more characters: EnkaGenshinGeneration(name = "Klee, Albedo, ...")
+```
+
+## Languages Supported
+| Languege    |  Code   |
+|-------------|---------|
+|  English    |     en  |
+|  русский    |     ru  |
+|  Tiếng Việt |     vi  |
+|  ไทย        |     th  |
+|  português  |     pt  |
+|  한국어      |     kr  |
+|  日本語      |     jp  |
+|  中文        |     zh  |
+|  Indonesian |     id  |
+|  français   |     fr  |
+|  español    |     es  |
+|  deutsch    |     de  |
+|  Taiwan     |    cht  |
+|  Chinese    |    chs  |
+
 ## Sample Results:
 
 <img src="img/Example1.png" width='300' alt="Example1"/> <img src="img/Example2.png" width='300' alt="Example2"/> - The result of a custom images and adaptation.
