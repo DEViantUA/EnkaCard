@@ -43,3 +43,8 @@ result = ENC.start(uids = 724281429)
 print(result)
 
 ```
+
+## Sample Results:
+
+<img src="img/Example1.png" width='300' alt="Example1"/> <img src="img/Example2.png" width='300' alt="Example2"/> - The result of a custom images and adaptation.
+<img src="img/Example3.png" width='300' alt="Example3"/> <img src="img/Example4.png" width='300' alt="Example4"/> - Usual result.
