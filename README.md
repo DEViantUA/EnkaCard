@@ -10,6 +10,7 @@ Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) creatio
 * Dependencies
 * Launch
 * Description of arguments
+* Languages Supported
 * Sample Results
 
 ## Installation:
