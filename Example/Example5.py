@@ -6,8 +6,8 @@ fit them, and return the result in the response.
 
 from enkanetworkcard import encbanner
 
-client = encbanner.EnkaGenshinGeneration(img = "9.png", adapt = True, dowload = True) 
+ENC = encbanner.EnkaGenshinGeneration(img = "9.png", adapt = True, dowload = True) 
 
-b = client.start(uids = 724281429)
+result = ENC.start(uids = 724281429)
 
-print(b)
+print(result)
