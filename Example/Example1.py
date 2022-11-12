@@ -7,7 +7,7 @@ The folder will be created automatically
 
 from enkanetworkcard import encbanner
 
-client = encbanner.EnkaGenshinGeneration() 
+ENC = encbanner.EnkaGenshinGeneration() 
 
-b = client.start(uids = 724281429)
+result = ENC.start(uids = 724281429)
 
