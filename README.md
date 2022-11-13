@@ -99,22 +99,16 @@ The main function of the class: <code>start</code> takes a ```uids``` argument
 
 
 ## Languages Supported
-| Languege    |  Code   |
-|-------------|---------|
-|  English    |     en  |
-|  русский    |     ru  |
-|  Tiếng Việt |     vi  |
-|  ไทย        |     th  |
-|  português  |     pt  |
-|  한국어      |     kr  |
-|  日本語      |     jp  |
-|  中文        |     zh  |
-|  Indonesian |     id  |
-|  français   |     fr  |
-|  español    |     es  |
-|  deutsch    |     de  |
-|  Taiwan     |    cht  |
-|  Chinese    |    chs  |
+| Languege    |  Code   | Languege    |  Code   |
+|-------------|---------|-------------|---------|
+|  English    |     en  |  русский    |     ru  |
+|  Tiếng Việt |     vi  |  ไทย        |     th  |
+|  português  |     pt  | 한국어      |     kr  |
+|  日本語      |     jp  | 中文        |     zh  |
+|  中文        |     zh  | Indonesian |     id  |
+|  français   |     fr  | español    |     es  |
+|  deutsch    |     de  | Taiwan     |    cht  |
+|  Chinese    |    chs  |      |      |
 
 ## Sample Results:
 
