@@ -3,7 +3,7 @@
 </p>
 
 # EnkaNetworkCard
-Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) creation to create character cards in Python.
+Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) to create character cards in Python.
 
 ## Navigation
 * Installation
