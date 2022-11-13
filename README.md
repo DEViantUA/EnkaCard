@@ -2,6 +2,8 @@
  <img src="img/banner.jpg" alt="Баннер"/>
 </p>
 
+**<p align="center"> <a href="https://github.com/DEViantUA/EnkaNetworkCard">Русская версия</a> | <a href="https://github.com/DEViantUA/EnkaNetworkCard/tree/main/Example">Example</a> </p>**
+
 # EnkaNetworkCard
 Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) to create character cards in Python.
 
