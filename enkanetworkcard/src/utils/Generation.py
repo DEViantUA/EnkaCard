@@ -6,41 +6,70 @@ from .options import *
 from .gradient import userAdaptGrandient
 
 
-def centryImage(userImages):
-    x,y = userImages.size
-    if x > y or x == y:
-        baseheight = 787
-        hpercent = (baseheight / float (userImages.size[1])) 
-        wsize = int ((float (userImages.size[0]) * float (hpercent)))
-        userImages = userImages.resize ((wsize, baseheight), Image.ANTIALIAS) 
-        positionX = -int(userImages.size[0]/2-300)
-    else:
-        baseheight = 1000
-        hpercent = (baseheight / float (userImages.size[1])) 
-        wsize = int ((float (userImages.size[0]) * float (hpercent)))
-        userImages = userImages.resize ((wsize, baseheight), Image.ANTIALIAS) 
-        positionX = -int(userImages.size[0]/2*0.2)
-    return userImages, positionX
-    
+def centryImage(userImages, teample = 1):
+    if teample == 1:
+        x,y = userImages.size
+        baseheight = 1200
 
-def openImageElement(element):
-    if element == "Fire":
-        return PyroBg.copy()
-    elif element== "Grass":
-        return DendroBg.copy()
-    elif element == "Electric":
-        return ElectroBg.copy()
-    elif element == "Water":
-        return GydroBg.copy()
-    elif element == "Wind":
-        return AnemoBg.copy()
-    elif element== "Rock":
-        return GeoBg.copy()
-    elif element == "Ice":
-        return CryoBg.copy()
+        if x > y or x == y:
+            baseheight = 787
+        hpercent = (baseheight / float (y)) 
+        wsize = int ((float (x) * float (hpercent)))
+        userImages = userImages.resize ((wsize, baseheight), Image.ANTIALIAS) 
+
+        if x > y or x == y:
+            return userImages, -int(userImages.size[0]/2-300)
+        else:
+            return userImages, -int(userImages.size[0]/2*0.2)
     else:
-        return ErrorBg.copy()
-    
+        x,y = userImages.size
+        baseheight = 1500
+
+        if x > y or x == y:
+            baseheight = 1048
+        hpercent = (baseheight / float (y)) 
+        wsize = int ((float (x) * float (hpercent)))
+        userImages = userImages.resize ((wsize, baseheight), Image.ANTIALIAS) 
+
+        if x > y or x == y:
+            return userImages, 0
+        else:
+            return userImages, 555
+def openImageElement(element,teample = 1):
+    if teample == 1:
+        if element == "Fire":
+            return PyroBgTeampleOne.copy()
+        elif element== "Grass":
+            return DendroBgTeampleOne.copy()
+        elif element == "Electric":
+            return ElectroBgTeampleOne.copy()
+        elif element == "Water":
+            return GydroBgTeampleOne.copy()
+        elif element == "Wind":
+            return AnemoBgTeampleOne.copy()
+        elif element== "Rock":
+            return GeoBgTeampleOne.copy()
+        elif element == "Ice":
+            return CryoBgTeampleOne.copy()
+        else:
+            return ErrorBgTeampleOne.copy()
+    else:
+        if element == "Fire":
+            return PyroBgTeampleTwo.copy()
+        elif element== "Grass":
+            return DendroBgTeampleTwo.copy()
+        elif element == "Electric":
+            return ElectroBgTeampleTwo.copy()
+        elif element == "Water":
+            return GydroBgTeampleTwo.copy()
+        elif element == "Wind":
+            return AnemoBgTeampleTwo.copy()
+        elif element== "Rock":
+            return GeoBgTeampleTwo.copy()
+        elif element == "Ice":
+            return CryoBgTeampleTwo.copy()
+        else:
+            return ErrorBgTeampleTwo.copy()
 def openImageElementConstant(element):
     if element == "Fire":
         return PyroConstant.copy()
@@ -59,50 +88,82 @@ def openImageElementConstant(element):
     else:
         return ErrorConstant.copy()
 
-def maskaAdd(element,charter):
-    bg = openImageElement(element)
-    bgUP = bg.copy()
-    bg.paste(charter,(-734,-134),charter)
-    im = Image.composite(bg, bgUP, MaskaBg) #ЗАДНИК / НАКЛАДЫВАЕМЫЙ / МАСКА
-    bg.paste(im,(0,0))
+def maskaAdd(element,charter, teample = 1):
+    if teample == 1:
+        bg = openImageElement(element)
+        bgUP = bg.copy()
+        bg.paste(charter,(-734,-134),charter)
+        im = Image.composite(bg, bgUP, MaskaBgTeampleOne)
+        bg.paste(im,(0,0))
+    else:
+        bg = openImageElement(element, teample = 2)
+        bgUP = bg.copy()
+        bg.paste(charter,(0,0),charter)
+        im = Image.composite(bg, bgUP, MaskaSplas)
+        bg.paste(im,(0,0))
+        bg.paste(MasskaEffectDown,(0,0),MasskaEffectDown)
     return bg
-
 
 def userImage(img,element = None, adaptation = False):
     userImagess,pozitionX = centryImage(img)
     if adaptation:
         grandient = userAdaptGrandient(userImagess.convert("RGB").copy())
-        Effect = UserEffect.copy()
+        Effect = UserEffectTeampleOne.copy()
         grandient = ImageChops.screen(grandient,Effect)
         Effect.paste(userImagess,(pozitionX,0),userImagess)
-        im = Image.composite(Effect, grandient, MaskaUserBg2) #ЗАДНИК / НАКЛАДЫВАЕМЫЙ / МАСКА
+        im = Image.composite(Effect, grandient, MaskaUserBg2TeampleOne)
         return im
     else:
         bg = openImageElement(element)
         effect = bg.copy()
-        bg.paste(userImagess,(pozitionX,0),userImagess)
-        im = Image.composite(bg, effect, MaskaUserBg) #ЗАДНИК / НАКЛАДЫВАЕМЫЙ / МАСКА
+        bg.paste(userImagess,(pozitionX,0))
+        im = Image.composite(bg, effect, MaskaUserBg2TeampleOne)
         bg.paste(im,(0,0))
         return bg
 
+def userImageTwo(img,element = None, adaptation = False):
+    userImagess,pozitionX = centryImage(img, teample = 2)
+    if adaptation:
+        bg = openImageElement("error", teample = 2)
+        grandientLeft = userAdaptGrandient(userImagess.convert("RGB").copy(), size = (1038, 1048),left = True)
+        grandientRight = userAdaptGrandient(userImagess.convert("RGB").copy(), size = (937, 1048))
+        bg.paste(grandientLeft,(0,0),grandientLeft)
+        bg.paste(grandientRight,(grandientLeft.size[0],0),grandientRight)
+        Effect = UserEffectTeampleTwo.copy()
+        grandient = ImageChops.screen(bg,Effect)
+        Effect.paste(userImagess,(pozitionX,0),userImagess)
+        im = Image.composite(Effect, grandient, UserBgTeampleTwo)
+        #im.paste(MasskaEffectDown,(0,0),MasskaEffectDown)
+        return im
+    else:
+        bg = openImageElement(element, teample = 2)
+        effect = bg.copy()
+        bg.paste(userImagess,(pozitionX,0),userImagess)
+        im = Image.composite(bg, effect, UserBgTeampleTwo)
+        bg.paste(im,(0,0))
+        #bg.paste(MasskaEffectDown,(0,0),MasskaEffectDown)
+        return bg
+
+'''
 def userImageBlur(img,element = None, adaptation = False):
     userImagess,pozitionX = centryImage(img)
     if adaptation:
-        Effect = UserEffect.copy()
+        Effect = UserEffectTeampleOne.copy()
         bgBlur = userImagess.filter(ImageFilter.GaussianBlur(radius=80)).resize(Effect.size).convert("RGBA")
         bgBlur = ImageChops.screen(bgBlur,Effect)
         Effect.paste(userImagess,(pozitionX,0),userImagess)
-        bg = Image.composite(Effect, bgBlur, MaskaUserBg2) #ЗАДНИК / НАКЛАДЫВАЕМЫЙ / МАСКА
+        bg = Image.composite(Effect, bgBlur, MaskaUserBg2TeampleOne) 
         return bg
     else:
         img = openImageElement(element)
         effect = img.copy()
         img.paste(userImagess,(pozitionX,0))
         img.show()
-        im = Image.composite(img, effect, MaskaUserBg) #ЗАДНИК / НАКЛАДЫВАЕМЫЙ / МАСКА
+        im = Image.composite(img, effect, MaskaUserBgTeampleOne)
         img.paste(im,(0,0))
         return img
-    
+'''
+
 def star(x):
     if x == 1:
         imgs = Star1
@@ -117,6 +178,24 @@ def star(x):
 
     return imgs
 
+
+def elementIconPanel(element):
+    if element == "Fire":
+        return PyroCharterElementTeampleTwo.copy()
+    elif element== "Grass":
+        return DendroCharterElementTeampleTwo.copy()
+    elif element == "Electric":
+        return ElectoCharterElementTeampleTwo.copy()
+    elif element == "Water":
+        return GydroCharterElementTeampleTwo.copy()
+    elif element == "Wind":
+        return AnemoCharterElementTeampleTwo.copy()
+    elif element== "Rock":
+        return GeoCharterElementTeampleTwo.copy()
+    elif element == "Ice":
+        return CryoCharterElementTeampleTwo.copy()
+    else:
+        return PyroCharterElementTeampleTwo.copy()
 
 def getIconAdd(x, icon = False, size = None):
     if not icon:

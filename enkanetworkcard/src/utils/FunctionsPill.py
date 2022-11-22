@@ -5,7 +5,6 @@ from .openFile import *
 from io import BytesIO
 import requests
 
-#Дополнительные функции библиотеки Pillow
 class PillImg:
     def __init__(self, link = "", image = None):
         self.link = link
@@ -31,7 +30,7 @@ class PillImg:
         return new_image
 
     def imgD(self):
-        return self.imgs
+        return self.imgs.convert("RGBA")
 
     def centrText(self, text, witshRam = 100, razmer = 24, start = 0, Yram = 20, y = None, aling = "centry"):
         Text = ImageFont.truetype(font, razmer)
@@ -39,9 +38,9 @@ class PillImg:
         while True:
             Text = ImageFont.truetype(font, razmer)
             withText = int(Text.getlength(str(text)))
-            r = witshRam/2 #Получаем половину рамки
-            t = withText/2 #Получаем половину длины текста
-            itog = r-t #Получаем отсутп от начала до центра
+            r = witshRam/2 
+            t = withText/2 
+            itog = r-t 
             if withText > maxDlina:
                 razmer -= 1
                 if razmer == 2:
@@ -53,9 +52,9 @@ class PillImg:
                 Text = ImageFont.truetype(font, razmer)
                 HegText = Text.getbbox(str(text))[3]
                 maxHeg = Yram
-                r = Yram/2 #Получаем половину рамки
-                t = HegText/2 #Получаем половину длины текста
-                itogs = r-t #Получаем отсутп от начала до центра
+                r = Yram/2 
+                t = HegText/2 
+                itogs = r-t 
                 if HegText > maxHeg:
                     razmer -= 1
                     if razmer == 2:

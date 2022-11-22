@@ -39,12 +39,15 @@ def vertGradient(image, rect, color_func, color_palette):
         draw.line([(rect.min.x, y), (rect.max.x, y)], fill=color)
 
 
-def userAdaptGrandient(userImg):
-    userImg = userImg.crop((userImg.size[0]-1,0,userImg.size[0],userImg.size[1]))
+def userAdaptGrandient(userImg, size = (1503, 788), left = False):
+    if left:
+        userImg = userImg.crop((0,0,userImg.size[0]+3-userImg.size[0],userImg.size[1]))
+    else:
+        userImg = userImg.crop((userImg.size[0]-1,0,userImg.size[0],userImg.size[1]))
     rgb = list(userImg.getdata())
-    color_palette = (rgb[5],rgb[int(len(rgb)/2)],rgb[len(rgb)-200])
-    region = Rect(0, 0, 1502, 787)
-    image = Image.new("RGBA", (1503, 788), (0,0,0,0))  
+    color_palette = (rgb[30],rgb[int(len(rgb)/2-73)],rgb[len(rgb)-200])
+    region = Rect(0, 0, size[0], size[1])
+    image = Image.new("RGBA", size, (0,0,0,0))  
     vertGradient(image, region, gradientColor, color_palette) 
     return image
 
