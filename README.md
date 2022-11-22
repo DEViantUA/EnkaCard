@@ -103,7 +103,7 @@ The main function of the class: <code>start</code> takes ```template```, ```uids
 -----
 * ```template``` - Changes the character card template.
 * Values: int
-* Example int: ```EnkaGenshinGeneration().start(template = 2)```
+* Example int: ```EnkaGenshinGeneration().start(uids = ..., template = 2)```
 
 
 
