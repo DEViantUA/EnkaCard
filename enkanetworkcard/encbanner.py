@@ -3,8 +3,9 @@
 from enkanetwork import EnkaNetworkAPI,Assets
 import logging,asyncio,random, os, datetime,time
 from threading import Thread
-from .src.utils.CreatBanner import weaponAdd,nameBanner,stats,constant,create_picture,talants,artifacAdd,signature,appedFrame,openUserImg 
-from .src.utils.translate import translate
+from .src.utils.CreatBannerTwo import generationTwo, creatUserInfo
+from .src.utils.CreatBannerOne import generationOne, signature, openUserImg 
+from .src.utils.translate import translate,supportLang
 from .enc_error import ENCardError
 
 asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
@@ -43,35 +44,30 @@ def saveBanner(uid,res,name):
         pass
     res.save(f"{path}/EnkaImg/{uid}/{name}_{data}.png")
 
-def generation(charter,assets,img,adapt,uid,RESULT, save,signatureRes,lvl):
-    try:
-        characters = charter
-        frame = create_picture(assets,characters.id,img,adapt)
-        weaponRes = weaponAdd(characters.equipments[-1],lvl)
-        nameRes = nameBanner(characters,assets,lvl) 
-        statRes = stats(characters,assets)
-        constantRes = constant(characters,assets)
-        talatsRes = talants(characters)
-        artifacRes, artifactSet = artifacAdd(characters)
-        result = appedFrame(frame,weaponRes,nameRes,statRes,constantRes,talatsRes,artifacRes,artifactSet,signatureRes)
-        if not save:
-            saveBanner(uid,result,charter.name)
-        else:
-            if not uid in RESULT:
-                RESULT[uid] = {}
-            if not charter.name in RESULT[uid]:
-                RESULT[uid][charter.name] = result
-        return None
-    except Exception as e:
-        print(f"Ошибка: {e}")
+def generation(charter,assets,img,adapt,uid,RESULT, save,signatureRes,translateLang,teample = 1):
+    if teample == 1:
+        result = generationOne(charter,assets,img,adapt,signatureRes,translateLang["lvl"])
+    else:
+        result = generationTwo(charter,assets,img,adapt,signatureRes,translateLang)
+    if not save:
+        saveBanner(uid,result,charter.name)
+    else:
+        if not uid in RESULT:
+            RESULT[uid] = {}
+        if not charter.name in RESULT[uid]:
+            RESULT[uid][charter.name] = result
+    return None
 
 class EnkaGenshinGeneration:
     def __init__(self,lang = "ru",charterImg = None,
             img = None, name = None, adapt = False,
-            randomImg = False, hide = False, dowload = False):
+            randomImg = False, hide = False, dowload = False, namecard = False):
+        if not lang in supportLang:
+            raise ENCardError(6,"Dislike language List of available languages: en, ru, vi, th, pt, kr, jp, zh, id, fr, es, de, chs, cht.\nRead more in the documentation: https://github.com/DEViantUA/EnkaNetworkCard")
         self.assets = Assets(lang=lang)
         self.lang = lang
-        self.lvl = translate(lang = self.lang)
+        self.namecard = namecard
+        self.translateLang = translate(lang = self.lang)
         self.adapt = adapt
         self.dowload = dowload
         self.hide = hide
@@ -106,25 +102,32 @@ class EnkaGenshinGeneration:
             self.randomImg = False
             if img:
                 self.img = openUserImg(img)
-
-    def start(self,uids):
+    
+    def start(self,uids, template = 1):
         startPotoki = {}
         ResultEnka = {}
+        if template < 1 or template > 2:
+            raise ENCardError(1, "The teamle parameter supports values ​​from 1 to 2")
         uids = uidCreat(uids)
         for uid in uids:
             r = asyncio.run(info(uid,self.lang))
             if not r:
                 continue
-            signatureRes = signature(self.hide,uid)
+            if template == 1:
+                signatureRes = signature(self.hide,uid)
+            else:
+                signatureRes = creatUserInfo(self.hide,uid,r.player,self.translateLang)
             for key in r.characters:
                 self.characterImg(key.name.lower())
+                if self.namecard and template == 2:
+                    signatureRes = creatUserInfo(self.hide,uid,r.player,self.translateLang,key.image.icon.filename.replace("CostumeFloral","").split("AvatarIcon_")[1],self.namecard)
                 if self.name:
                     if not key.name.lower() in self.name:
                         continue
-                self.startNameGeneration(key,uid,startPotoki,ResultEnka,signatureRes)
+                self.startNameGeneration(key,uid,startPotoki,ResultEnka,signatureRes,template)
                 time.sleep(0.3)
         return self.dowloadImg(startPotoki,ResultEnka)
-
+    
     def characterImg(self,name):
         if self.charterImg:
             if name in self.charterImg:
@@ -132,17 +135,57 @@ class EnkaGenshinGeneration:
             else:
                 self.img = None
 
-    def startNameGeneration(self,key,uid,startPotoki,ResultEnka,signatureRes):
+    def startNameGeneration(self,key,uid,startPotoki,ResultEnka,signatureRes, teample):
         if not f"{uid}_{key.name.lower()}" in startPotoki:
             if self.randomImg:
-                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,openUserImg(random.choice(self.img)),self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.lvl))
+                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,openUserImg(random.choice(self.img)),self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.translateLang, teample))
             else:
-                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,self.img,self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.lvl))
+                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,self.img,self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.translateLang, teample))
             startPotoki[f"{uid}_{key.name.lower()}"].start()    
-    
+
     def dowloadImg(self,startPotoki,ResultEnka):
         if self.dowload:
             for key in startPotoki:
                 startPotoki[key].join()
             return ResultEnka
         return None
+
+    def attributeSetup(self,lang = None,charterImg = None,
+        img = None, name = None, adapt = False,
+        randomImg = False, hide = False, dowload = False):
+        chImg = {}
+        if lang:
+            if lang in supportLang:
+                self.assets = Assets(lang=lang)
+                self.lang = lang
+        if randomImg:
+            self.randomImg = randomImg
+
+        if charterImg:
+            if type(charterImg) == dict:
+                for key in charterImg:
+                    if not key in chImg:
+                        chImg[key.lower()] = charterImg[key]
+                self.charterImg = chImg
+        if adapt:
+            self.adapt = adapt
+        if img:
+            self.img = img
+            if type(img) == list:
+                if self.randomImg:
+                    if len(img) > 1:
+                        self.img = img
+            else:
+                randomImg = False
+                if img:
+                    self.img = openUserImg(img)
+        if name:
+            if type(name) == str:
+                self.name = name.lower().replace(' ', '').split(",")
+            else:
+                pass
+        if hide:
+            self.hide = hide
+        
+        if dowload:
+            self.dowload = dowload
