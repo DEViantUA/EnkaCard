@@ -89,13 +89,22 @@ Main class: <code>EnkaGenshinGeneration</code> Contains the following arguments 
 * Values: bool
 * Example bool: ```EnkaGenshinGeneration(dowload = True)```
 -----
-The main function of the class: <code>start</code> takes a ```uids``` argument
+* ```namecard``` - Replaces the background of the player card image with character images. (Used only for the second template.)
+* Values: bool
+* Example bool: ```EnkaGenshinGeneration(namecard = True)```
+-----
+The main function of the class: <code>start</code> takes ```template```, ```uids```  argument
 ### Function argument description::
 * ```uids``` - Game UID in the game Genshin Impact.
 * Values: int, str
 * Example int: ```EnkaGenshinGeneration().start(uids = 757562748)```
 * Example str one UID: ```EnkaGenshinGeneration().start(uids = "757562748")```
 * Example str two or more UID: ```EnkaGenshinGeneration().start(uids = "757562748,544523587,874385763")```
+-----
+* ```template``` - Changes the character card template.
+* Values: int
+* Example int: ```EnkaGenshinGeneration().start(template = 2)```
+
 
 
 ## Languages Supported
@@ -112,7 +121,15 @@ The main function of the class: <code>start</code> takes a ```uids``` argument
 
 ## Sample Results:
 
-### The result of a custom images and adaptation.
-<img src="img/Example1.png" width='300' alt="Example1"/> <img src="img/Example2.png" width='300' alt="Example2"/> 
-### Usual result.
-<img src="img/Example3.png" width='300' alt="Example3"/> <img src="img/Example4.png" width='300' alt="Example4"/> 
+
+### The result of a custom images and adaptation (TEAMPLE = 1).
+<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example1.png" width='300' alt="Example1"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example2.png" width='300' alt="Example2"/> 
+
+### Usual result (TEAMPLE = 1).
+<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example3.png" width='300' alt="Example3"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example4.png" width='300' alt="Example4"/> 
+
+### The result of a custom images and adaptation (TEAMPLE = 2).
+<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example5.png.png" width='300' alt="namecard = True"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example6.png.png" width='300' alt="namecard = False"/> 
+
+### The result of a custom images and adaptation (TEAMPLE = 2).
+<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example8.png.png" width='300' alt="namecard = True"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example7.png.png" width='300' alt="namecard = False"/> 
