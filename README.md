@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/banner.jpg" alt="Баннер"/>
+  <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/banner.jpg" alt="Баннер"/>
 </p>
 
 **<p align="center"> <a href="https://github.com/DEViantUA/EnkaNetworkCard/wiki/EnkaNetworkCard-RU">Русская версия</a> | <a href="https://github.com/DEViantUA/EnkaNetworkCard/tree/main/Example">Example</a> </p>**
@@ -103,7 +103,7 @@ The main function of the class: <code>start</code> takes ```template```, ```uids
 -----
 * ```template``` - Changes the character card template.
 * Values: int
-* Example int: ```EnkaGenshinGeneration().start(uids = ..., template = 2)```
+* Example int: ```EnkaGenshinGeneration().start(template = 2)```
 
 
 
@@ -122,14 +122,14 @@ The main function of the class: <code>start</code> takes ```template```, ```uids
 ## Sample Results:
 
 
-### The result of a custom images and adaptation (TEAMPLE = 1).
+### The result of a custom images and adaptation (template= 1).
 <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example1.png" width='300' alt="Example1"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example2.png" width='300' alt="Example2"/> 
 
-### Usual result (TEAMPLE = 1).
+### Usual result (template= 1).
 <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example3.png" width='300' alt="Example3"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example4.png" width='300' alt="Example4"/> 
 
-### The result of a custom images and adaptation (TEAMPLE = 2).
+### The result of a custom images and adaptation (template= 2).
 <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example5.png.png" width='300' alt="namecard = True"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example6.png.png" width='300' alt="namecard = False"/> 
 
-### The result of a custom images and adaptation (TEAMPLE = 2).
+### Usual result (template= 2).
 <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example8.png.png" width='300' alt="namecard = True"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example7.png.png" width='300' alt="namecard = False"/> 
