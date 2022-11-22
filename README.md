@@ -48,7 +48,7 @@ print(result)
 ```
 
 ## Description of arguments:
-Main class: <code>EnkaGenshinGeneration</code> Contains the following arguments <code>lang</code>,<code>img</code>,<code>charterImg</code>,<code>name</code>,<code>adapt</code>,<code>randomImg</code>,<code>hide</code>,<code>dowload</code>
+Main class: <code>EnkaGenshinGeneration</code> Contains the following arguments <code>lang</code>,<code>img</code>,<code>charterImg</code>,<code>name</code>,<code>adapt</code>,<code>randomImg</code>,<code>hide</code>,<code>dowload</code>,<code>namecard</code>
 
 ### Class argument description::
 * <code>lang</code> - Takes one value to define the language. Supported languages are listed below in the documentation. The default is Russian.
