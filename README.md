@@ -65,7 +65,8 @@ _Thank you for this example and advice: [Gaurav Mandal](https://github.com/Gaura
 
 ## Fix bug with async:
 Windows users may experience an error: ```RuntimeError: Event loop is closed``` if this occurs, then you must set the variable ```FIX_ASYNCIO_WIN = True```
-###Example
+
+### Example
 ``` python 
 from enkanetworkcard import encbanner
 
