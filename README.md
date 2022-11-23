@@ -11,6 +11,8 @@ Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) to crea
 * Installation
 * Dependencies
 * Launch
+* Running Async
+* Fix bug with async
 * Description of arguments
 * Languages Supported
 * Sample Results
@@ -24,7 +26,6 @@ Or you can copy the given repository.
 
 ### Dependencies:
   Dependencies that must be installed for the library to work:
-  * googletrans-3.1.0a0
   * Pillow
   * requests
   * io
@@ -46,9 +47,34 @@ result = ENC.start(uids = 724281429)
 print(result)
 
 ```
+## Running Async:
+
+``` python
+from enkanetworkcard import aioenkbanner
+import asyncio
+
+async def card():
+    ENC = aioenkbanner.EnkaGenshinGeneration()
+    return await ENC.start(uids = 724281429)
+
+result = asyncio.run(card()) 
+
+print(result)
+```
+_Thank you for this example and advice: [Gaurav Mandal](https://github.com/GauravM512)_
+
+## Fix bug with async:
+Windows users may experience an error: ```RuntimeError: Event loop is closed``` if this occurs, then you must set the variable ```FIX_ASYNCIO_WIN = True```
+###Example
+``` python 
+from enkanetworkcard import encbanner
+
+ENC = encbanner.EnkaGenshinGeneration() 
+ENC.FIX_ASYNCIO_WIN = True
+```
 
 ## Description of arguments:
-Main class: <code>EnkaGenshinGeneration</code> Contains the following arguments <code>lang</code>,<code>img</code>,<code>charterImg</code>,<code>name</code>,<code>adapt</code>,<code>randomImg</code>,<code>hide</code>,<code>dowload</code>,<code>namecard</code>
+Main class: <code>EnkaGenshinGeneration</code> Contains the following arguments <code>lang</code>,<code>img</code>,<code>charterImg</code>,<code>name</code>,<code>adapt</code>,<code>randomImg</code>,<code>hide</code>,<code>dowload</code>,<code>namecard</code>,<code>splash</code>
 
 ### Class argument description::
 * <code>lang</code> - Takes one value to define the language. Supported languages are listed below in the documentation. The default is Russian.
@@ -104,7 +130,14 @@ The main function of the class: <code>start</code> takes ```template```, ```uids
 * ```template``` - Changes the character card template.
 * Values: int
 * Example int: ```EnkaGenshinGeneration().start(template = 2)```
-
+-----
+* ```template``` - Changes the character card template.
+* Values: int
+* Example int: ```EnkaGenshinGeneration().start(template = 2)```
+-----
+* <code>splash</code> - Displays splashes of characters in costumes
+* Values: bool
+* Example bool: ```EnkaGenshinGeneration(splash= True)```
 
 
 ## Languages Supported
