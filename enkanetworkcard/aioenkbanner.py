@@ -7,15 +7,15 @@ from .src.utils.CreatBannerTwo import generationTwo, creatUserInfo
 from .src.utils.CreatBannerOne import generationOne, signature, openUserImg 
 from .src.utils.translation import translationLang,supportLang
 from .enc_error import ENCardError
+
     
 logging.getLogger('enkanetwork.assets').setLevel(logging.CRITICAL)
 
-def upload():
+async def upload():
     client = EnkaNetworkAPI()
-    async def main():
-        async with client:
-            await client.update_assets()
-    asyncio.run(main())
+    async with client:
+        await client.update_assets()
+
 
 async def info(uid = None,lang = None):
     async with EnkaNetworkAPI(lang=lang) as client:
@@ -43,11 +43,11 @@ def saveBanner(uid,res,name):
         pass
     res.save(f"{path}/EnkaImg/{uid}/{name}_{data}.png")
 
-def generation(charter,assets,img,adapt,uid,RESULT, save,signatureRes,translateLang,splash,teample = 1):
+def generation(charter,assets,img,adapt,uid,RESULT, save,signatureRes,translateLang,teample = 1):
     if teample == 1:
-        result = generationOne(charter,assets,img,adapt,signatureRes,translateLang["lvl"],splash)
+        result = generationOne(charter,assets,img,adapt,signatureRes,translateLang["lvl"])
     else:
-        result = generationTwo(charter,assets,img,adapt,signatureRes,translateLang,splash)
+        result = generationTwo(charter,assets,img,adapt,signatureRes,translateLang)
     if not save:
         saveBanner(uid,result,charter.name)
     else:
@@ -106,8 +106,7 @@ class EnkaGenshinGeneration:
             if img:
                 self.img = openUserImg(img)
     
-    def start(self,uids, template = 1):
-
+    async def start(self,uids, template = 1):
         if self.FIX_ASYNCIO_WIN:
             asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
         startPotoki = {}
@@ -116,7 +115,7 @@ class EnkaGenshinGeneration:
             raise ENCardError(1, "The teamle parameter supports values ​​from 1 to 2")
         uids = uidCreat(uids)
         for uid in uids:
-            r = asyncio.run(info(uid,self.lang))
+            r = await info(uid,self.lang)
             if not r:
                 continue
             if template == 1:
@@ -144,9 +143,9 @@ class EnkaGenshinGeneration:
     def startNameGeneration(self,key,uid,startPotoki,ResultEnka,signatureRes, teample):
         if not f"{uid}_{key.name.lower()}" in startPotoki:
             if self.randomImg:
-                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,openUserImg(random.choice(self.img)),self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.translateLang,self.splash, teample))
+                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,openUserImg(random.choice(self.img)),self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.translateLang, teample))
             else:
-                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,self.img,self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.translateLang,self.splash, teample))
+                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,self.img,self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.translateLang, teample))
             startPotoki[f"{uid}_{key.name.lower()}"].start()    
 
     def dowloadImg(self,startPotoki,ResultEnka):
