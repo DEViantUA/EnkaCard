@@ -22,12 +22,15 @@ import math
 from .options import *
 from . import openFile
 
-def create_picture(assets,id,imgs,adapt):
+def create_picture(assets,id,imgs,adapt, splash = None):
     person = assets.character(id)
     if imgs:
         frame = userImageTwo(imgs, element = person.element.value, adaptation = adapt)
     else:
-        banner = PillImg(link = person.images.banner.url).imagSize(size = (1974,1048))
+        if splash:
+            banner = PillImg(link = splash).imagSize(size = (1974,1048))
+        else:
+            banner = PillImg(link = person.images.banner.url).imagSize(size = (1974,1048))
         frame = maskaAdd(person.element.value,banner, teample = 2)
     return frame.copy()
 
@@ -331,9 +334,12 @@ def appedFrame(frame,weaponRes,nameRes,statRes,constantRes,talatsRes,artifacRes,
     banner.paste(openFile.SignatureTwo ,(1583 ,992),openFile.SignatureTwo)
     return banner
 
-def generationTwo(characters,assets,img,adapt,signatureRes,lvl):
+def generationTwo(characters,assets,img,adapt,signatureRes,lvl, splash):
     try:
-        frame = create_picture(assets,characters.id,img,adapt)
+        if splash:
+            frame = create_picture(assets,characters.id,img,adapt, splash = characters.image.banner.url)
+        else:
+            frame = create_picture(assets,characters.id,img,adapt)
         weaponRes = weaponAdd(characters.equipments[-1],lvl)
         nameRes = nameBanner(characters,lvl["lvl"]) 
         starsRes = starsAdd(assets,characters.id)

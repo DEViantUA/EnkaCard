@@ -25,7 +25,16 @@ import os
 from .options import *
 from . import openFile
 
-path = os.path.dirname(__file__).split("\enkanetworkcard")[0]
+try:
+    os.path.dirname(__file__).split("\enkanetworkcard")[0]
+    path = os.path.dirname(__file__).split("\enkanetworkcard")[0]
+except:
+    try:
+        os.path.dirname(__file__).split("/enkanetworkcard")[0]
+        path = os.path.dirname(__file__).split("/enkanetworkcard")[0]
+    except:
+        pass
+
 
 
 def openUserImg(img):
@@ -173,13 +182,15 @@ def constant(characters,assets):
     
     return constantRes
 
-def create_picture(assets,id,imgs,adapt):
+def create_picture(assets,id,imgs,adapt,splash = None):
     person = assets.character(id)
-
     if imgs:
         frame = userImage(imgs, element = person.element.value, adaptation = adapt)
     else:
-        banner = PillImg(link = person.images.banner.url).imagSize(size = (2048,1024))
+        if splash:
+            banner = PillImg(link = splash).imagSize(size = (2048,1024))
+        else:
+            banner = PillImg(link = person.images.banner.url).imagSize(size = (2048,1024))
         frame = maskaAdd(person.element.value,banner)
     return frame.copy()
 
@@ -329,9 +340,12 @@ def appedFrame(frame,weaponRes,nameRes,statRes,constantRes,talatsRes,artifacRes,
     return banner
 
 
-def generationOne(characters,assets,img,adapt,signatureRes,lvl):
+def generationOne(characters,assets,img,adapt,signatureRes,lvl,splash):
     try:
-        frame = create_picture(assets,characters.id,img,adapt)
+        if splash:
+            frame = create_picture(assets,characters.id,img,adapt,characters.image.banner.url)
+        else:
+            frame = create_picture(assets,characters.id,img,adapt)
         weaponRes = weaponAdd(characters.equipments[-1],lvl)
         nameRes = nameBanner(characters,assets,lvl) 
         statRes = stats(characters,assets)
