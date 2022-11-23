@@ -1,14 +1,16 @@
 # Copyright 2022 DEViantUa <t.me/deviant_ua>
 # All rights reserved.
 from enkanetwork import EnkaNetworkAPI,Assets
-import logging,asyncio,random, os, datetime,time
+import logging,asyncio,random, os, datetime,time, sys
 from threading import Thread
 from .src.utils.CreatBannerTwo import generationTwo, creatUserInfo
 from .src.utils.CreatBannerOne import generationOne, signature, openUserImg 
 from .src.utils.translate import translate,supportLang
 from .enc_error import ENCardError
 
-asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+if sys.version_info[0] == 3 and sys.version_info[1] >= 6 and sys.platform.startswith('win'):
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 logging.getLogger('enkanetwork.assets').setLevel(logging.CRITICAL)
 
 def upload():
