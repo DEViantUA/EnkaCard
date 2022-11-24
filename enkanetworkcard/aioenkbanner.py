@@ -43,11 +43,11 @@ def saveBanner(uid,res,name):
         pass
     res.save(f"{path}/EnkaImg/{uid}/{name}_{data}.png")
 
-def generation(charter,assets,img,adapt,uid,RESULT, save,signatureRes,translateLang,teample = 1):
+def generation(charter,assets,img,adapt,uid,RESULT, save,signatureRes,translateLang,splash,teample = 1):
     if teample == 1:
-        result = generationOne(charter,assets,img,adapt,signatureRes,translateLang["lvl"])
+        result = generationOne(charter,assets,img,adapt,signatureRes,translateLang["lvl"],splash)
     else:
-        result = generationTwo(charter,assets,img,adapt,signatureRes,translateLang)
+        result = generationTwo(charter,assets,img,adapt,signatureRes,translateLang,splash)
     if not save:
         saveBanner(uid,result,charter.name)
     else:
@@ -143,9 +143,9 @@ class EnkaGenshinGeneration:
     def startNameGeneration(self,key,uid,startPotoki,ResultEnka,signatureRes, teample):
         if not f"{uid}_{key.name.lower()}" in startPotoki:
             if self.randomImg:
-                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,openUserImg(random.choice(self.img)),self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.translateLang, teample))
+                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,openUserImg(random.choice(self.img)),self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.translateLang,self.splash, teample))
             else:
-                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,self.img,self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.translateLang, teample))
+                startPotoki[f"{uid}_{key.name.lower()}"] = Thread(target=generation,args=(key,self.assets,self.img,self.adapt,uid,ResultEnka,self.dowload,signatureRes,self.translateLang,self.splash, teample))
             startPotoki[f"{uid}_{key.name.lower()}"].start()    
 
     def dowloadImg(self,startPotoki,ResultEnka):
