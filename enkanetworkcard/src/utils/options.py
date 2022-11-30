@@ -8,6 +8,7 @@ t24 = ImageFont.truetype(font, 24)
 t18 = ImageFont.truetype(font, 18)
 t17 = ImageFont.truetype(font, 17)
 t15 = ImageFont.truetype(font, 15)
+t12 = ImageFont.truetype(font, 12)
 
 
 

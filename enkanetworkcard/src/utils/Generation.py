@@ -1,9 +1,10 @@
 # Copyright 2022 DEViantUa <t.me/deviant_ua>
 # All rights reserved.
-from PIL import Image, ImageFilter, ImageChops
+from PIL import Image, ImageChops
 from .openFile import *
 from .options import *
 from .gradient import userAdaptGrandient
+import time
 
 
 def centryImage(userImages, teample = 1):
@@ -114,8 +115,13 @@ def userImage(img,element = None, adaptation = False):
         im = Image.composite(Effect, grandient, MaskaUserBg2TeampleOne)
         return im
     else:
-        bg = openImageElement(element)
-        effect = bg.copy()
+        try:
+            bg = openImageElement(element)
+            #bg.load()
+            effect = bg.copy()
+        except Exception as e:
+            print(e)
+
         bg.paste(userImagess,(pozitionX,0))
         im = Image.composite(bg, effect, MaskaUserBg2TeampleOne)
         bg.paste(im,(0,0))
@@ -133,7 +139,6 @@ def userImageTwo(img,element = None, adaptation = False):
         grandient = ImageChops.screen(bg,Effect)
         Effect.paste(userImagess,(pozitionX,0),userImagess)
         im = Image.composite(Effect, grandient, UserBgTeampleTwo)
-        #im.paste(MasskaEffectDown,(0,0),MasskaEffectDown)
         return im
     else:
         bg = openImageElement(element, teample = 2)
@@ -141,7 +146,6 @@ def userImageTwo(img,element = None, adaptation = False):
         bg.paste(userImagess,(pozitionX,0),userImagess)
         im = Image.composite(bg, effect, UserBgTeampleTwo)
         bg.paste(im,(0,0))
-        #bg.paste(MasskaEffectDown,(0,0),MasskaEffectDown)
         return bg
 
 '''
@@ -241,7 +245,6 @@ def getIconAdd(x, icon = False, size = None):
         icons = FIGHT_PROP_HEAL
     else:
         return False
-    
     if size:
         icons.thumbnail(size)
         return icons.convert("RGBA")
