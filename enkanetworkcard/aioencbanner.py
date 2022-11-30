@@ -122,11 +122,13 @@ class EnkaGenshinGeneration:
         itog = creatUserProfile(image,profile.player,self.translateLang,self.hide,uid,self.assets)
 
         return itog
-    async def start(self,uids, template = 1):
+    async def start(self,uids, template = 1, name = None):
         if self.FIX_ASYNCIO_WIN:
             asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
         startPotoki = {}
         ResultEnka = {}
+        if name:
+            self.name = name
         if template < 1 or template > 2:
             raise ENCardError(1, "The teamle parameter supports values ​​from 1 to 2")
         uids = uidCreat(uids)
