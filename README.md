@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/banner.jpg" alt="Баннер"/>
 </p>
 
-**<p align="center"> <a href="https://github.com/DEViantUA/EnkaNetworkCard/wiki/EnkaNetworkCard-RU">Русская версия</a> | <a href="https://github.com/DEViantUA/EnkaNetworkCard/tree/main/Example">Example</a> | <a href = "https://discord.gg/SJ3d9x4e"> Discord <a></p>**
+**<p align="center"> <a href="https://github.com/DEViantUA/EnkaNetworkCard/wiki/EnkaNetworkCard-RU">Русская версия</a> | <a href="https://github.com/DEViantUA/EnkaNetworkCard/tree/main/Example">Example</a> | <a href = "https://discord.gg/SJ3d9x4e"> Discord <a> </p>**
 
 # EnkaNetworkCard
 Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) to create character cards in Python.
@@ -13,6 +13,7 @@ Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) to crea
 * Launch
 * Running Async
 * Fix bug with async
+* Get a character showcase
 * Description of arguments
 * Languages Supported
 * Sample Results
@@ -74,6 +75,25 @@ ENC = encbanner.EnkaGenshinGeneration()
 ENC.FIX_ASYNCIO_WIN = True
 ```
 
+## Get a character showcase:
+```profile``` - A useful feature for bot developers. Get information about the characters from the showcase, for their further use.
+
+### Example
+``` python
+from enkanetworkcard import encbanner
+
+ENC = encbanner.EnkaGenshinGeneration()
+resultProfile = ENC.profile(uid = 724281429, image = False)
+result = ENC.start(uids = 724281429, name = resultProfile["charactersArg"])
+
+print(result)
+```
+Function: ```profile``` returns: ```characters```, ```charactersArg```, ```img```
+- ```characters``` - Information about each character.
+- ```charactersArg``` - List of character names to quickly pass to ```start()```
+- ```img``` - Showcase generated image.
+
+
 ## Description of arguments:
 Main class: <code>EnkaGenshinGeneration</code> Contains the following arguments <code>lang</code>,<code>img</code>,<code>charterImg</code>,<code>name</code>,<code>adapt</code>,<code>randomImg</code>,<code>hide</code>,<code>dowload</code>,<code>namecard</code>,<code>splash</code>
 
@@ -120,7 +140,12 @@ Main class: <code>EnkaGenshinGeneration</code> Contains the following arguments 
 * Values: bool
 * Example bool: ```EnkaGenshinGeneration(namecard = True)```
 -----
-The main function of the class: <code>start</code> takes ```template```, ```uids```  argument
+* <code>splash</code> - Displays splashes of characters in costumes
+* Values: bool
+* Example bool: ```EnkaGenshinGeneration(splash= True)```
+-----
+
+The main function of the class: <code>start</code> takes ```template```, ```uids```, ```name```  argument
 ### Function argument description::
 * ```uids``` - Game UID in the game Genshin Impact.
 * Values: int, str
@@ -130,15 +155,22 @@ The main function of the class: <code>start</code> takes ```template```, ```uids
 -----
 * ```template``` - Changes the character card template.
 * Values: int
-* Example int: ```EnkaGenshinGeneration().start(template = 2)```
+* Example int: ```EnkaGenshinGeneration().start(uids = "757562748", template = 2)```
 -----
-* ```template``` - Changes the character card template.
+* <code>name</code> - Needed if you want to get certain characters.
+* Values: str
+* Example str one character: ```EnkaGenshinGeneration(uids = "757562748", name = "Klee")```
+* Example str two or more characters: ```EnkaGenshinGeneration.start(uids = "757562748", name = "Klee, Albedo, ...")```
+-----
+
+Additional class function: <code>profile</code> takes ```uid```, ```image```  argument
+* ```uid``` - Game UID in the game Genshin Impact.
 * Values: int
-* Example int: ```EnkaGenshinGeneration().start(template = 2)```
+* Example int: ```EnkaGenshinGeneration().profile(uids = 757562748)```
 -----
-* <code>splash</code> - Displays splashes of characters in costumes
+* ```image``` - Generate a showcase image. (Default True)
 * Values: bool
-* Example bool: ```EnkaGenshinGeneration(splash= True)```
+* Example bool: ```EnkaGenshinGeneration().profile(uid = 757562748б, image = False)```
 
 
 ## Languages Supported
