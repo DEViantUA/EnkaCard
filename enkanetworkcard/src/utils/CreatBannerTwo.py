@@ -305,7 +305,7 @@ def creatUserInfo(hide,uid,player,lang, nameCharter = None, namecard = False):
     defoldBgNamecard = Image.composite(defoldBgNamecard, bannerUserNamecard, maskaBannerNamecard)
     frameUserNamecard = openFile.infoUserFrameTeampleTwo.copy()
     defoldBgNamecard.paste(openFile.infoUserFrameBannerTeampleTwo,(0,0),openFile.infoUserFrameBannerTeampleTwo)
-    avatar = PillImg(link = player.icon.url.url).imagSize(size = (150,150)) 
+    avatar = PillImg(link = player.avatar.icon.url).imagSize(size = (150,150)) 
     avatar = Image.composite(frameUserNamecard, avatar, openFile.infoUserMaskaAvatarTeampleTwo)
     frameUserNamecard.paste(avatar,(0,0),avatar)
     d = ImageDraw.Draw(frameUserNamecard)
