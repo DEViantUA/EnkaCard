@@ -89,7 +89,7 @@ from enkanetworkcard import encbanner
 import asyncio
 ENC = encbanner.EnkaGenshinGeneration() 
 encR = asyncio.run(client.enc(uids = "811455610"))
-
+```
 ## Get a character showcase:
 ```profile``` - A useful feature for bot developers. Get information about the characters from the showcase, for their further use.
 
