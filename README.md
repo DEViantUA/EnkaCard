@@ -96,6 +96,7 @@ encR = asyncio.run(client.enc(uids = "811455610"))
 ### Example
 ``` python
 from enkanetworkcard import encbanner
+import asyncio
 
 ENC = encbanner.EnkaGenshinGeneration()
 encR = asyncio.run(client.enc(uids = "811455610"))
@@ -177,10 +178,10 @@ The main function of the class: <code>start</code> takes ```template```, ```enc`
 * Example str two or more characters: ```EnkaGenshinGeneration.start(uids = "757562748", name = "Klee, Albedo, ...")```
 -----
 
-Additional class function: <code>profile</code> takes ```uid```, ```image```  argument
-* ```uid``` - Game UID in the game Genshin Impact.
-* Values: int
-* Example int: ```EnkaGenshinGeneration().profile(uids = 757562748)```
+Additional class function: <code>profile</code> takes ```enc```, ```image```  argument
+* ```enc``` - The result returned by EnkaGenshinGeneration().enc()
+* encR = async.run(EnkaGenshinGeneration().enc(uids = 757562748))
+* ```EnkaGenshinGeneration().profile(enc = encR)```
 -----
 * ```image``` - Generate a showcase image. (Default True)
 * Values: bool
