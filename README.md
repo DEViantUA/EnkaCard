@@ -13,6 +13,7 @@ Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) to crea
 * Launch
 * Running Async
 * Fix bug with async
+* ENC
 * Get a character showcase
 * Description of arguments
 * Languages Supported
@@ -20,10 +21,15 @@ Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) to crea
 
 ## Installation:
 
+### Synchronous version:
 ```
 pip install enkanetworkcard
 ```
-Or you can copy the given repository.
+
+### Asynchronous version:
+```
+pip install aioenkanetworkcard
+```
 
 ### Dependencies:
   Dependencies that must be installed for the library to work:
@@ -40,24 +46,24 @@ Or you can copy the given repository.
 ## Launch:
 ``` python
 from enkanetworkcard import encbanner
+import asyncio
 
 ENC = encbanner.EnkaGenshinGeneration() 
-
-result = ENC.start(uids = 724281429)
-
+encR = asyncio.run(client.enc(uids = "811455610"))
+result = ENC.start(encR encR)
 print(result)
 
 ```
 ## Running Async:
 
 ``` python
-from enkanetworkcard import aioenkbanner
+from aioenkanetworkcard import enkbanner
 import asyncio
 
 async def card():
-    ENC = aioenkbanner.EnkaGenshinGeneration()
-    return await ENC.start(uids = 724281429)
-
+    ENC = encbanner.EnkaGenshinGeneration()
+    encR = await client.enc(uids = "811455610")
+    return await ENC.start(enc = encR)
 result = asyncio.run(card()) 
 
 print(result)
@@ -75,6 +81,15 @@ ENC = encbanner.EnkaGenshinGeneration()
 ENC.FIX_ASYNCIO_WIN = True
 ```
 
+## ENC:
+```enc``` - An asynchronous function to receive information from enkanetwork.py and format it in the desired format.
+### Example
+``` python
+from enkanetworkcard import encbanner
+import asyncio
+ENC = encbanner.EnkaGenshinGeneration() 
+encR = asyncio.run(client.enc(uids = "811455610"))
+
 ## Get a character showcase:
 ```profile``` - A useful feature for bot developers. Get information about the characters from the showcase, for their further use.
 
@@ -83,8 +98,9 @@ ENC.FIX_ASYNCIO_WIN = True
 from enkanetworkcard import encbanner
 
 ENC = encbanner.EnkaGenshinGeneration()
-resultProfile = ENC.profile(uid = 724281429, image = False)
-result = ENC.start(uids = 724281429, name = resultProfile["charactersArg"])
+encR = asyncio.run(client.enc(uids = "811455610"))
+resultProfile = ENC.profile(enc = encR, image = False)
+result = ENC.start(enc = encR, name = resultProfile["charactersArg"])
 
 print(result)
 ```
@@ -145,13 +161,11 @@ Main class: <code>EnkaGenshinGeneration</code> Contains the following arguments 
 * Example bool: ```EnkaGenshinGeneration(splash= True)```
 -----
 
-The main function of the class: <code>start</code> takes ```template```, ```uids```, ```name```  argument
+The main function of the class: <code>start</code> takes ```template```, ```enc```, ```name```  argument
 ### Function argument description::
-* ```uids``` - Game UID in the game Genshin Impact.
-* Values: int, str
-* Example int: ```EnkaGenshinGeneration().start(uids = 757562748)```
-* Example str one UID: ```EnkaGenshinGeneration().start(uids = "757562748")```
-* Example str two or more UID: ```EnkaGenshinGeneration().start(uids = "757562748,544523587,874385763")```
+* ```enc``` - The result returned by EnkaGenshinGeneration().enc()
+* ```encR = async.run(EnkaGenshinGeneration().enc(uids = 757562748))```
+* ```EnkaGenshinGeneration().start(enc = encR)```
 -----
 * ```template``` - Changes the character card template.
 * Values: int
