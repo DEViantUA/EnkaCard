@@ -8,7 +8,7 @@ from .src.utils.CreatBannerOne import generationOne, signature, openUserImg
 from .src.utils.userProfile import creatUserProfile
 from .src.utils.translation import translationLang,supportLang
 from .enc_error import ENCardError
-
+import time
 
 logging.getLogger('enkanetwork.assets').setLevel(logging.CRITICAL)
 
@@ -19,13 +19,6 @@ def upload():
             await client.update_assets()
     asyncio.run(main())
 
-async def info(uid = None,lang = None):
-    async with EnkaNetworkAPI(lang=lang) as client:
-        r = await client.fetch_user(uid)
-        if not r.characters:
-            return None
-    return r
-
 def uidCreat(uids):
     if type(uids) == int or type(uids) == str:
         return str(uids).replace(' ', '').split(",")
@@ -35,7 +28,6 @@ def uidCreat(uids):
 def saveBanner(uid,res,name):
     data = datetime.datetime.now().strftime("%d_%m_%Y %H_%M")
     path = os.getcwd()
-
     try:
         os.mkdir(f'{path}/EnkaImg')
     except:
@@ -44,9 +36,10 @@ def saveBanner(uid,res,name):
         os.mkdir(f'{path}/EnkaImg/{uid}')
     except:
         pass
-
     res.save(f"{path}/EnkaImg/{uid}/{name}_{data}.png")
+
 def generation(charter,assets,img,adapt,uid,RESULT, save,signatureRes,translateLang,splash,teample = 1):
+    a = time.time()
     if teample == 1:
         result = generationOne(charter,assets,img,adapt,signatureRes,translateLang["lvl"],splash)
     else:
@@ -110,20 +103,28 @@ class EnkaGenshinGeneration:
             if img:
                 self.img = openUserImg(img)
     
+    async def enc(self,uids = None):
+        result = {}
+        uids = uidCreat(uids)
+        async with EnkaNetworkAPI(lang=self.lang) as client:
+            for uid in uids:
+                if not uid in result:
+                    result[uid] = None
+                r = await client.fetch_user(uid)
+            if r.characters:
+                result[uid] = r
+        return result
 
-    def profile(self,uid, image = True):
-        if type(uid) == int:
-            if int(uid) > 0:
-                profile = asyncio.run(info(uid,self.lang))
-            else:
-                raise ENCardError(7, "The UID argument must be a number and greater than 0")
-        else:
-            raise ENCardError(7, "The UID argument must be a number and greater than 0")
-        itog = creatUserProfile(image,profile.player,self.translateLang,self.hide,uid,self.assets)
+    def profile(self,enc, image = True):
+        for key in enc:
+            profile = enc[key].player
+            uid = key
+            break
+        itog = creatUserProfile(image,profile,self.translateLang,self.hide,uid,self.assets)
 
         return itog
         
-    def start(self,uids, template = 1, name = None):
+    def start(self,enc, template = 1, name = None):
         if self.FIX_ASYNCIO_WIN:
             asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
         startPotoki = {}
@@ -132,9 +133,9 @@ class EnkaGenshinGeneration:
             self.name = name
         if template < 1 or template > 2:
             raise ENCardError(1, "The teamle parameter supports values ​​from 1 to 2")
-        uids = uidCreat(uids)
-        for uid in uids:
-            r = asyncio.run(info(uid,self.lang))
+
+        for uid in enc:
+            r = enc[uid]
             if not r:
                 continue
             if template == 1:
@@ -169,7 +170,7 @@ class EnkaGenshinGeneration:
     def dowloadImg(self,startPotoki,ResultEnka):
         if self.dowload:
             for key in startPotoki:
-                startPotoki[key].join()
+               startPotoki[key].join()
             return ResultEnka
         return None
 
