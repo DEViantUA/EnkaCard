@@ -13,7 +13,10 @@ class PillImg:
 
     def dowloadImg(self):
         if self.link != "":
-            self.imgs = Image.open(BytesIO(requests.get(self.link).content))
+            try:
+                self.imgs = Image.open(BytesIO(requests.get(self.link).content))
+            except:
+                self.imgs = Image.open(BytesIO(requests.get(self.link).content))
         else:
             self.imgs = self.image
         

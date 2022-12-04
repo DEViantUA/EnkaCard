@@ -151,6 +151,7 @@ def stats(statRes,characters,assets):
         d.text((42,4), str(txt), font = t18, fill=coloring)
 
         AttributeBg.paste(Attribute,(postion[0],postion[1]),Attribute)
+        
         dopValueBg = AttributeDopValueTeampleOne.copy()
         dv = ImageDraw.Draw(dopValueBg)
         if key[0] in dopStatAtribute:
@@ -180,7 +181,6 @@ def constant(rezConstant,characters,person):
             const = openConstBg
         constantRes.append(const)
     rezConstant.put_nowait(constantRes)
-
 def create_picture(rezFrame,person,imgs,adapt,splash = None):
     if imgs:
         frame = userImage(imgs, element = person.element.value, adaptation = adapt)
@@ -191,7 +191,6 @@ def create_picture(rezFrame,person,imgs,adapt,splash = None):
             banner = PillImg(link = person.images.banner.url).imagSize(size = (2048,1024))
             frame = maskaAdd(person.element.value,banner)
     rezFrame.put_nowait(frame)
-
 
 def talants(talatsRes,characters):
     count = 0
@@ -214,7 +213,6 @@ def talants(talatsRes,characters):
         if count == 3:
             break
     talatsRes.put_nowait(tallantsRes)
-
 def naborArtifact(info,ArtifactNameBg,rezArtSet):
     naborAll = []
     for key in info:
@@ -234,9 +232,30 @@ def naborArtifact(info,ArtifactNameBg,rezArtSet):
             position = (position[0],position[1]+29)
     rezArtSet.put_nowait(ArtifactNameBg)
 
+def creatDopStat(infpart,rezArtDop):
+    res = []
+    for key in infpart:
+        imageStats = getIconAdd(key.prop_id, icon = True)
+        if not imageStats:
+            continue
+        ArtifactDopStat = openFile.ArtifactDopValueTeampleOne.copy()
+        v = f"+{key.value}"
+        if str(key.type) == "DigitType.PERCENT":
+            v = f"{v}%"
+        imageStats= PillImg(image = imageStats).imagSize(fixed_width = 17) 
+        ArtifactDopStat.paste(imageStats,(3,1),imageStats)
+        px,fnt = PillImg().centrText(v, witshRam = 142, razmer = 24, start = 33) 
+        d = ImageDraw.Draw(ArtifactDopStat)
+        d.text((px,-2), v, font= fnt, fill=coloring)
+        res.append(ArtifactDopStat)
+  
+    rezArtDop.put_nowait(res)
+
 def creatArtifact(artifacResSave,infpart,imageStats):
-    ArtifactBgUp = ArtifactBgUpTeampleOne.copy()
-    ArtifactBg = ArtifactBgTeampleOne.copy()
+    rezArtDop = queue.Queue()
+    Thread(target=creatDopStat,args=(infpart.detail.substats,rezArtDop)).start()
+    ArtifactBgUp = openFile.ArtifactBgUpTeampleOne.copy()
+    ArtifactBg = openFile.ArtifactBgTeampleOne.copy()
     artimg = PillImg(infpart.detail.icon.url).imagSize(size = (175,175))
     ArtifactBg.paste(artimg,(-32,-27),artimg)
     ArtifactBg.paste(ArtifactBgUp,(0,0),ArtifactBgUp)
@@ -247,32 +266,17 @@ def creatArtifact(artifacResSave,infpart,imageStats):
         val = infpart.detail.mainstats.value
     centrName,fonts = PillImg().centrText(val, witshRam = 52, razmer = 17, start = 65)
     d.text((centrName,62), str(val), font= fonts, fill=coloring)
-
     ArtifactBg.paste(imageStats,(3,0),imageStats)
     d.text((77,82), str(infpart.level), font= t17, fill=coloring)
     starsImg = star(infpart.detail.rarity)
     ArtifactBg.paste(starsImg,(16,96),starsImg)
-
-    cs = 0
+    dopVaulImg = rezArtDop.get()
     positions = (159,8)
-    for key in infpart.detail.substats:
-        ArtifactDopStat = ArtifactDopValueTeampleOne.copy()
-        v = f"+{key.value}"
-        if str(key.type) == "DigitType.PERCENT":
-            v = f"{v}%"
-        imageStats = getIconAdd(key.prop_id, icon = True)
-        if not imageStats:
-            continue
-        imageStats= PillImg(image = imageStats).imagSize(fixed_width = 17) 
-        ArtifactDopStat.paste(imageStats,(3,1),imageStats)
-        px,fnt = PillImg().centrText(v, witshRam = 142, razmer = 24, start = 33, Yram = 23, y = 1) 
-        d = ImageDraw.Draw(ArtifactDopStat)
-        d.text((px[0],px[1]-3), v, font= fnt, fill=coloring)
-        cs += 1
-        ArtifactBg.paste(ArtifactDopStat,(positions),ArtifactDopStat)
+    for k in dopVaulImg:
+        ArtifactBg.paste(k,(positions),k)
         positions = (positions[0],positions[1]+28)
     artifacResSave.put_nowait(ArtifactBg)
-
+    
 def artifacAdd(rezArt,rezArtSet,characters):
     artifactRes = {
         "art1": None,
@@ -281,30 +285,32 @@ def artifacAdd(rezArt,rezArtSet,characters):
         "art4": None,
         "art5": None
         }
-
-    ArtifactNameBg = ArtifactNameBgTeampleOne.copy()
+    count = 0
     listArt = {}
     artifacRes = []
-    count = 0
+    ArtifactNameBg = openFile.ArtifactNameBgTeampleOne.copy()
     for key in characters.equipments:
         if key.detail.artifact_name_set == "":
-            continue
-        imageStats = getIconAdd(key.detail.mainstats.prop_id, icon = True, size = (19,24))
-        if not imageStats:
             continue
         if not key.detail.artifact_name_set in listArt:
             listArt[key.detail.artifact_name_set] = 1
         else:
             listArt[key.detail.artifact_name_set] += 1
+
+        imageStats = getIconAdd(key.detail.mainstats.prop_id, icon = True, size = (19,24))
+        if not imageStats:
+            continue
+
         count += 1
         artifactRes[f"art{count}"] = queue.Queue()
         Thread(target=creatArtifact,args=(artifactRes[f"art{count}"],key,imageStats)).start() 
+    
     Thread(target=naborArtifact,args=(listArt,ArtifactNameBg,rezArtSet)).start() 
     for key in artifactRes:
         if artifactRes[key]:
             artifacRes.append(artifactRes[key].get())
+
     rezArt.put_nowait(artifacRes)
-        
 def addConst(frameConst,constantRes):
     position = (2,157)
     for key in constantRes:
@@ -359,22 +365,19 @@ def generationOne(characters,assets,img,adapt,signatureRes,lvl,splash):
     talatsRes = queue.Queue()
     artifacRes = queue.Queue()
     artifactSet = queue.Queue()
-
     try:
         if splash:
             Thread(target=create_picture,args=(frame,person,img,adapt,characters.image.banner.url)).start()
         else:
             Thread(target=create_picture,args=(frame,person,img,adapt)).start()
-
         Thread(target=weaponAdd,args=(weaponRes,characters.equipments[-1],lvl)).start()
         Thread(target=nameBanner,args=(nameRes,characters,person,lvl)).start()
         Thread(target=stats,args=(statRes,characters,assets)).start()
         Thread(target=constant,args=(constantRes,characters,person)).start()
         Thread(target=talants,args=(talatsRes,characters)).start()
         Thread(target=artifacAdd,args=(artifacRes,artifactSet,characters)).start()
-
+        
         result = appedFrame(frame.get(),weaponRes.get(),nameRes.get(),statRes.get(),constantRes.get(),talatsRes.get(),artifacRes.get(),artifactSet.get(),signatureRes)
-
         return result
     except Exception as e:
         print(f"Error: {e}")

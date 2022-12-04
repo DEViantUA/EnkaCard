@@ -63,10 +63,15 @@ AttributeDopValueTeampleOne = Image.open(f'{path}/teapmleOne/stats/STATS_DOP_VAL
 AttributeDopValueTeampleOne.load()
 #=================Orher==================
 UserBgTeampleOne = Image.open(f'{path}/teapmleOne/maska/ADAPTATION.png')
+UserBgTeampleOne.load()
 UserEffectTeampleOne = Image.open(f'{path}/teapmleOne/maska/ADAPTATION5.png').convert('RGBA')
+UserEffectTeampleOne.load()
 MaskaBgTeampleOne = Image.open(f'{path}/teapmleOne/maska/maska.png').convert('L').resize(ErrorBgTeampleOne.size) 
+MaskaBgTeampleOne.load()
 MaskaUserBgTeampleOne = Image.open(f'{path}/teapmleOne/maska/maskaUserArt.png').convert('L').resize(ErrorBgTeampleOne.size) 
-MaskaUserBg2TeampleOne = Image.open(f'{path}/teapmleOne/maska/ADAPTATION2.png').convert('L').resize(ErrorBgTeampleOne.size) 
+MaskaUserBgTeampleOne.load()
+MaskaUserBg2TeampleOne = Image.open(f'{path}/teapmleOne/maska/ADAPTATION2.png').convert('L').resize(ErrorBgTeampleOne.size)
+MaskaUserBg2TeampleOne.load() 
 
 
 
@@ -156,9 +161,13 @@ PyroCharterElementTeampleTwo = Image.open(f'{path}/teapmleTwo/charter_element/PY
 PyroCharterElementTeampleTwo.load()
 #=================Orher==================
 UserBgTeampleTwo = Image.open(f'{path}/teapmleTwo/maska/USER_ADAPT.png').convert('L').resize(ErrorBgTeampleTwo.size) 
+UserBgTeampleTwo.load()
 UserEffectTeampleTwo = Image.open(f'{path}/teapmleTwo/maska/EFFECT.png').convert('RGB')
+UserEffectTeampleTwo.load()
 MaskaSplas= Image.open(f'{path}/teapmleTwo/maska/MaskaGrand.png').convert('L').resize(ErrorBgTeampleTwo.size) 
+MaskaSplas.load()
 MasskaEffectDown = Image.open(f'{path}/teapmleTwo/maska/EFFECT_DOWN.png')
+MasskaEffectDown.load()
 #MaskaUserBg2TeampleTwo = Image.open(f'{path}/teapmleOne/maska/ADAPTATION2.png').convert('L').resize(ErrorBgTeampleTwo.size) 
 
 

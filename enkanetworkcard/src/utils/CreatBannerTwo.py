@@ -32,7 +32,7 @@ def create_picture(rezFrame,person,imgs,adapt,splash = None):
             banner = PillImg(link = splash).imagSize(size = (1974,1048))
         else:
             banner = PillImg(link = person.images.banner.url).imagSize(size = (1974,1048))
-        frame = maskaAdd(person.element.value,banner, teample = 2)
+        frame = maskaAdd(person.element.value, banner, teample = 2)
     rezFrame.put_nowait(frame)
 
 def weaponAdd(weaponRes,characters,lvlName):
@@ -305,7 +305,10 @@ def creatUserInfo(hide,uid,player,lang, nameCharter = None, namecard = False):
     defoldBgNamecard = Image.composite(defoldBgNamecard, bannerUserNamecard, maskaBannerNamecard)
     frameUserNamecard = openFile.infoUserFrameTeampleTwo.copy()
     defoldBgNamecard.paste(openFile.infoUserFrameBannerTeampleTwo,(0,0),openFile.infoUserFrameBannerTeampleTwo)
-    avatar = PillImg(link = player.icon.url.url).imagSize(size = (150,150)) 
+    try:
+        avatar = PillImg(link = player.icon.url.url).imagSize(size = (150,150)) 
+    except:
+        avatar = PillImg(link = player.avatar.icon.url).imagSize(size = (150,150))
     avatar = Image.composite(frameUserNamecard, avatar, openFile.infoUserMaskaAvatarTeampleTwo)
     frameUserNamecard.paste(avatar,(0,0),avatar)
     d = ImageDraw.Draw(frameUserNamecard)
