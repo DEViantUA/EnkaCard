@@ -49,7 +49,7 @@ from enkanetworkcard import encbanner
 import asyncio
 
 ENC = encbanner.EnkaGenshinGeneration() 
-encR = asyncio.run(client.enc(uids = "811455610"))
+encR = asyncio.run(ENC.enc(uids = "811455610"))
 result = ENC.start(encR encR)
 print(result)
 
