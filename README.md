@@ -7,6 +7,10 @@
 # EnkaNetworkCard
 Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) to create character cards in Python.
 
+## Full Documentation:
+
+En: [Documentation EN](https://deviantua.github.io/EnkaNetworkCard-Documentation/) 
+
 ## Navigation
 * Installation
 * Dependencies
