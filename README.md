@@ -11,7 +11,7 @@ Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) to crea
 
 EN: 
   - [Documentation EnkanetworkCard](https://deviantua.github.io/EnkaNetworkCard-Documentation/) 
-  - [API]([https://deviantua.github.io/EnkaNetworkCard-Documentation/](https://deviantua.github.io/EnkaNetworkCard-Documentation/async/Other/api/)) 
+  - [API](https://deviantua.github.io/EnkaNetworkCard-Documentation/async/Other/api/) 
 
 ## Navigation
 * Installation
