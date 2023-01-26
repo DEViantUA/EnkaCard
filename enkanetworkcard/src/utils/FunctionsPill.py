@@ -28,7 +28,7 @@ async def imagSize(link = "", image = None, fixed_width = 0, size = None):
         if imgs.size[0] != imgs.size[1]:
             ratio = (fixed_width / float(imgs.size[0]))
             height = int((float(imgs.size[1]) * float(ratio)))
-            new_image = imgs.resize((fixed_width, height), Image.ANTIALIAS)
+            new_image = imgs.resize((fixed_width, height), Image.Resampling.LANCZOS)
         else:
             new_image = imgs.resize((fixed_width,fixed_width))
     return new_image
