@@ -80,3 +80,6 @@ print(result)
 
 ### Usual result (template= 3).
 <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Венти_11_12_2022 17_15.png" width='300' alt="namecard = True"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Чжун%20Ли_11_12_2022%2017_15.png" width='300' alt="namecard = False"/> 
+
+### Usual result (template= 4).
+<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example8.png" width='300' alt="MINI_VERSIA = True"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example9.png" width='300' alt="MAX_VERSIA = False"/> 
