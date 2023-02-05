@@ -197,6 +197,6 @@ def __getattr__(name):
             try: 
                 cache[name] = image = Image.open(path)
             except UnidentifiedImageError:
-                cache[name] = image = dowload(path)
+                cache[name] = image = dowload(path,ret = False)
         
         return image
