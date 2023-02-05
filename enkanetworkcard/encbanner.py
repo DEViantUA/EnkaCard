@@ -183,17 +183,14 @@ class ENC:
     async def teampleFour(self,enc):
         charterList = []
         result = {"1-4": None, "5-8": None}
-        i = "1-4"
-        if self.hide:
-            signatureRes = "UID: Hide"
-        else:
-            signatureRes = f"UID: {uid}"
-        task = []
         for uid in enc:
             r = enc[uid]
             if not r:
                 continue
-            
+            if self.hide:
+                signatureRes = "UID: Hide"
+            else:
+                signatureRes = f"UID: {uid}"
             for key in r.characters:
                 charterList.append(key)
                 if len(charterList) == 4:
