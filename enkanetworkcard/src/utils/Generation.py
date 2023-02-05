@@ -15,7 +15,7 @@ def centryImage(userImages, teample = 1):
             baseheight = 787
         hpercent = (baseheight / float (y)) 
         wsize = int ((float (x) * float (hpercent)))
-        userImages = userImages.resize ((wsize, baseheight), Image.ANTIALIAS) 
+        userImages = userImages.resize ((wsize, baseheight), Image.LANCZOS) 
 
         if x > y or x == y:
             return userImages, -int(userImages.size[0]/2-300)
@@ -29,7 +29,7 @@ def centryImage(userImages, teample = 1):
             baseheight = 1048
         hpercent = (baseheight / float (y)) 
         wsize = int ((float (x) * float (hpercent)))
-        userImages = userImages.resize ((wsize, baseheight), Image.ANTIALIAS) 
+        userImages = userImages.resize ((wsize, baseheight), Image.LANCZOS) 
 
         if x > y or x == y:
             return userImages, 0
@@ -43,7 +43,7 @@ def centryImage(userImages, teample = 1):
             baseheight = 802
         hpercent = (baseheight / float (y)) 
         wsize = int ((float (x) * float (hpercent)))
-        userImages = userImages.resize ((wsize, baseheight), Image.ANTIALIAS) 
+        userImages = userImages.resize ((wsize, baseheight), Image.LANCZOS) 
 
         if x > y or x == y:
             return userImages, 0

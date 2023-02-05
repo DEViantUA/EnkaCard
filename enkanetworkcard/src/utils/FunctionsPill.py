@@ -1,7 +1,7 @@
 # Copyright 2022 DEViantUa <t.me/deviant_ua>
 # All rights reserved.
 from PIL import Image, ImageFont
-from .openFile import *
+from . import openFile
 from io import BytesIO
 import aiohttp
 from asyncache import cached
@@ -28,7 +28,7 @@ async def imagSize(link = "", image = None, fixed_width = 0, size = None):
         if imgs.size[0] != imgs.size[1]:
             ratio = (fixed_width / float(imgs.size[0]))
             height = int((float(imgs.size[1]) * float(ratio)))
-            new_image = imgs.resize((fixed_width, height), Image.ANTIALIAS)
+            new_image = imgs.resize((fixed_width, height), Image.LANCZOS)
         else:
             new_image = imgs.resize((fixed_width,fixed_width))
     return new_image
@@ -40,10 +40,10 @@ async def imgD(link = ""):
 
 @cached(TTLCache(80, ttl=30))  
 async def centrText(text, witshRam = 100, razmer = 24, start = 0, Yram = 20, y = None, aling = "centry"):
-    Text = ImageFont.truetype(font, razmer)
+    Text = ImageFont.truetype(openFile.font, razmer)
     maxDlina = witshRam
     while True:
-        Text = ImageFont.truetype(font, razmer)
+        Text = ImageFont.truetype(openFile.font, razmer)
         withText = int(Text.getlength(str(text)))
         r = witshRam/2 
         t = withText/2 
@@ -57,7 +57,7 @@ async def centrText(text, witshRam = 100, razmer = 24, start = 0, Yram = 20, y =
         break
     if y:
         while True:
-            Text = ImageFont.truetype(font, razmer)
+            Text = ImageFont.truetype(openFile.font, razmer)
             HegText = Text.getbbox(str(text))[3]
             maxHeg = Yram
             r = Yram/2 

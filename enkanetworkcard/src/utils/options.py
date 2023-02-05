@@ -1,12 +1,12 @@
 # Copyright 2022 DEViantUa <t.me/deviant_ua>
 # All rights reserved.
 from PIL import ImageFont
-from .openFile import font
+from . import openFile
 
 coloring = (255,255,255,255)
 
 def fontSize(t):
-    return ImageFont.truetype(font, t)
+    return ImageFont.truetype(openFile.font, t)
 
 #t32 = ImageFont.truetype(font, 32) fontSize(32)
 #t24 = ImageFont.truetype(font, 24) fontSize(24)

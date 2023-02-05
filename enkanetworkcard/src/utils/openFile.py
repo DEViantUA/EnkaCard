@@ -1,10 +1,10 @@
-# Copyright 2022 DEViantUa <t.me/deviant_ua>
-# All rights reserved.
+
 from PIL import Image
+from PIL import UnidentifiedImageError
 import threading
 from weakref import WeakValueDictionary
 from pathlib import Path
-
+import httpx
 lock = threading.Lock()
 cache = WeakValueDictionary()
 assets = Path(__file__).parent.parent / 'assets'
@@ -106,8 +106,79 @@ mapping = {
     'UserEffectTeampleTwo': assets/'teapmleTwo'/'maska'/'EFFECT.png',
     'MaskaSplas': assets/'teapmleTwo'/'maska'/'MaskaGrand.png',
     'MasskaEffectDown': assets/'teapmleTwo'/'maska'/'EFFECT_DOWN.png',
+
+    #===========================TEAMPLE FOUR===============================
+    #MAX
+    'BG_MAX_TEAMPLE': assets/'TEAMPLE4'/'bg'/'BG_MAX.png',
+    'BG_MAX_ALL': assets/'TEAMPLE4'/'bg'/'BG_MAX_ALL.png',
+
+    'ANEMO_ART': assets/'TEAMPLE4'/'artifact'/'ANEMO.png',
+    'CRYO_ART': assets/'TEAMPLE4'/'artifact'/'CRYO.png',
+    'DENDRO_ART': assets/'TEAMPLE4'/'artifact'/'DENDRO.png',
+    'ELECTRO_ART': assets/'TEAMPLE4'/'artifact'/'ELECTRO.png',
+    'GEO_ART': assets/'TEAMPLE4'/'artifact'/'GEO.png',
+    'GYDRO_ART': assets/'TEAMPLE4'/'artifact'/'GYDRO.png',
+    'PYRO_ART': assets/'TEAMPLE4'/'artifact'/'PYRO.png',
+    'FRAME_ART': assets/'TEAMPLE4'/'artifact'/'frame.png',
+
+    'ANEMO_STAT': assets/'TEAMPLE4'/'stats'/'ANEMO.png',
+    'CRYO_STAT': assets/'TEAMPLE4'/'stats'/'CRYO.png',
+    'DENDRO_STAT': assets/'TEAMPLE4'/'stats'/'DENDRO.png',
+    'ELECTRO_STAT': assets/'TEAMPLE4'/'stats'/'ELECTRO.png',
+    'GEO_STAT': assets/'TEAMPLE4'/'stats'/'GEO.png',
+    'GYDRO_STAT': assets/'TEAMPLE4'/'stats'/'GYDRO.png',
+    'PYRO_STAT': assets/'TEAMPLE4'/'stats'/'PYRO.png',
+
+    #MINI
+    'ANEMO_BG': assets/'TEAMPLE4'/'bg'/'ANEMO.png',
+    'CRYO_BG': assets/'TEAMPLE4'/'bg'/'CRYO.png',
+    'DENDRO_BG': assets/'TEAMPLE4'/'bg'/'DENDRO.png',
+    'ELECTRO_BG': assets/'TEAMPLE4'/'bg'/'ELECTRO.png',
+    'GEO_BG': assets/'TEAMPLE4'/'bg'/'GEO.png',
+    'GYDRO_BG': assets/'TEAMPLE4'/'bg'/'GYDRO.png',
+    'PYRO_BG': assets/'TEAMPLE4'/'bg'/'PYRO.png',
+    'ALL_BG': assets/'TEAMPLE4'/'bg'/'BG.png',
+    'MASKA_BG': assets/'TEAMPLE4'/'bg'/'maska.png',
+    'GRANDIENT_BG': assets/'TEAMPLE4'/'bg'/'GRANDIENT.png',
+
+    'ANEMO_FRAME': assets/'TEAMPLE4'/'bgFrame'/'ANEMO.png',
+    'CRYO_FRAME': assets/'TEAMPLE4'/'bgFrame'/'CRYO.png',
+    'DENDRO_FRAME': assets/'TEAMPLE4'/'bgFrame'/'DENDRO.png',
+    'ELECTRO_FRAME': assets/'TEAMPLE4'/'bgFrame'/'ELECTRO.png',
+    'GEO_FRAME': assets/'TEAMPLE4'/'bgFrame'/'GEO.png',
+    'GYDRO_FRAME': assets/'TEAMPLE4'/'bgFrame'/'GYDRO.png',
+    'PYRO_FRAME': assets/'TEAMPLE4'/'bgFrame'/'PYRO.png',
+
+    'ANEMO_WEAPON': assets/'TEAMPLE4'/'weaponFrame'/'ANEMO.png',
+    'CRYO_WEAPON': assets/'TEAMPLE4'/'weaponFrame'/'CRYO.png',
+    'DENDRO_WEAPON': assets/'TEAMPLE4'/'weaponFrame'/'DENDRO.png',
+    'ELECTRO_WEAPON': assets/'TEAMPLE4'/'weaponFrame'/'ELECTRO.png',
+    'GEO_WEAPON': assets/'TEAMPLE4'/'weaponFrame'/'GEO.png',
+    'GYDRO_WEAPON': assets/'TEAMPLE4'/'weaponFrame'/'GYDRO.png',
+    'PYRO_WEAPON': assets/'TEAMPLE4'/'weaponFrame'/'PYRO.png',
+    
+    'WEAPON_BG': assets/'TEAMPLE4'/'weapon'/'bg.png',
+    "WEAPON_GRANDIENT": assets/'TEAMPLE4'/'weapon'/'grandient.png',
+    'WEAPON_FRAME': assets/'TEAMPLE4'/'weapon'/'frame.png',
+    'MASKA_WEAPON': assets/'TEAMPLE4'/'weapon'/'maska2.png',
+
+    'C_STAR_4': assets/'stars'/'c_stars_4.png',
+    'C_STAR_5': assets/'stars'/'c_stars_5.png',
+    
+
 }
 
+def dowload(path,ret = False):
+    with open(path, 'wb') as file:
+        with httpx.stream('GET', f"https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCardAsset/main/data/2.0.8/assets/{path.relative_to(assets).as_posix()}") as response:
+            response.raise_for_status()
+            
+            for data in response.iter_bytes():
+                file.write(data)
+    if ret:
+        return Image.open(path)
+    else:
+        return None
 def __dir__():
     return sorted(set([*globals(), *mapping]))
 
@@ -116,11 +187,16 @@ def __getattr__(name):
         path = mapping[name]
     except KeyError:
         raise AttributeError(name) from None
-    
     with lock:
         try:
             image = cache[name]
         except KeyError:
-            cache[name] = image = Image.open(path)
+            if not path.is_file():
+                path.parent.mkdir(parents=True, exist_ok=True)
+                dowload(path)
+            try: 
+                cache[name] = image = Image.open(path)
+            except UnidentifiedImageError:
+                cache[name] = image = dowload(path)
         
         return image
