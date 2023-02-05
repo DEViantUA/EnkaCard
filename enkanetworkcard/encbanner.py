@@ -4,6 +4,7 @@ import asyncio,random,os,datetime
 from .src.utils.CreatBannerTree import generationTree
 from .src.utils.CreatBannerTwo import generationTwo, creatUserInfo
 from .src.utils.CreatBannerOne import generationOne, signature, openUserImg 
+from .src.utils.CreatBannerFour import generationFour
 from .src.utils.userProfile import creatUserProfile
 from .src.utils.translation import translationLang,supportLang
 from .enc_error import ENCardError
@@ -48,7 +49,7 @@ def sorting(result):
 class ENC:
     def __init__(self,lang = "ru", characterImgs = None,
             img = None, characterName = None, adapt = False,
-            randomImg = False, hide = False, save = False, nameCards = False, splashArt = False):
+            randomImg = False, hide = False, save = False, nameCards = False, splashArt = False, miniInfo = True) :
 
         if lang in supportLang:
             self.assets = Assets(lang=lang)
@@ -67,7 +68,7 @@ class ENC:
         self.dopImg = img
         self.randomImg = randomImg
         self.characterImgs = characterImgs
-
+        self.miniInfo = miniInfo
         if characterImgs:
             if isinstance(characterImgs, dict):
                 chImg = {}
@@ -132,38 +133,40 @@ class ENC:
             self.randomImg = False
         template = int(template)
         task = []
-        for uid in enc:
-            r = enc[uid]
-            if not r:
-                continue
-            if template == 1:
-                signatureRes = signature(self.hide,uid)
-            elif template == 2:
-                signatureRes = await creatUserInfo(self.hide,uid,r.player,self.translateLang)
-            else:
-                if self.hide:
-                    signatureRes = "UID: Hide"
+        if template != 4:
+            for uid in enc:
+                r = enc[uid]
+                if not r:
+                    continue
+                if template == 1:
+                    signatureRes = signature(self.hide,uid)
+                elif template == 2:
+                    signatureRes = await creatUserInfo(self.hide,uid,r.player,self.translateLang)
                 else:
-                    signatureRes = f"UID: {uid}"
+                    if self.hide:
+                        signatureRes = "UID: Hide"
+                    else:
+                        signatureRes = f"UID: {uid}"
+                for key in r.characters:
+                    if self.characterName:
+                        if not key.name.replace(' ', '').lower() in self.characterName:
+                            continue
+                    if self.characterImgs:
+                        await self.characterImg(key.name.lower())
 
-            for key in r.characters:
-                if self.characterName:
-                    if not key.name.replace(' ', '').lower() in self.characterName:
-                        continue
-                if self.characterImgs:
-                    await self.characterImg(key.name.lower())
+                    if self.nameCards and template == 2:
+                        signatureRes = await creatUserInfo(self.hide,uid,r.player,self.translateLang,key.image.icon.filename.replace("CostumeFloral","").split("AvatarIcon_")[1],self.nameCards)
+                    
+                    if self.randomImg:
+                        task.append(self.generation(key,await openUserImg(random.choice(self.img)),uid,signatureRes,template))
+                    else:
+                        task.append(self.generation(key,self.img,uid,signatureRes,template))
 
-                if self.nameCards and template == 2:
-                    signatureRes = await creatUserInfo(self.hide,uid,r.player,self.translateLang,key.image.icon.filename.replace("CostumeFloral","").split("AvatarIcon_")[1],self.nameCards)
-                
-                if self.randomImg:
-                    task.append(self.generation(key,await openUserImg(random.choice(self.img)),uid,signatureRes,template))
-                else:
-                    task.append(self.generation(key,self.img,uid,signatureRes,template))
+            result = await asyncio.gather(*task)
+            return sorting(result)
+        else:
+            return await self.teampleFour(enc)
 
-        result = await asyncio.gather(*task)
-        return sorting(result)
-             
     async def generation(self,charter,img,uid,signatureRes,teample = 1):
         if teample == 1:
             result = await generationOne(charter,self.assets,img,self.adapt,signatureRes,self.translateLang["lvl"],self.splashArt)
@@ -177,5 +180,33 @@ class ENC:
         else:
             return {"uid": uid, "name": charter.name, "card": result}
 
+    async def teampleFour(self,enc):
+        charterList = []
+        result = {"1-4": None, "5-8": None}
+        i = "1-4"
+        if self.hide:
+            signatureRes = "UID: Hide"
+        else:
+            signatureRes = f"UID: {uid}"
+        task = []
+        for uid in enc:
+            r = enc[uid]
+            if not r:
+                continue
+            
+            for key in r.characters:
+                charterList.append(key)
+                if len(charterList) == 4:
+                    result[i] = await generationFour(charterList,self.assets,self.translateLang,self.miniInfo,r.player.nickname,signatureRes)
+                    charterList = []
+                    i = "5-8"
+            if charterList != []:
+                result[i] = await generationFour(charterList,self.assets,self.translateLang,self.miniInf,r.player.nickname,signatureRes) 
+            
+
+        if self.save:
+            for key in result:
+                await saveBanner(uid,result[key],key)
+        return {"uid": uid,"card": result}
 
 
