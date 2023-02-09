@@ -11,7 +11,7 @@ from .enc_error import ENCardError
 
 
 async def upload():
-    async with EnkaNetworkAPI() as ena:
+    async with EnkaNetworkAPI(user_agent= "ENC Library: 2.2.5") as ena:
         await ena.update_assets()
 
 def uidCreat(uids):
@@ -40,17 +40,18 @@ def sorting(result):
         if not key["uid"] in enc_card:
             enc_card[key["uid"]] = {}
         if not key["name"] in enc_card[key["uid"]]:
-            enc_card[key["uid"]][key["name"]] = key["card"]
+            enc_card[key["uid"]][key["name"]] = {"img": key["card"], "id": key["id"]}
 
     return enc_card
 
 
 
 class ENC:
+    
     def __init__(self,lang = "ru", characterImgs = None,
             img = None, characterName = None, adapt = False,
-            randomImg = False, hide = False, save = False, nameCards = False, splashArt = False, miniInfo = True) :
-
+            randomImg = False, hide = False, save = False, nameCards = False, splashArt = False, miniInfo = True, agent = "Library: 2.2.5") :
+        self.USER_AGENT = f"ENC {agent}"
         if lang in supportLang:
             self.assets = Assets(lang=lang)
             self.lang = lang
@@ -112,7 +113,7 @@ class ENC:
     async def enc(self,uids = None):
         result = {}
         uids = uidCreat(uids)
-        async with EnkaNetworkAPI(lang=self.lang) as client:
+        async with EnkaNetworkAPI(user_agent = self.USER_AGENT, lang=self.lang) as client:
             for uid in uids:
                 if not uid in result:
                     result[uid] = None
@@ -122,8 +123,8 @@ class ENC:
         return result
 
     async def characterImg(self,name):
-        if name in self.charterImg:
-            self.img = await openUserImg(self.charterImg[name])
+        if name in self.characterImgs:
+            self.img = await openUserImg(self.characterImgs[name])
         else:
             self.img = None
 
@@ -176,13 +177,14 @@ class ENC:
             result =  await generationTree(charter,self.assets,img,self.adapt,signatureRes,self.translateLang,self.splashArt)
         if self.save:
             await saveBanner(uid,result, charter.name)
-            return {"uid": uid, "name": charter.name, "card": result}
+            return {"uid": uid, "name": charter.name, "card": result, "id": charter.id}
         else:
-            return {"uid": uid, "name": charter.name, "card": result}
+            return {"uid": uid, "name": charter.name, "card": result, "id": charter.id}
 
     async def teampleFour(self,enc):
         charterList = []
         result = {"1-4": None, "5-8": None}
+        task = []
         for uid in enc:
             r = enc[uid]
             if not r:
@@ -192,13 +194,25 @@ class ENC:
             else:
                 signatureRes = f"UID: {uid}"
             for key in r.characters:
-                charterList.append(key)
+                if self.characterImgs:
+                    await self.characterImg(key.name.lower())
+                if self.characterName:
+                    if not key.name.replace(' ', '').lower() in self.characterName:
+                        continue
+                charterList.append([key,self.img])
                 if len(charterList) == 4:
-                    result[i] = await generationFour(charterList,self.assets,self.translateLang,self.miniInfo,r.player.nickname,signatureRes)
+                    task.append(generationFour(charterList,self.assets,self.translateLang,self.miniInfo,r.player.nickname,signatureRes))
+                    #result[i] = await generationFour(charterList,self.assets,self.translateLang,self.miniInfo,r.player.nickname,signatureRes)
                     charterList = []
-                    i = "5-8"
             if charterList != []:
-                result[i] = await generationFour(charterList,self.assets,self.translateLang,self.miniInf,r.player.nickname,signatureRes) 
+                task.append(generationFour(charterList,self.assets,self.translateLang,self.miniInfo,r.player.nickname,signatureRes))
+                #result[i] = await generationFour(charterList,self.assets,self.translateLang,self.miniInf,r.player.nickname,signatureRes)
+            if len(task) == 2:
+                result["1-4"], result["5-8"] = await asyncio.gather(*task)
+            else:
+                result["1-4"] = await task[0]
+
+
             
 
         if self.save:
