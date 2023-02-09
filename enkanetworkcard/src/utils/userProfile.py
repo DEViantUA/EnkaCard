@@ -14,7 +14,7 @@ async def characters(player,assets,image):
     for key in player:
         person = assets.character(key.id)
         if not key.name in charterList:
-            charterList[key.name] = {"rarity": person.rarity, "image": key.icon.url, "element": person.element.value}
+            charterList[key.name] = {"rarity": person.rarity, "image": key.icon.url, "element": key.element.value, "id": key.id}
             charactersArg += f"{key.name},"
         if image:
             if person.rarity == 4:
@@ -35,7 +35,6 @@ async def characters(player,assets,image):
 async def creatUserProfile(image,player,lang,hide,uid,assets):
     t12 = ImageFont.truetype(openFile.font, 12)
     t17 = ImageFont.truetype(openFile.font, 17)
-    
     Avatar = Image.open(f'{path}/InfoCharter/AvatarUser.png') 
     Background = Image.open(f'{path}/InfoCharter/bg.png') 
     UserName = Image.open(f'{path}/InfoCharter/UserName.png')
@@ -43,7 +42,11 @@ async def creatUserProfile(image,player,lang,hide,uid,assets):
     Bg = None
     charactersListImage,charactersList,charactersArg = await characters(player.characters_preview,assets,image)
     if image:
-        bannerUserNamecard = await imagSize(link = player.namecard.navbar.url, size = (661,105))
+        if player.namecard.navbar.url == "https://enka.network/ui/.png":
+            ibanner = Image.open(f'{path}/InfoCharter/DEFAULT.png')
+            bannerUserNamecard = await imagSize(image = ibanner, size = (661,105))
+        else:
+            bannerUserNamecard = await imagSize(link = player.namecard.navbar.url, size = (661,105))
         Background.paste(bannerUserNamecard,(123 ,145),bannerUserNamecard)
         picturesProfile = await imagSize(link = player.avatar.icon.url,fixed_width = 179)
         picturesProfile = picturesProfile.convert('RGBA')

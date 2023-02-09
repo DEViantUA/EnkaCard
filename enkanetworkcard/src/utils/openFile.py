@@ -1,10 +1,10 @@
-
+# Copyright 2022 DEViantUa <t.me/deviant_ua>
+# All rights reserved.
 from PIL import Image
-from PIL import UnidentifiedImageError
 import threading
 from weakref import WeakValueDictionary
 from pathlib import Path
-import httpx
+
 lock = threading.Lock()
 cache = WeakValueDictionary()
 assets = Path(__file__).parent.parent / 'assets'
@@ -16,6 +16,8 @@ font = str(assets / 'font' / 'Genshin_Impact.ttf')
 #=================Artifact==================
 
 mapping = {
+    'PlayerGirl': assets/'PlayerGirl.png',
+
     'MaskaInfoUser': assets/'InfoCharter'/'AvatarMaska.png',
 
     'EffectBgTeampleTree': assets/'teapmleTree'/'background'/'EFFECT_DARK.png',
@@ -168,17 +170,6 @@ mapping = {
 
 }
 
-def dowload(path,ret = False):
-    with open(path, 'wb') as file:
-        with httpx.stream('GET', f"https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCardAsset/main/data/2.0.8/assets/{path.relative_to(assets).as_posix()}") as response:
-            response.raise_for_status()
-            
-            for data in response.iter_bytes():
-                file.write(data)
-    if ret:
-        return Image.open(path)
-    else:
-        return None
 def __dir__():
     return sorted(set([*globals(), *mapping]))
 
@@ -187,16 +178,11 @@ def __getattr__(name):
         path = mapping[name]
     except KeyError:
         raise AttributeError(name) from None
+    
     with lock:
         try:
             image = cache[name]
         except KeyError:
-            if not path.is_file():
-                path.parent.mkdir(parents=True, exist_ok=True)
-                dowload(path)
-            try: 
-                cache[name] = image = Image.open(path)
-            except UnidentifiedImageError:
-                cache[name] = image = dowload(path,ret = True)
+            cache[name] = image = Image.open(path)
         
         return image

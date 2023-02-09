@@ -39,7 +39,7 @@ def vertGradient(image, rect, color_func, color_palette):
         draw.line([(rect.min.x, y), (rect.max.x, y)], fill=color)
 
 
-def userAdaptGrandient(userImg, size = (1503, 788), left = False):
+def userAdaptGrandient(userImg, size = (1502, 787), left = False):
     if left:
         userImg = userImg.crop((0,0,userImg.size[0]+3-userImg.size[0],userImg.size[1]))
     else:

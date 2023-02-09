@@ -18,8 +18,11 @@ async def dowloadImg(link = ""):
 
 async def imagSize(link = "", image = None, fixed_width = 0, size = None):
     if not image:
-        imgs = await dowloadImg(link = link)
-        imgs = Image.open(BytesIO(imgs))
+        if link == "https://enka.network/ui/UI_Gacha_AvatarImg_PlayerGirl.png":
+            imgs = openFile.PlayerGirl.copy()
+        else:
+            imgs = await dowloadImg(link = link)
+            imgs = Image.open(BytesIO(imgs))
     else:
         imgs = image
     if size:

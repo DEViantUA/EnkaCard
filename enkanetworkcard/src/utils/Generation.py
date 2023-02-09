@@ -20,7 +20,14 @@ def centryImage(userImages, teample = 1):
         if x > y or x == y:
             return userImages, -int(userImages.size[0]/2-300)
         else:
-            return userImages, -int(userImages.size[0]/2*0.2)
+            x,y = userImages.size
+            if x < 738:
+                return userImages, -int(userImages.size[0]/2*0.2)
+            else:
+                return userImages, -int(userImages.size[0]-738)
+        
+
+
     elif teample == 2:
         x,y = userImages.size
         baseheight = 1500
@@ -29,15 +36,35 @@ def centryImage(userImages, teample = 1):
             baseheight = 1048
         hpercent = (baseheight / float (y)) 
         wsize = int ((float (x) * float (hpercent)))
-        userImages = userImages.resize ((wsize, baseheight), Image.LANCZOS) 
+        userImages = userImages.resize((wsize, baseheight), Image.LANCZOS) 
 
         if x > y or x == y:
             return userImages, 0
         else:
             return userImages, 555
-    else:
+    elif teample == 4:
         x,y = userImages.size
-        baseheight = 1337
+        baseheight = 965
+
+        if x > y or x == y:
+            baseheight = 621
+        hpercent = (baseheight / float (y)) 
+        wsize = int ((float (x) * float (hpercent)))
+        userImages = userImages.resize((wsize, baseheight), Image.LANCZOS) 
+
+        if x > y or x == y:
+            return userImages, -359
+        else:
+            x,y = userImages.size
+            if x < 552:
+                return userImages, -int(userImages.size[0]/2*0.2)
+            else:
+                return userImages, -int(userImages.size[0]-552)
+            #return userImages, -116
+    else:
+        
+        x,y = userImages.size
+        baseheight = 1311
 
         if x > y or x == y:
             baseheight = 802
@@ -46,63 +73,67 @@ def centryImage(userImages, teample = 1):
         userImages = userImages.resize ((wsize, baseheight), Image.LANCZOS) 
 
         if x > y or x == y:
-            return userImages, 0
+            return userImages, -int(userImages.size[0]/2-300)
         else:
-            return userImages, 0
+            x,y = userImages.size
+            if x < 806:
+                return userImages, 0
+            else:
+                return userImages, -int(x-806)
 
 
 def openImageElement(element,teample = 1):
     if teample == 1:
         if element == "Fire":
-            return Image.open(f'{path}/teapmleOne/background/PYRO.png')
+            return Image.open(f'{path}/teapmleOne/background/PYRO.png').convert("RGBA")
         elif element== "Grass":
-            return Image.open(f'{path}/teapmleOne/background/DENDRO.png')
+            return Image.open(f'{path}/teapmleOne/background/DENDRO.png').convert("RGBA")
         elif element == "Electric":
-            return Image.open(f'{path}/teapmleOne/background/ELECTRO.png')
+            return Image.open(f'{path}/teapmleOne/background/ELECTRO.png').convert("RGBA")
         elif element == "Water":
-            return Image.open(f'{path}/teapmleOne/background/GYDRO.png')
+            return Image.open(f'{path}/teapmleOne/background/GYDRO.png').convert("RGBA")
         elif element == "Wind":
-            return Image.open(f'{path}/teapmleOne/background/ANEMO.png')
+            return Image.open(f'{path}/teapmleOne/background/ANEMO.png').convert("RGBA")
         elif element== "Rock":
-            return Image.open(f'{path}/teapmleOne/background/GEO.png')
+            return Image.open(f'{path}/teapmleOne/background/GEO.png').convert("RGBA")
         elif element == "Ice":
-            return Image.open(f'{path}/teapmleOne/background/CRYO.png')
+            return Image.open(f'{path}/teapmleOne/background/CRYO.png').convert("RGBA")
         else:
-            return Image.open(f'{path}/teapmleOne/background/ERROR.png')
+            return Image.open(f'{path}/teapmleOne/background/ERROR.png').convert("RGBA")
     elif teample == 2:
         if element == "Fire":
-            return Image.open(f'{path}/teapmleTwo/background/PYRO.png')
+            return Image.open(f'{path}/teapmleTwo/background/PYRO.png').convert("RGBA")
         elif element== "Grass":
-            return Image.open(f'{path}/teapmleTwo/background/DENDRO.png')
+            return Image.open(f'{path}/teapmleTwo/background/DENDRO.png').convert("RGBA")
         elif element == "Electric":
-            return Image.open(f'{path}/teapmleTwo/background/ELECTRO.png')
+            return Image.open(f'{path}/teapmleTwo/background/ELECTRO.png').convert("RGBA")
         elif element == "Water":
-            return Image.open(f'{path}/teapmleTwo/background/GYDRO.png')
+            return Image.open(f'{path}/teapmleTwo/background/GYDRO.png').convert("RGBA")
         elif element == "Wind":
-            return Image.open(f'{path}/teapmleTwo/background/ANEMO.png')
+            return Image.open(f'{path}/teapmleTwo/background/ANEMO.png').convert("RGBA")
         elif element== "Rock":
-            return Image.open(f'{path}/teapmleTwo/background/GEO.png')
+            return Image.open(f'{path}/teapmleTwo/background/GEO.png').convert("RGBA")
         elif element == "Ice":
-            return Image.open(f'{path}/teapmleTwo/background/CRYO.png')
+            return Image.open(f'{path}/teapmleTwo/background/CRYO.png').convert("RGBA")
         else:
-            return Image.open(f'{path}/teapmleTwo/background/ERROR.png')
+            return Image.open(f'{path}/teapmleTwo/background/ERROR.png').convert("RGBA")
     else:
         if element == "Fire":
-            return Image.open(f'{path}/teapmleTree/background/PYRO.png')
+            return Image.open(f'{path}/teapmleTree/background/PYRO.png').convert("RGBA")
         elif element== "Grass":
-            return Image.open(f'{path}/teapmleTree/background/DENDRO.png')
+            return Image.open(f'{path}/teapmleTree/background/DENDRO.png').convert("RGBA")
         elif element == "Electric":
-            return Image.open(f'{path}/teapmleTree/background/ELECTRO.png')
+            return Image.open(f'{path}/teapmleTree/background/ELECTRO.png').convert("RGBA")
         elif element == "Water":
-            return Image.open(f'{path}/teapmleTree/background/GYDRO.png')
+            return Image.open(f'{path}/teapmleTree/background/GYDRO.png').convert("RGBA")
         elif element == "Wind":
-            return Image.open(f'{path}/teapmleTree/background/ANEMO.png')
+            return Image.open(f'{path}/teapmleTree/background/ANEMO.png').convert("RGBA")
         elif element== "Rock":
-            return Image.open(f'{path}/teapmleTree/background/GEO.png')
+            return Image.open(f'{path}/teapmleTree/background/GEO.png').convert("RGBA")
         elif element == "Ice":
-            return Image.open(f'{path}/teapmleTree/background/CRYO.png')
+            return Image.open(f'{path}/teapmleTree/background/CRYO.png').convert("RGBA")
         else:
-            return Image.open(f'{path}/teapmleTree/background/ERROR.png')
+            return Image.open(f'{path}/teapmleTree/background/ERROR.png').convert("RGBA")
 
 def openImageElementConstant(element, teampt = 1):
     if teampt in [1,2]:
@@ -142,26 +173,27 @@ def openImageElementConstant(element, teampt = 1):
 
 
 def maskaAdd(element,charter, teample = 1):
+    charter = charter.convert("RGBA")
     if teample == 1:
         bg = openImageElement(element)
         bgUP = bg.copy()
-        bg.paste(charter,(-734,-134),charter)
+        bg.alpha_composite(charter,(-734,-134))
         im = Image.composite(bg, bgUP, openFile.MaskaBgTeampleOne.convert('L'))
-        bg.paste(im,(0,0))
+        bg.alpha_composite(im,(0,0))
     elif teample == 2:
         bg = openImageElement(element, teample = 2)
         bgUP = bg.copy()
-        bg.paste(charter,(0,0),charter)
+        bg.alpha_composite(charter,(0,0))
         im = Image.composite(bg, bgUP, openFile.MaskaSplas.convert('L').resize(bg.size))
-        bg.paste(im,(0,0))
-        bg.paste(openFile.MasskaEffectDown,(0,0),openFile.MasskaEffectDown)
+        bg.alpha_composite(im,(0,0))
+        bg.alpha_composite(openFile.MasskaEffectDown,(0,0))
     else:
         bg = openImageElement(element, teample = 3)
         bgUP = bg.copy()
-        bg.paste(charter,(-810,-115),charter)
+        bg.alpha_composite(charter,(-810,-115))
         im = Image.composite(bg, bgUP, openFile.UserBgTeampleTree.convert('L'))
-        bg.paste(im,(0,0))
-        bg.paste(openFile.EffectBgTeampleTree,(0,0),openFile.EffectBgTeampleTree)
+        bg.alpha_composite(im,(0,0))
+        bg.alpha_composite(openFile.EffectBgTeampleTree,(0,0))
     return bg
 
 
@@ -169,10 +201,10 @@ def userImage(img,element = None, adaptation = False):
     userImagess,pozitionX = centryImage(img)
     if adaptation:
         grandient = userAdaptGrandient(userImagess.convert("RGB").copy())
-        Effect = openFile.UserEffectTeampleOne.copy()
+        Effect = openFile.UserEffectTeampleOne.copy().convert('RGBA')
         grandient = ImageChops.screen(grandient,Effect)
-        Effect.paste(userImagess,(pozitionX,0),userImagess)
-        im = Image.composite(Effect, grandient, openFile.MaskaUserBg2TeampleOne)
+        Effect.alpha_composite(userImagess,(pozitionX,0))
+        im = Image.composite(Effect, grandient, openFile.MaskaUserBg2TeampleOne.convert("L"))
         return im
     else:
         try:
@@ -181,28 +213,28 @@ def userImage(img,element = None, adaptation = False):
         except Exception as e:
             print(e)
 
-        bg.paste(userImagess,(pozitionX,0))
-        im = Image.composite(bg, effect, openFile.MaskaUserBg2TeampleOne)
-        bg.paste(im,(0,0))
+        bg.alpha_composite(userImagess,(pozitionX,0))
+        im = Image.composite(bg, effect, openFile.MaskaUserBg2TeampleOne.convert("L"))
+        bg.alpha_composite(im,(0,0))
         return bg
 
 def userImageTree(img,element = None, adaptation = False):
     userImagess,pozitionX = centryImage(img, teample = 3)
     if adaptation:
         grandient = userAdaptGrandient(userImagess.convert("RGB").copy(), size =(1924,802))
-        Effect = openFile.EffectBgTree.copy()
+        Effect = openFile.EffectBgTree.copy().convert("RGBA")
         grandient = ImageChops.screen(grandient,Effect)
-        Effect.paste(userImagess,(pozitionX,0),userImagess)
-        im = Image.composite(Effect, grandient, openFile.UserBgTeampleImgTree)
-        im.paste(openFile.EffectBgTeampleTree,(0,0),openFile.EffectBgTeampleTree)
+        Effect.alpha_composite(userImagess,(pozitionX,0))
+        im = Image.composite(Effect, grandient, openFile.UserBgTeampleImgTree.convert("L"))
+        im.alpha_composite(openFile.EffectBgTeampleTree,(0,0))
         return im
     else:
         bg = openImageElement(element, teample = 3)
         effect = bg.copy()
-        bg.paste(userImagess,(pozitionX,0),userImagess)
-        im = Image.composite(bg, effect, openFile.UserBgTeampleImgTree)
-        bg.paste(im,(0,0))
-        bg.paste(openFile.EffectBgTeampleTree,(0,0),openFile.EffectBgTeampleTree)
+        bg.alpha_composite(userImagess,(pozitionX,0))
+        im = Image.composite(bg, effect, openFile.UserBgTeampleImgTree.convert("L"))
+        bg.alpha_composite(im,(0,0))
+        bg.alpha_composite(openFile.EffectBgTeampleTree.convert("RGBA"),(0,0))
         return bg
 
 
@@ -212,19 +244,19 @@ def userImageTwo(img,element = None, adaptation = False):
         bg = openImageElement("error", teample = 2)
         grandientLeft = userAdaptGrandient(userImagess.convert("RGB").copy(), size = (1038, 1048),left = True)
         grandientRight = userAdaptGrandient(userImagess.convert("RGB").copy(), size = (937, 1048))
-        bg.paste(grandientLeft,(0,0),grandientLeft)
-        bg.paste(grandientRight,(grandientLeft.size[0],0),grandientRight)
+        bg.alpha_composite(grandientLeft,(0,0))
+        bg.alpha_composite(grandientRight,(grandientLeft.size[0],0))
         Effect = openFile.UserEffectTeampleTwo.copy()
         grandient = ImageChops.screen(bg,Effect)
-        Effect.paste(userImagess,(pozitionX,0),userImagess)
-        im = Image.composite(Effect, grandient, openFile.UserBgTeampleTwo)
+        Effect.alpha_composite(userImagess,(pozitionX,0))
+        im = Image.composite(Effect, grandient, openFile.UserBgTeampleTwo.convert("L"))
         return im
     else:
         bg = openImageElement(element, teample = 2)
         effect = bg.copy()
-        bg.paste(userImagess,(pozitionX,0),userImagess)
-        im = Image.composite(bg, effect, openFile.UserBgTeampleTwo)
-        bg.paste(im,(0,0))
+        bg.alpha_composite(userImagess,(pozitionX,0))
+        im = Image.composite(bg, effect, openFile.UserBgTeampleTwo.convert("L"))
+        bg.alpha_composite(im,(0,0))
         return bg
 
 '''
@@ -322,6 +354,8 @@ def getIconAdd(x, icon = False, size = None):
         icons = Image.open(f'{path}/icon/HEALED_ADD.png')
     elif x == "FIGHT_PROP_HEAL":
         icons = Image.open(f'{path}/icon/HEAL.png')
+    elif x == "FIGHT_PROP_PHYSICAL_ADD_HURT":
+        icons = Image.open(f'{path}/icon/PHYSICAL_ADD_HURT.png')
     else:
         return False
     if size:

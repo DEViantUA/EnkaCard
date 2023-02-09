@@ -22,15 +22,15 @@ from .FunctionsPill import centrText,imgD,imagSize
 from .options import *
 from . import openFile
 
-async def create_picture(person,imgs,adapt,splash = None):
+async def create_picture(person,element,imgs,adapt,splash = None):
     if imgs:
-        frame = userImageTwo(imgs, element = person.element.value, adaptation = adapt)
+        frame = userImageTwo(imgs, element = element, adaptation = adapt)
     else:
         if splash:
             banner = await imagSize(link = splash,size = (1974,1048))
         else:
             banner = await imagSize(link = person.images.banner.url, size = (1974,1048))
-        frame = maskaAdd(person.element.value, banner, teample = 2)
+        frame = maskaAdd(element, banner, teample = 2)
     return frame
 
 
@@ -54,11 +54,11 @@ async def weaponAdd(characters,lvlName):
         if str(substate.type) == "DigitType.PERCENT":
             proc = True
     if imageStats:
-        WeaponBg.paste(imageStats,(330,59),imageStats)
+        WeaponBg.alpha_composite(imageStats,(330,59))
     
     stars = star(characters.detail.rarity)
     image = await imagSize(link = characters.detail.icon.url, size = (131,138))
-    WeaponBg.paste(image,(20,11),image)
+    WeaponBg.alpha_composite(image,(20,11))
     position,font = await centrText(name, witshRam = 290, razmer = 24, start = 177, Yram = 38, y = 17)
     d.text(position, str(name), font= font, fill=coloring) 
     d.text((195 ,111), str(lvlUp), font= fontSize(24), fill=(248,199,135,255)) 
@@ -73,24 +73,24 @@ async def weaponAdd(characters,lvlName):
     else:
         position,font = await centrText(str(dopStat), witshRam = 131, razmer = 24, start = 333, Yram = 38, y = 56)
         d.text(position, str(dopStat), font= font, fill=coloring) 
-    WeaponBg.paste(stars,(10,135),stars)
+    WeaponBg.alpha_composite(stars,(10,135))
     return WeaponBg
 
 async def nameBanner(characters,lvlName):
     NameBg = openFile.NameBgTeampleTwo.copy()
     d = ImageDraw.Draw(NameBg)
     centrName,fonts = await centrText(characters.name, witshRam = 244, razmer = 24,start = 19, Yram = 29, y = 0)
-    d.text((centrName,1), characters.name, font = fonts, fill=coloring) 
-    d.text((33,47), str(characters.friendship_level), font = fontSize(24), fill= coloring) 
+    d.text((centrName,0), characters.name, font = fonts, fill=coloring) 
+    d.text((33,45), str(characters.friendship_level), font = fontSize(24), fill= coloring) 
     centrName,fonts = await centrText(f"{lvlName['lvl']}: {characters.level}/90", witshRam = 209, razmer = 24, start = 77)
-    d.text((centrName,47), f"{lvlName['lvl']}: {characters.level}/90", font = fonts, fill= coloring) 
+    d.text((centrName,45), f"{lvlName['lvl']}: {characters.level}/90", font = fonts, fill= coloring) 
     return NameBg
 
 
 def starsAdd(person):
     StarsBg = openFile.StarBg.copy()
     starsIcon = star(person.rarity)
-    StarsBg.paste(starsIcon,(17,0),starsIcon)
+    StarsBg.alpha_composite(starsIcon,(17,-1))
     
     return StarsBg
 
@@ -99,39 +99,54 @@ async def stats(characters,assets):
     AttributeBg = openFile.AttributeBgTeampleTwo.copy()
     g = characters.stats
     dopVal = {}
-    cout = 0
-    maxStat = 0
-    elementUp = None
-
+    elementUp = True
+    сout = 0
     for key in g:
         if key[0] in ["BASE_HP","FIGHT_PROP_BASE_ATTACK","FIGHT_PROP_BASE_DEFENSE"]:
             if not key[0] in dopVal:
                 dopVal[key[0]] = int(key[1].value)
-                cout += 1
-                if cout == 3:
-                    break
-    for key in reversed(list(g)):
-        
-        if key[1].value == 0:
+        if key[1].id in [2000,2001,2002]:
+            iconImg = getIconAdd(key[0])
+            txt = assets.get_hash_map(key[0])
+            Attribute = openFile.AttributeTeampleTwo.copy()
+            d = ImageDraw.Draw(Attribute)
+            icon = await imagSize(image = iconImg,fixed_width = 26)
+
+            Attribute.alpha_composite(icon, (10,4))
+
+            if not key[1].id in stat_perc:
+                value = str(math.ceil(key[1].value))
+            else:
+                value = f"{round(key[1].value * 100, 1)}%"
+            pX,fnt = await centrText(value, witshRam = 151, razmer = 24, start = 410)
+            d.text((pX,7), value, font = fnt, fill=coloring)
+
+            d.text((67,7), str(txt), font = fontSize(24), fill=coloring)
+
+            AttributeBg.alpha_composite(Attribute,(postion[0],postion[1]))
+            postion = (postion[0],postion[1]+55)
+            сout += 1
+            if сout == 3:
+                break
+    for key in g:
+        if key[1].id in [40,41,42,43,44,45,46]:
+            if elementUp:
+                key = max((x for x in g if 40 <= x[1].id <= 46), key=lambda x: x[1].value)
+                elementUp = False
+            else:
+                continue
+        if key[1].value == 0 or key[1].id in [2000,2001,2002]:
             continue
         iconImg = getIconAdd(key[0])
         if not iconImg:
             continue
-        if key[1].id in [40,41,42,43,44,45,46]:
-            if key[1].value > maxStat:
-                elementUp = key
-                maxStat = key[1].value
-            if key[1].id == 40:
-                key = elementUp
-            else:
-                continue
         txt = assets.get_hash_map(key[0])
         Attribute = openFile.AttributeTeampleTwo.copy()
         d = ImageDraw.Draw(Attribute)
         
         icon = await imagSize(image = iconImg,fixed_width = 26)
 
-        Attribute.paste(icon, (10,4),icon)
+        Attribute.alpha_composite(icon, (10,4))
 
         if not key[1].id in stat_perc:
             value = str(math.ceil(key[1].value))
@@ -142,39 +157,30 @@ async def stats(characters,assets):
 
         d.text((67,7), str(txt), font = fontSize(24), fill=coloring)
 
-        AttributeBg.paste(Attribute,(postion[0],postion[1]),Attribute)
-        '''
-        if key[0] in dopStatAtribute:
-            ad = ImageDraw.Draw(AttributeBg)
-            dopStatVal  = dopVal[dopStatAtribute[key[0]]]
-            dopStatValArtifact = int(key[1].value - dopStatVal)
-            if dopStatValArtifact != 0:
-                ad.text((pX+5,postion[1]+23), f"{dopStatVal} + {dopStatValArtifact}", font = fontSize(15), fill=(248,199,135))
-        '''
+        AttributeBg.alpha_composite(Attribute,(postion[0],postion[1]))
         postion = (postion[0],postion[1]+55)
     return AttributeBg
     
-async def constant(characters,person):
+async def constant(characters):
     constantRes = []  
     for key in characters.constellations:
         closeConstBg = openFile.ClossedBg.copy()
         closeConsticon = openFile.Clossed.copy()
-        openConstBg = openImageElementConstant(person.element.value)
+        openConstBg = openImageElementConstant(characters.element.value)
         imageIcon = await imgD(link = key.icon.url)
         imageIcon = imageIcon.resize((43,48))
         if not key.unlocked:
-            closeConstBg.paste(imageIcon, (19,20),imageIcon)
-            closeConstBg.paste(closeConsticon, (0,0),closeConsticon)
+            closeConstBg.alpha_composite(imageIcon, (19,20))
+            closeConstBg.alpha_composite(closeConsticon, (0,-2))
             const = closeConstBg
         else:
-            openConstBg.paste(imageIcon, (19,20),imageIcon)
+            openConstBg.alpha_composite(imageIcon, (19,20))
             const = openConstBg
         constantRes.append(const)
     
     return constantRes
 
 async def talants(characters):
-    count = 0
     tallantsRes = []
     for key in characters.skills:
         if key.level > 9:
@@ -185,15 +191,15 @@ async def talants(characters):
         d = ImageDraw.Draw(talantsCount)
         imagesIconTalants = await imgD(link = key.icon.url)
         imagesIconTalants = imagesIconTalants.resize((52,52))
-        talantsBg.paste(imagesIconTalants, (7,6),imagesIconTalants)
-        px,fnt = await centrText(key.level, witshRam = 25, razmer = 18, start = 1, Yram = 25, y = 1) 
-        d.text(px, str(key.level), font = fnt, fill=(248,199,135,255))
-        talantsBg.paste(talantsCount, (20,47),talantsCount)
+        talantsBg.alpha_composite(imagesIconTalants, (7,6))
+        if len(str(key.level)) == 2:
+            d.text((3,2), str(key.level), font = fontSize(18), fill=(248,199,135,255))
+        else:
+            d.text((6,2), str(key.level), font = fontSize(18), fill=(248,199,135,255))
+        talantsBg.alpha_composite(talantsCount, (20,47))
         tallantsRes.append(talantsBg)
-        count+=1
-        if count == 3:
-            break
     return tallantsRes
+
 async def naborArtifact(info,ArtifactNameBg):
     naborAll = []
     for key in info:
@@ -201,15 +207,15 @@ async def naborArtifact(info,ArtifactNameBg):
             ArtifactNameFrame = openFile.ArtifactNameFrameTeampleTwo.copy()
             d = ImageDraw.Draw(ArtifactNameFrame)
             centrName,fonts = await centrText(key, witshRam = 289, razmer = 24, start = 2, Yram = 28, y = 1) 
-            d.text(centrName, str(key), font= fonts, fill=coloring)
+            d.text((centrName[0],0), str(key), font= fonts, fill=coloring)
             d.text((356,0), str(info[key]), font= fontSize(24), fill=coloring)
             naborAll.append(ArtifactNameFrame)
     position = (156,38)
     for key in naborAll:
         if len(naborAll) == 1:
-            ArtifactNameBg.paste(key,(156,54),key)
+            ArtifactNameBg.alpha_composite(key,(156,54))
         else:
-            ArtifactNameBg.paste(key,position,key)
+            ArtifactNameBg.alpha_composite(key,position)
             position = (position[0],position[1]+34)
 
     return ArtifactNameBg
@@ -219,20 +225,20 @@ async def creatArtifact(infpart,imageStats):
     ArtifactBg = openFile.ArtifactBgTeampleTwo.copy()
     ArtifactUp = openFile.ArtifactBgUpTeampleTwo.copy()
     artimg = await imagSize(link = infpart.detail.icon.url,size = (120,107))
-    ArtifactBg.paste(artimg,(-5,0),artimg)
-    ArtifactBg.paste(ArtifactUp,(0,0),ArtifactUp)
+    ArtifactBg.alpha_composite(artimg,(-5,0))
+    ArtifactBg.alpha_composite(ArtifactUp,(0,0))
     d = ImageDraw.Draw(ArtifactBg)
     if str(infpart.detail.mainstats.type) == "DigitType.PERCENT":
         val = f"{infpart.detail.mainstats.value}%"
     else:
         val = infpart.detail.mainstats.value
-    centrName,fonts = await centrText(val, witshRam = 62, razmer = 17, start = 53)
-    d.text((centrName,77), str(val), font= fonts, fill=coloring)
+    centrName,fonts = await centrText(val, witshRam = 62, razmer = 17, start = 50)
+    d.text((centrName,76), str(val), font= fonts, fill=coloring)
     
-    ArtifactBg.paste(imageStats,(7,2),imageStats)
+    ArtifactBg.alpha_composite(imageStats,(7,2))
     d.text((81,97), str(infpart.level), font= fontSize(17), fill=coloring)
     starsImg = star(infpart.detail.rarity).resize((77,22))
-    ArtifactBg.paste(starsImg,(2,97),starsImg)
+    ArtifactBg.alpha_composite(starsImg,(2,97))
     cs = 0
     positionIcon = (130,21)
     for key in infpart.detail.substats:
@@ -245,9 +251,9 @@ async def creatArtifact(infpart,imageStats):
         if not imageStats:
             continue
         imageStats= await imagSize(image = imageStats,fixed_width = 24) 
-        ArtifactBgStat.paste(imageStats,(3,1),imageStats)
+        ArtifactBgStat.alpha_composite(imageStats,(3,1))
         d.text((57,2), v, font= fontSize(24), fill=coloring)
-        ArtifactBg.paste(ArtifactBgStat,positionIcon,ArtifactBgStat)
+        ArtifactBg.alpha_composite(ArtifactBgStat,positionIcon)
         cs += 1
         positionIcon = (positionIcon[0]+185,positionIcon[1])
         if cs == 2:
@@ -283,17 +289,25 @@ async def creatUserInfo(hide,uid,player,lang, nameCharter = None, namecard = Fal
     if not namecard:
         bannerUserNamecard = await imagSize(link = player.namecard.banner.url, size = (601,283))
     else:
-        linkImgCard = f"https://enka.network/ui/UI_NameCardPic_{nameCharter}_P.png"
-        bannerUserNamecard = await imagSize(link = linkImgCard,size = (601,283))
+        nameCharter = nameCharter.split("Costume")[0]
+        try:
+            if nameCharter in ["PlayerGirl","PlayerBoy"]:
+                linkImgCard = "https://api.ambr.top/assets/UI/namecard/UI_NameCardPic_0_P.png"
+            else:
+                linkImgCard = f"https://enka.network/ui/UI_NameCardPic_{nameCharter}_P.png"
+            bannerUserNamecard = await imagSize(link = linkImgCard,size = (601,283))
+        except:
+            linkImgCard = f"https://enka.network/ui/UI_NameCardPic_{nameCharter}1_P.png"
+            bannerUserNamecard = await imagSize(link = linkImgCard,size = (601,283))
     bannerUserNamecard = bannerUserNamecard.crop((0, 32, 601, 255))
     defoldBgNamecard = openFile.infoUserBgTeampleTwo.copy()
     maskaBannerNamecard = openFile.infoUserMaskaTeampleTwo.copy().convert('L')
     defoldBgNamecard = Image.composite(defoldBgNamecard, bannerUserNamecard, maskaBannerNamecard)
     frameUserNamecard = openFile.infoUserFrameTeampleTwo.copy()
-    defoldBgNamecard.paste(openFile.infoUserFrameBannerTeampleTwo,(0,0),openFile.infoUserFrameBannerTeampleTwo)
+    defoldBgNamecard.alpha_composite(openFile.infoUserFrameBannerTeampleTwo,(0,0))
     avatar = await imagSize(link = player.avatar.icon.url,size = (150,150))
     avatar = Image.composite(frameUserNamecard, avatar, openFile.infoUserMaskaAvatarTeampleTwo.convert('L'))
-    frameUserNamecard.paste(avatar,(0,0),avatar)
+    frameUserNamecard.alpha_composite(avatar,(0,0))
     d = ImageDraw.Draw(frameUserNamecard)
     centrName,fonts = await  centrText(player.nickname, witshRam = 150, razmer = 19, start = 0)
     d.text((centrName,155), player.nickname, font= fonts, fill=coloring)
@@ -305,7 +319,7 @@ async def creatUserInfo(hide,uid,player,lang, nameCharter = None, namecard = Fal
         d.text((205,3), "Hidden", font= fontSize(17), fill=coloring)
     else:
         d.text((205,3), str(uid), font= fontSize(17), fill=coloring)
-    defoldBgNamecard.paste(frameUserNamecard,(17,21),frameUserNamecard)
+    defoldBgNamecard.alpha_composite(frameUserNamecard,(17,21))
     
     return defoldBgNamecard
 
@@ -314,25 +328,25 @@ def addConst(frameConst,constantRes):
     bgConstant = openFile.ConstantBG.copy()
 
     for key in constantRes:
-        bgConstant.paste(key ,(position[0],position[1]),key)
+        bgConstant.alpha_composite(key ,(position[0],position[1]))
         position = (position[0]+87,position[1])
-    frameConst.paste(bgConstant ,(698 ,899),bgConstant)
+    frameConst.alpha_composite(bgConstant ,(698 ,899))
     return frameConst
 
 def addTallants(frameTallants,talatsRes):
     position = (49,0)
     bgTallatns = openFile.TalantsBGTeampleTwo.copy()
     for key in talatsRes:
-        bgTallatns.paste(key ,(position[0],position[1]),key)
+        bgTallatns.alpha_composite(key ,(position[0],position[1]))
         position = (position[0]+90,position[1])
 
-    frameTallants.paste(bgTallatns ,(851  ,826),bgTallatns)
+    frameTallants.alpha_composite(bgTallatns ,(851  ,826))
     return frameTallants
 
 def addArtifact(frameArtifact,artifacRes):
     position = (1455 ,290)
     for key in artifacRes:
-        frameArtifact.paste(key ,(position[0],position[1]),key)
+        frameArtifact.alpha_composite(key ,(position[0],position[1]))
         position = (position[0],position[1]+140)
     return frameArtifact
 
@@ -341,33 +355,33 @@ def appedFrame(frame,weaponRes,nameRes,statRes,constantRes,talatsRes,artifacRes,
     banner = addTallants(banner,talatsRes)
     banner = addArtifact(banner,artifacRes)
     banner = frame
-    banner.paste(starsRes ,(964,710),starsRes)
-    banner.paste(nameRes ,(889,746),nameRes)
-    banner.paste(elementRes ,(893,990),elementRes)
-    banner.paste(signatureRes ,(27,67),signatureRes)
-    banner.paste(statRes ,(30,302),statRes)
+    banner.alpha_composite(starsRes ,(964,710))
+    banner.alpha_composite(nameRes ,(889,746))
+    banner.alpha_composite(elementRes ,(893,990))
+    banner.alpha_composite(signatureRes ,(27,67))
+    banner.alpha_composite(statRes ,(30,302))
     if artifactSet:
-        banner.paste(artifactSet ,(27,839),artifactSet)
-    banner.paste(weaponRes ,(1455 ,65),weaponRes)
-    banner.paste(openFile.SignatureTwo ,(1583 ,992),openFile.SignatureTwo)
+        banner.alpha_composite(artifactSet ,(27,839))
+    banner.alpha_composite(weaponRes ,(1455 ,65))
+    banner.alpha_composite(openFile.SignatureTwo ,(1583 ,992))
     return banner
 
 
 async def generationTwo(characters,assets,img,adapt,signatureRes,lvl, splash):
     person = assets.character(characters.id)
     starsRes = starsAdd(person)
-    elementRes = elementIconPanel(person.element.value)
+    elementRes = elementIconPanel(characters.element.value)
     tassk = []
     if splash:
-        tassk.append(create_picture(person,img,adapt,characters.image.banner.url))
+        tassk.append(create_picture(person,characters.element.value,img,adapt,characters.image.banner.url))
     else:
-        tassk.append(create_picture(person,img,adapt))
+        tassk.append(create_picture(person,characters.element.value,img,adapt))
     tassk.append(weaponAdd(characters.equipments[-1],lvl))
     tassk.append(nameBanner(characters,lvl))
     tassk.append(stats(characters,assets))
-    tassk.append(constant(characters,person))
+    tassk.append(constant(characters))
     tassk.append(talants(characters))
     tassk.append(artifacAdd(characters))
     ec = await asyncio.gather(*tassk)
-    result = appedFrame(ec[0],ec[1],ec[2],ec[3],ec[4],ec[5],ec[6]["art"],ec[6]["nab"],signatureRes,elementRes,starsRes)
+    result = appedFrame(ec[0].convert("RGBA"),ec[1],ec[2],ec[3],ec[4],ec[5],ec[6]["art"],ec[6]["nab"],signatureRes,elementRes,starsRes)
     return result

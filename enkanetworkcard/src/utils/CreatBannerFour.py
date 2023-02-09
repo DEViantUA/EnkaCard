@@ -5,47 +5,99 @@ from .Generation import *
 from .FunctionsPill import imgD,imagSize,centrText
 from .options import *
 from . import openFile
+import operator as op
 
+positionStatsIcon = [
+    (129,14),
+    (125,44),
+    (123,73),
+    (121,103),
+    (119,133),
+    (116,163), 
+    (112,193),
+    (109,223),
+    (106,253)
+]    
+    
 
+positionStatsText = [
+    (168,16),
+    (164,45),
+    (162,75),
+    (160,105),
+    (158,135),
+    (155,165),
+    (151,195),
+    (148,225),
+    (145,255)
+]
 
-class Mini:
+positionArtifactIcon = [
+    (406,2),
+    (406,28),
+    (517,2),
+    (517,28),
+]
 
-    positionTalantsFrame= [
+positionArtifactText = [
+    (429,4),
+    (429,28),
+    (540,4),
+    (540,28),
+]
+
+positionArtifact = [
+            (21,110),(14,167),(10,227),(3,287),(0,346)
+        ]
+positionResultat = [
+    (13,139),(699,139),(1378,139),(2059,139)
+]
+
+positionTalantsFrame= [
         (290,270),
         (283,331),
         (276,398)
     ]
 
-    positionTalantsIcon= [
-        (304,272),
-        (297,333),
-        (290,400)
-    ]
+positionTalantsIcon= [
+    (304,272),
+    (297,333),
+    (290,400)
+]
 
-    positionTalantsText= [
-        (316,312),
-        (309,373),
-        (302,440)
-    ]
+positionTalantsText= [
+    (316,311),
+    (309,372),
+    (302,439)
+]
 
 
-    positionConstFrame = [
-        (45,104),
-        (41,166),
-        (36,225),
-        (29,283),
-        (24,342),
-        (16,400)
-    ]
+positionConstFrame = [
+    (45,104),
+    (41,166),
+    (36,225),
+    (29,283),
+    (24,342),
+    (16,400)
+]
 
-    positionConstIcon = [
-        (59,119),
-        (56,181),
-        (50,240),
-        (44,298),
-        (38,357),
-        (31,416)
+positionConstIcon = [
+    (59,119),
+    (56,181),
+    (50,240),
+    (44,298),
+    (38,357),
+    (30,416)
+]
+
+positionC = [
+        (108,241),(495,241),(882,241),(1269,241),
     ]
+positionW = [
+(166,139),(555,139),(944,139),(1333,139),
+]
+
+class Mini:
 
     def open_bg_element(self,element):
         if element == "Fire":
@@ -93,29 +145,32 @@ class Mini:
         return imgs.copy()
 
 
-    async def weapon(self,info, nameCharter,element):
+    async def weapon(self,info, nameCharter,element,lvl):
         bg = openFile.WEAPON_BG.copy()
         bgTwo = bg.copy()
-        linkImgCard = f"https://enka.network/ui/UI_NameCardPic_{nameCharter}_P.png"
-        bannerUserNamecard = await imagSize(link = linkImgCard,size = (339,161))
+        nameCharter = nameCharter.split("Costume")[0]
+        if nameCharter in ["PlayerGirl","PlayerBoy"]:
+            linkImgCard = "https://api.ambr.top/assets/UI/namecard/UI_NameCardPic_0_P.png"
+        else:
+            linkImgCard = f"https://enka.network/ui/UI_NameCardPic_{nameCharter}_P.png"
+        try:
+            bannerUserNamecard = await imagSize(link = linkImgCard,size = (339,161))
+        except:
+            linkImgCard = f"https://enka.network/ui/UI_NameCardPic_{nameCharter}1_P.png"
+            bannerUserNamecard = await imagSize(link = linkImgCard,size = (339,161))
         bg.alpha_composite(bannerUserNamecard,(0,-27))
 
-        #bg.paste(bannerUserNamecard,(0,-27),bannerUserNamecard)
         bg.alpha_composite(openFile.WEAPON_GRANDIENT,(0,0))
 
-        #bg.paste(openFile.WEAPON_GRANDIENT,(0,0),openFile.WEAPON_GRANDIENT)
         bg = Image.composite(bgTwo, bg,openFile.MASKA_WEAPON.convert("L"))
         frame = self.open_frame_weapon_element(element)
         bg.alpha_composite(frame,(0,0))
-        #bg.paste(frame,(0,0),frame)
         bg.alpha_composite(openFile.WEAPON_FRAME,(0,0))
-        #bg.paste(openFile.WEAPON_FRAME,(0,0),openFile.WEAPON_FRAME)
         image = await imagSize(link = info.detail.icon.url,size = (76,80))
         bg.alpha_composite(image,(18,4))
-        #bg.paste(image,(18,4),image)
 
         name = info.detail.name
-        lvl = f"Уровень: {info.level}/90"
+        lvl = f"{lvl}: {info.level}/90"
         lvlUp = f"R{info.refinement}"
         baseAtt = info.detail.mainstats.value
         imageStats = None
@@ -124,8 +179,8 @@ class Mini:
 
         d = ImageDraw.Draw(bg)
         centrName,fonts = await centrText(name, witshRam = 236, razmer = 15, start = 97) 
-        d.text((centrName,11), str(name), font= fonts, fill=coloring)
-        d.text((centrName,11), str(name), font= fonts, fill=coloring)
+        d.text((centrName,10), str(name), font= fonts, fill=coloring)
+        d.text((centrName,10), str(name), font= fonts, fill=coloring)
         d.text((137,39), str(baseAtt), font= fontSize(14), fill=coloring)
 
         for substate in info.detail.substats:
@@ -136,7 +191,7 @@ class Mini:
             if str(substate.type) == "DigitType.PERCENT":
                 proc = True
         if imageStats:
-            bg.paste(imageStats,(218,37),imageStats)
+            bg.alpha_composite(imageStats,(218,37))
 
         if proc:
             d.text((240,39), f"{dopStat}%", font= fontSize(14), fill=coloring)
@@ -149,7 +204,6 @@ class Mini:
 
         stars = star(info.detail.rarity)
         bg.alpha_composite(stars,(9,67))
-        #bg.paste(stars,(9,67),stars)
 
         return bg
 
@@ -161,26 +215,20 @@ class Mini:
         talantsBg = talantsBg.resize((62,61))
         for key in characters.skills:
             if key.level > 9:
-                bg.alpha_composite(talantsBgGold,self.positionTalantsFrame[i])
-                bg.alpha_composite(talantsBgGold,self.positionTalantsFrame[i])
+                bg.alpha_composite(talantsBgGold,positionTalantsFrame[i])
             else:
-                bg.alpha_composite(talantsBg,self.positionTalantsFrame[i])
-                bg.alpha_composite(talantsBg,self.positionTalantsFrame[i])
+                bg.alpha_composite(talantsBg,positionTalantsFrame[i])
 
             imagesIconTalants = await imgD(link = key.icon.url)
             imagesIconTalants = imagesIconTalants.resize((34,34))
-            bg.alpha_composite(imagesIconTalants, self.positionTalantsIcon[i])
-            bg.alpha_composite(imagesIconTalants, self.positionTalantsIcon[i])
-
-            #bg.paste(imagesIconTalants, self.positionTalantsIcon[i],imagesIconTalants)
-            #bg.paste(imagesIconTalants, self.positionTalantsIcon[i],imagesIconTalants)
+            bg.alpha_composite(imagesIconTalants, positionTalantsIcon[i])
 
             d = ImageDraw.Draw(bg)
             
             if len(str(key.level)) == 2:
-                d.text(self.positionTalantsText[i], str(key.level), font = fontSize(14), fill=coloring)
+                d.text((positionTalantsText[i][0]-1,positionTalantsText[i][1]), str(key.level), font = fontSize(14), fill=(250,188,87,255))
             else:
-                d.text(self.positionTalantsText[i], str(key.level), font = fontSize(14), fill=coloring)
+                d.text(positionTalantsText[i], str(key.level), font = fontSize(14), fill=coloring)
             i += 1
         return bg
 
@@ -197,100 +245,47 @@ class Mini:
             imageIcon = imageIcon.resize((32,32))
 
             if not key.unlocked:
-                bg.alpha_composite(closedConstBg, self.positionConstFrame[i])
-                bg.alpha_composite(imageIcon, self.positionConstIcon[i])
-                bg.alpha_composite(closeImg,  self.positionConstIcon[i])
-
-                #bg.paste(closedConstBg, self.positionConstFrame[i],closedConstBg)
-                #bg.paste(imageIcon, self.positionConstIcon[i],imageIcon)
-                #bg.paste(closeImg,  self.positionConstIcon[i],closeImg)
+                bg.alpha_composite(closedConstBg, positionConstFrame[i])
+                bg.alpha_composite(imageIcon, positionConstIcon[i])
+                bg.alpha_composite(closeImg,  positionConstIcon[i])
             else:
-                bg.alpha_composite(openConstBg, self.positionConstFrame[i])
-                bg.alpha_composite(imageIcon, self.positionConstIcon[i])
-                #bg.paste(openConstBg, self.positionConstFrame[i],openConstBg)
-                #bg.paste(imageIcon, self.positionConstIcon[i],imageIcon)
+                bg.alpha_composite(openConstBg, positionConstFrame[i])
+                bg.alpha_composite(imageIcon, positionConstIcon[i])
             i += 1
         return await self.talants(bg,characters)
 
-    async def creat_bg(self,rarity,element,link,characters,lvl):
+    async def creat_bg(self,rarity,element,link,characters,lvl, chartImg):
         bg,frame = self.open_bg_element(element)
         bgTwo = bg.copy()
-        image = await imagSize(link,size = (2048,1024))
-        bg.paste(image,(-830,-132),image)
+        if chartImg != None:
+            image,posX = centryImage(chartImg, teample = 4)
+            bg.alpha_composite(image,(posX,0))
+        else:
+            image = await imagSize(link,size = (2048,1024))
+            bg.alpha_composite(image,(-830,-132))
         bg.alpha_composite(openFile.GRANDIENT_BG,(0,0))
-        #bg.paste(openFile.GRANDIENT_BG,(0,0),openFile.GRANDIENT_BG)
         bg.alpha_composite(frame,(0,0))
-        #bg.paste(frame,(0,0),frame)
         bg = Image.composite(bgTwo, bg,openFile.MASKA_BG.convert("L"))
         imgStar = self.starCharter(rarity)
         bg.alpha_composite(imgStar,(150,7))
-        #bg.paste(imgStar,(150,7),imgStar)
-        bg.alpha_composite(openFile.FRENDS,(155,537))
-        #bg.paste(openFile.FRENDS,(155,537),openFile.FRENDS)
         iconElement = elementIconPanel(element)
         bg.alpha_composite(iconElement,(24,573))
-        #bg.paste(iconElement,(24,573),iconElement)
 
         #==================================================
 
         d = ImageDraw.Draw(bg)
         centrName,fonts = await centrText(characters.name, witshRam = 326, razmer = 30,start = 14)
-        d.text((centrName,474), str(characters.name), font= fonts, fill=coloring)
-        lvlText = f"{lvl}: {characters.level}/90"
-        centrName,fonts = await centrText(lvlText, witshRam = 151, razmer = 16,start = 101)
-        d.text((centrName,515), lvlText, font= fonts, fill=coloring)
-        d.text((181,541), str(characters.friendship_level), font = fontSize(20), fill=coloring)
-        
+        d.text((centrName,500), str(characters.name), font= fonts, fill=coloring)
+        lvlText = f"{lvl}: {characters.level}/90 |"
+        centrName,fonts = await centrText(lvlText, witshRam = 151, razmer = 17,start = 75)
+        d.text((centrName,543), lvlText, font= fonts, fill=coloring)
+        positionIconFriends = centrName + fonts.getsize(lvlText)[0] + 7
 
-        #bg.show()
+        d.text((positionIconFriends+27,540), str(characters.friendship_level), font = fontSize(20), fill=coloring)
+        bg.alpha_composite(openFile.FRENDS,(positionIconFriends,536))
         bg = await self.addConstant(bg,characters,element)
         return bg
 
-
-
-positionStatsIcon = [
-    (135,23),
-    (130,54),
-    (128,85),
-    (124,116),
-    (120,147),
-    (117,178), 
-    (114,209),
-    (111,240)
-]    
-    
-
-positionStatsText = [
-    (174,25),
-    (169,56),
-    (167,87),
-    (163,118),
-    (159,149),
-    (156,180),
-    (153,211),
-    (150,242)
-]
-
-positionArtifactIcon = [
-    (406,2),
-    (406,28),
-    (517,2),
-    (517,28),
-]
-
-positionArtifactText = [
-    (429,1),
-    (429,25),
-    (540,1),
-    (540,25),
-]
-
-positionArtifact = [
-            (21,110),(14,167),(10,227),(3,287),(0,346)
-        ]
-positionResultat = [
-    (13,139),(699,139),(1378,139),(2059,139)
-]
 
 def open_frame_element(element, artifact = False):
     if artifact:
@@ -326,34 +321,40 @@ def open_frame_element(element, artifact = False):
         elif element == "Ice":
             return openFile.CRYO_STAT.copy()
         else:
-            return  openFile.PYRO_STAT.copy()
+            return openFile.PYRO_STAT.copy()
 
 
 async def stats(g,AttributeBg):
-    maxStat = 0
-    elementUp = None
+    elementUp = True
     d = ImageDraw.Draw(AttributeBg)
     i = 0
-    for key in reversed(list(g)):
-        
-        if key[1].value == 0:
+
+    for key in g:
+        if key[1].id in [2000,2001,2002]:
+            iconImg = getIconAdd(key[0])
+            icon = await imagSize(image = iconImg,fixed_width = 22)
+            AttributeBg.alpha_composite(icon,positionStatsIcon[i])
+            if not key[1].id in stat_perc:
+                value = str(math.ceil(key[1].value))
+            else:
+                value = f"{round(key[1].value * 100, 1)}%"
+            d.text(positionStatsText[i], value, font = fontSize(20), fill=coloring)
+            i += 1
+
+    for key in g:
+        if key[1].id in [40,41,42,43,44,45,46]:
+            if elementUp:
+                key = max((x for x in g if 40 <= x[1].id <= 46), key=lambda x: x[1].value)
+                elementUp = False
+            else:
+                continue
+        if key[1].value == 0 or key[1].id in [2000,2001,2002]:
             continue
         iconImg = getIconAdd(key[0])
         if not iconImg:
             continue
-        if key[1].id in [40,41,42,43,44,45,46]:
-            if key[1].value > maxStat:
-                elementUp = key
-                maxStat = key[1].value
-            if key[1].id == 40:
-                key = elementUp
-            else:
-                continue
-       
-        
-        icon = await imagSize(image = iconImg,fixed_width = 26)
-
-        AttributeBg.paste(icon, positionStatsIcon[i],icon)
+        icon = await imagSize(image = iconImg,fixed_width = 22)
+        AttributeBg.alpha_composite(icon, positionStatsIcon[i])
         if not key[1].id in stat_perc:
             value = str(math.ceil(key[1].value))
         else:
@@ -377,12 +378,13 @@ async def creatArtifact(infpart,ArtifactBg,imageStats):
     else:
         val = infpart.detail.mainstats.value
     centrName,fonts = await centrText(val, witshRam = 34, razmer = 10, start = 39)
-    d.text((centrName,11), str(val), font= fonts, fill=coloring)
-    ArtifactBg.paste(imageStats,(6,3),imageStats)
+    d.text((centrName,11), str(val), font= fonts, fill=(0,0,0,0))
+    d.text((centrName,10), str(val), font= fonts, fill=coloring)
+    ArtifactBg.alpha_composite(imageStats,(6,3))
 
     d.text((47,26), str(infpart.level), font= fontSize(12), fill=coloring)
     starsImg = star(infpart.detail.rarity).resize((45,13))
-    ArtifactBg.paste(starsImg,(7,37),starsImg)
+    ArtifactBg.alpha_composite(starsImg,(7,37))
     i = 0
 
     for key in infpart.detail.substats:
@@ -393,9 +395,9 @@ async def creatArtifact(infpart,ArtifactBg,imageStats):
         if not imageStats:
             continue
         imageStats= await imagSize(image = imageStats,fixed_width = 17)
-        ArtifactBg.paste(imageStats,positionArtifactIcon[i],imageStats)
+        ArtifactBg.alpha_composite(imageStats,positionArtifactIcon[i])
 
-        d.text(positionArtifactText[i], v, font= fontSize(15), fill=coloring)
+        d.text(positionArtifactText[i], v, font= fontSize(16), fill=coloring)
         i += 1
     return ArtifactBg
 
@@ -414,47 +416,52 @@ async def artifactAdd(characters,element):
     
 async def generationFour(items,assets,lang, mini = True, userName = "User", uid = "UID: Hide"):
     if mini:
-        BGT = openFile.ALL_BG.copy()
-        positionC = [
-            (108,241),(495,241),(882,241),(1269,241),
-        ]
-        positionW = [
-            (166,139),(555,139),(944,139),(1333,139),
-        ]
+        BGT = openFile.ALL_BG.copy().convert("RGBA")
+        if len(items) == 3:
+            BGT = BGT.crop((0,0,1416,997))
+        elif len(items) == 2:
+            BGT = BGT.crop((0,0,1051,997))
+        elif len(items) == 1:
+            BGT = BGT.crop((0,0,623,997))
         ran = 0
         for characters in items:
+            charactersImg = characters[1]
+            characters = characters[0]
             task = []
             person = assets.character(characters.id)
-            task.append(Mini().creat_bg(person.rarity,person.element.value,person.images.banner.url,characters,lang["lvl"]))
-            #charter = await Mini().creat_bg(person.rarity,person.element.value,person.images.banner.url,characters,lang["lvl"])
-            task.append(Mini().weapon(characters.equipments[-1],characters.image.icon.filename.replace("CostumeFloral","").split("AvatarIcon_")[1],person.element.value))
-            #weaponR = await Mini().weapon(characters.equipments[-1],characters.image.icon.filename.replace("CostumeFloral","").split("AvatarIcon_")[1],person.element.value)
+            task.append(Mini().creat_bg(person.rarity,characters.element.value,person.images.banner.url,characters,lang["lvl"],charactersImg))
+            task.append(Mini().weapon(characters.equipments[-1],characters.image.icon.filename.replace("CostumeFloral","").split("AvatarIcon_")[1],characters.element.value,lang["lvl"]))
             ec = await asyncio.gather(*task)
-            BGT.paste(ec[0],(positionC[ran][0],positionC[ran][1]),ec[0])
-            BGT.paste(ec[1],(positionW[ran][0],positionW[ran][1]),ec[1])
+            BGT.alpha_composite(ec[0],(positionC[ran][0],positionC[ran][1]))
+            BGT.alpha_composite(ec[1],(positionW[ran][0],positionW[ran][1]))
             ran += 1
         d = ImageDraw.Draw(BGT)
         d.text((77,901), str(userName), font= fontSize(26), fill=coloring)
         d.text((77,935), str(uid), font= fontSize(26), fill=coloring)
 
     else:
-        BGT = openFile.BG_MAX_ALL.copy()
+        BGT = openFile.BG_MAX_ALL.copy().convert("RGBA")
+        if len(items) == 3:
+            BGT = BGT.crop((0,0,2047,997))
+        elif len(items) == 2:
+            BGT = BGT.crop((0,0,1355,997))
+        elif len(items) == 1:
+            BGT = BGT.crop((0,0,678,997))
+
         result = []
         for characters in items:
+            charactersImg = characters[1]
+            characters = characters[0]
             BGT_O = openFile.BG_MAX_TEAMPLE.copy()
             i = 0
             person = assets.character(characters.id)
             task = []
-            task.append(Mini().creat_bg(person.rarity,person.element.value,person.images.banner.url,characters,lang["lvl"]))
-            #charter = await Mini().creat_bg(person.rarity,person.element.value,person.images.banner.url,characters,lang["lvl"])
-            task.append(Mini().weapon(characters.equipments[-1],characters.image.icon.filename.replace("CostumeFloral","").split("AvatarIcon_")[1],person.element.value))
-            #weaponR = await Mini().weapon(characters.equipments[-1],characters.image.icon.filename.replace("CostumeFloral","").split("AvatarIcon_")[1],person.element.value)
-            statBg = open_frame_element(person.element.value)
+            task.append(Mini().creat_bg(person.rarity,characters.element.value,person.images.banner.url,characters,lang["lvl"],charactersImg))
+            task.append(Mini().weapon(characters.equipments[-1],characters.image.icon.filename.replace("CostumeFloral","").split("AvatarIcon_")[1],characters.element.value,lang["lvl"]))
+            statBg = open_frame_element(characters.element.value)
 
             task.append(stats(characters.stats,statBg))
-            #statsInfo = await stats(characters.stats,statBg)
-            task.append(artifactAdd(characters,person.element.value))
-            #artBg = await artifactAdd(characters,person.element.value)
+            task.append(artifactAdd(characters,characters.element.value))
 
             ec = await asyncio.gather(*task)
 
@@ -467,8 +474,9 @@ async def generationFour(items,assets,lang, mini = True, userName = "User", uid 
             BGT_O.alpha_composite(ec[0],(35,102))
             result.append(BGT_O)
         i = 0
+        
         for key in result:
-            BGT.paste(key,(positionResultat[i]),key)
+            BGT.alpha_composite(key,(positionResultat[i]))
             i += 1            
 
         d = ImageDraw.Draw(BGT)
