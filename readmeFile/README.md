@@ -13,8 +13,8 @@ An asynchronous module and API that allows you to connect to your bot the genera
 :white_medium_square: Customization of all cards with background adaptation.
 
 ## Full Documentation:
-  - [Documentation EnkanetworkCard](https://deviantua.github.io/EnkaNetworkCard-Documentation/) 
-  - [API](https://deviantua.github.io/EnkaNetworkCard-Documentation/async/Other/api/)
+  - [Documentation EnkanetworkCard](https://deviantua.github.io/EnkaCard-Documentation/) 
+  - [API](https://deviantua.github.io/EnkaCard-Documentation/async/Other/api/)
   - [Little Kazuha](https://discord.gg/TwuBfDbE) - Discord Bot, which perfectly demonstrates the work of the module. Just use the ```/profile``` command
 
 ## Installation:
