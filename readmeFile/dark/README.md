@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://github.com/DEViantUA/ReadEnka/blob/main/BannerCard.png?raw=trueg" alt="Баннер"/>
+ <img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/BannerCard.png?raw=true" alt="Баннер"/>
 </p>
 
 ____
