@@ -8,9 +8,9 @@ ____
 
 ## EnkaCard 
 An asynchronous module and API that allows you to connect to your bot the generation of Genshin character cards from the Enka.Network website. <br><br>
-:white_medium_square: 5 templates to choose from.<br>
-:white_medium_square: 2 profile templates.<br>
-:white_medium_square: Customization of all cards with background adaptation.
+* 5 templates to choose from.<br>
+* 2 profile templates.<br>
+* Customization of all cards with background adaptation.
 
 ## Full Documentation:
   - [Documentation EnkanetworkCard](https://deviantua.github.io/EnkaCard-Documentation/) 
