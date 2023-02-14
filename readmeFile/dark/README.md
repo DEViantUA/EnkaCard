@@ -19,12 +19,12 @@ An asynchronous module and API that allows you to connect to your bot the genera
 
 ## Installation:
 ```
-pip install aioenkanetworkcard
+pip install enkacard.py
 ```
 
 ## Launch:
 ``` python
-from aioenkanetworkcard import encbanner
+from enkacard import encbanner
 import asyncio
 
 async def card():
