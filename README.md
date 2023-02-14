@@ -1,44 +1,30 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/banner.jpg" alt="Баннер"/>
+ <img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/BannerCard.png?raw=true" alt="Баннер"/>
 </p>
 
-**<p align="center"> <a href="https://github.com/DEViantUA/EnkaNetworkCard/wiki/EnkaNetworkCard-RU">Русская версия</a> | <a href="https://github.com/DEViantUA/EnkaNetworkCard/tree/main/Example">Example</a> | <a href = "https://discord.gg/xq5EXu94"> Discord <a> </p>**
+____
+<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/Shablon_01.png?raw=true" width = 38% alt="Баннер"/>[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_02.png?raw=true" width = 6% alt="Баннер"/>](https://pypi.org/project/enkacard/) [<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_03.png?raw=true" width = 7% alt="Баннер"/>](https://discord.gg/shRUCDt4)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_04.png?raw=true" width = 7% alt="Баннер"/>](https://github.com/DEViantUA/EnkaCard)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_05.png?raw=true" width = 6% alt="Баннер"/>](https://enka.network/)
+____
 
-# EnkaNetworkCard
-Wrapper for [EnkaNetwork.py](https://github.com/mrwan200/EnkaNetwork.py) to create character cards in Python.
+## EnkaCard
+An asynchronous module and API that allows you to connect to your bot the generation of Genshin character cards from the Enka.Network website. <br><br>
+:white_medium_square: 5 templates to choose from.<br>
+:white_medium_square: 2 profile templates.<br>
+:white_medium_square: Customization of all cards with background adaptation.
 
 ## Full Documentation:
-
-EN: 
-  - [Documentation EnkanetworkCard](https://deviantua.github.io/EnkaNetworkCard-Documentation/) 
-  - [API](https://deviantua.github.io/EnkaNetworkCard-Documentation/async/Other/api/) 
-
-## Navigation
-* Installation
-* Dependencies
-* Launch
-* Languages Supported
-* Sample Results
+  - [Documentation EnkaCard](https://deviantua.github.io/EnkaCard-Documentation/) 
+  - [API](https://deviantua.github.io/EnkaCard-Documentation/async/Other/api/)
+  - [Little Kazuha](https://discord.gg/TwuBfDbE) - Discord Bot, which perfectly demonstrates the work of the module. Just use the ```/profile``` command
 
 ## Installation:
 ```
-pip install aioenkanetworkcard
+pip install enkacard
 ```
-
-### Dependencies:
-  Dependencies that must be installed for the library to work:
-  * Pillow
-  * requests
-  * io
-  * math
-  * datetime
-  * random
-  * enkanetwork
-  * logging
 
 ## Launch:
 ``` python
-from aioenkanetworkcard import encbanner
+from enkacard import encbanner
 import asyncio
 
 async def card():
@@ -51,36 +37,61 @@ result = asyncio.run(card())
 print(result)
 ```
 ## Languages Supported
-| Languege    |  Code   | Languege    |  Code   |
-|-------------|---------|-------------|---------|
-|  English    |     en  |  русский    |     ru  |
-|  Tiếng Việt |     vi  |  ไทย        |     th  |
-|  português  |     pt  | 한국어      |     kr  |
-|  日本語      |     jp  | 中文        |     zh  |
-|  中文        |     zh  | Indonesian |     id  |
-|  français   |     fr  | español    |     es  |
-|  deutsch    |     de  | Taiwan     |    cht  |
-|  Chinese    |    chs  |      |      |
+| Languege    |  Code   | Languege    |  Code   | Languege    |  Code   |
+|-------------|---------|-------------|---------|-------------|---------|
+|  English    |     en  |  русский    |     ru  |  Chinese    |    chs  |
+|  Tiếng Việt |     vi  |  ไทย        |     th  | Taiwan     |    cht  |
+|  português  |     pt  | 한국어      |     kr  | deutsch    |     de  |
+|  日本語      |     jp  | 中文        |     zh  | español    |     es  |
+|  中文        |     zh  | Indonesian |     id  | français   |     fr  |
+
 
 ## Sample Results:
+<details>
+<summary>Sample 1 template</summary>
+ 
+[![Adaptation][1]][1]
+ 
+[1]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/7.png?raw=true
+
+[![Without Adaptation][2]][2]
+ 
+[2]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/6.png?raw=true
+</details>
 
 
-### The result of a custom images and adaptation (template= 1).
-<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example1.png" width='300' alt="Example1"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example2.png" width='300' alt="Example2"/> 
-
-### Usual result (template= 1).
-<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example3.png" width='300' alt="Example3"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example4.png" width='300' alt="Example4"/> 
-
-### The result of a custom images and adaptation (template= 2).
-<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example5.png.png" width='300' alt="namecard = True"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example6.png.png" width='300' alt="namecard = False"/> 
-
-### Usual result (template= 2).
-<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example8.png.png" width='300' alt="namecard = True"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example7.png.png" width='300' alt="namecard = False"/> 
+<details>
+<summary>Sample 2 template</summary>
+ 
+[![Adaptation][3]][3]
+ 
+[3]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/4.png?raw=true
+  
+</details>
 
 
-### Usual result (template= 3).
-<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Венти_11_12_2022 17_15.png" width='300' alt="namecard = True"/> <img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Чжун%20Ли_11_12_2022%2017_15.png" width='300' alt="namecard = False"/> 
+<details>
+<summary>Sample 3 template</summary>
+ 
+[![Adaptation][4]][4]
+ 
+[4]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/5.png?raw=true
+ 
+</details>
 
-### Usual result (template= 4).
-<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example9.png" width='500' alt="MINI_VERSIA = True"/> 
-<img src="https://raw.githubusercontent.com/DEViantUA/EnkaNetworkCard/main/img/Example10.png" alt="MAX_VERSIA = False"/> 
+<details>
+<summary>Sample 4 template</summary>
+ 
+[![Without Adaptation MINI INFO][5]][5]
+ 
+[5]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/1.png?raw=true
+ 
+[![Without Adaptation FULL INFO][6]][6]
+ 
+[6]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/2.png?raw=true
+ 
+[![Adaptation MINI INFO][7]][7]
+ 
+[7]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/3.png?raw=true
+ 
+</details>
