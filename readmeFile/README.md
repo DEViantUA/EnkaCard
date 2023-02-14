@@ -24,7 +24,7 @@ pip install enkacard.py
 
 ## Launch:
 ``` python
-from enkacard.py import encbanner
+from enkacard import encbanner
 import asyncio
 
 async def card():
