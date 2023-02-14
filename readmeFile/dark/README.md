@@ -52,11 +52,11 @@ print(result)
  
 [![Adaptation][1]][1]
  
-[1]: https://github.com/DEViantUA/ReadEnka/blob/main/7.png?raw=true
+[1]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/7.png?raw=true
 
 [![Without Adaptation][2]][2]
  
-[2]: https://github.com/DEViantUA/ReadEnka/blob/main/6.png?raw=true
+[2]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/6.png?raw=true
 </details>
 
 
@@ -65,7 +65,7 @@ print(result)
  
 [![Adaptation][3]][3]
  
-[3]: https://github.com/DEViantUA/ReadEnka/blob/main/4.png?raw=true
+[3]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/4.png?raw=true
   
 </details>
 
@@ -75,7 +75,7 @@ print(result)
  
 [![Adaptation][4]][4]
  
-[4]: https://github.com/DEViantUA/ReadEnka/blob/main/5.png?raw=true
+[4]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/5.png?raw=true
  
 </details>
 
@@ -84,14 +84,15 @@ print(result)
  
 [![Without Adaptation MINI INFO][5]][5]
  
-[5]: https://github.com/DEViantUA/ReadEnka/blob/main/1.png?raw=true
+[5]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/1.png?raw=true
  
 [![Without Adaptation FULL INFO][6]][6]
  
-[6]: https://github.com/DEViantUA/ReadEnka/blob/main/2.png?raw=true
+[6]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/2.png?raw=true
  
 [![Adaptation MINI INFO][7]][7]
  
-[7]: https://github.com/DEViantUA/ReadEnka/blob/main/3.png?raw=true
+[7]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/3.png?raw=true
  
 </details>
+
