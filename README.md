@@ -3,14 +3,14 @@
 </p>
 
 ____
-<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/Shablon_01.png?raw=true" width = 38% alt="Баннер"/>[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_02.png?raw=true" width = 6% alt="Баннер"/>](https://pypi.org/project/enkacard/) [<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_03.png?raw=true" width = 7% alt="Баннер"/>](https://discord.gg/shRUCDt4)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_04.png?raw=true" width = 7% alt="Баннер"/>](https://github.com/DEViantUA/EnkaCard)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_05.png?raw=true" width = 6% alt="Баннер"/>](https://enka.network/)
+<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/Shablon_01.png?raw=true" width = 38% alt="Баннер"/>[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_02.png?raw=true" width = 6% alt="Баннер"/>](https://pypi.org/project/enkacard/)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_03.png?raw=true" width = 7% alt="Баннер"/>](https://discord.gg/shRUCDt4)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_04.png?raw=truee" width = 7% alt="Баннер"/>](https://github.com/DEViantUA/EnkaCard)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_05.png?raw=true" width = 6% alt="Баннер"/>](https://enka.network/)
 ____
 
-## EnkaCard
+## EnkaCard 
 An asynchronous module and API that allows you to connect to your bot the generation of Genshin character cards from the Enka.Network website. <br><br>
-:white_medium_square: 5 templates to choose from.<br>
-:white_medium_square: 2 profile templates.<br>
-:white_medium_square: Customization of all cards with background adaptation.
+* 5 templates to choose from.<br>
+* 2 profile templates.<br>
+* Customization of all cards with background adaptation.
 
 ## Full Documentation:
   - [Documentation EnkaCard](https://deviantua.github.io/EnkaCard-Documentation/) 
@@ -95,3 +95,4 @@ print(result)
 [7]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/3.png?raw=true
  
 </details>
+

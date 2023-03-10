@@ -1,17 +1,20 @@
 [tool.poetry]
-name = "enkanetworkcard"
-version = "0.1.2"
-description = "Wrapper module for enkanetwork.py for creating character cards."
+name = "enkacard"
+version = "1.1.4"
+description = "An asynchronous module and API that allows you to connect to your bot the generation of Genshin character cards from the Enka.Network website."
 authors = ["None"]
+
+readme = 'README.md'  # Markdown files are supported
 
 repository = "https://github.com/DEViantUA/Enka.GenerationBanner"
 homepage = "https://github.com/DEViantUA/EnkaNetworkCard/wiki/Dokumentation-enkanetworkcard"
 
 [tool.poetry.dependencies]
-python = "^3.6"
-googletrans = "^3.1.0a0"
-Pillow = "^9.3.0"
-"enkanetwork.py" = "^1.2.10"
+python = "^3.7"
+Pillow = "^9.4.0"
+"enkanetwork.py" = "^1.4.0"
+cachetools = "^5.2.0"
+asyncache  = "^0.3.1"
 
 
 [build-system]
