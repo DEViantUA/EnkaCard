@@ -3,19 +3,19 @@
 </p>
 
 ____
-<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/Shablon_01.png?raw=true" width = 38% alt="Баннер"/>[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_02.png?raw=true" width = 6% alt="Баннер"/>](https://pypi.org/project/enkacard/)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_03.png?raw=true" width = 7% alt="Баннер"/>](https://discord.gg/shRUCDt4)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_04.png?raw=truee" width = 7% alt="Баннер"/>](https://github.com/DEViantUA/EnkaCard)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_05.png?raw=true" width = 6% alt="Баннер"/>](https://enka.network/)
+<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/Shablon_01.png?raw=true" width = 38% alt="Баннер"/>[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_02.png?raw=true" width = 6% alt="Баннер"/>](https://pypi.org/project/enkacard/) [<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_03.png?raw=true" width = 7% alt="Баннер"/>](https://discord.gg/shRUCDt4)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_04.png?raw=true" width = 7% alt="Баннер"/>](https://github.com/DEViantUA/EnkaCard)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_05.png?raw=true" width = 6% alt="Баннер"/>](https://enka.network/)
 ____
 
-## EnkaCard 
+## EnkaCard
 An asynchronous module and API that allows you to connect to your bot the generation of Genshin character cards from the Enka.Network website. <br><br>
-* 5 templates to choose from.<br>
-* 2 profile templates.<br>
-* Customization of all cards with background adaptation.
+:white_medium_square: 5 templates to choose from.<br>
+:white_medium_square: 2 profile templates.<br>
+:white_medium_square: Customization of all cards with background adaptation.
 
 ## Full Documentation:
   - [Documentation EnkaCard](https://deviantua.github.io/EnkaCard-Documentation/) 
   - [API](https://deviantua.github.io/EnkaCard-Documentation/async/Other/api/)
-  - [Little Kazuha](https://discord.gg/fnh4WBbqDW) - Discord Bot, which perfectly demonstrates the work of the module. Just use the ```/profile``` command
+  - [Little Kazuha](https://discord.gg/TwuBfDbE) - Discord Bot, which perfectly demonstrates the work of the module. Just use the ```/profile``` command
 
 ## Installation:
 ```
@@ -96,3 +96,62 @@ print(result)
  
 </details>
 
+<details>
+<summary>Sample 5 template</summary>
+ 
+[![Adaptation][8]][8]
+ 
+[8]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/10.png?raw=true
+
+[![Without Adaptation][9]][9]
+ 
+[9]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/9.png?raw=true
+</details>
+
+<details>
+<summary>Sample 6 template</summary>
+ 
+[![Adaptation][11]][11]
+ 
+[11]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/12.png?raw=true
+
+[![Without Adaptation][10]][10]
+ 
+[10]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/13.png?raw=true
+ 
+ [![Display 1-4 characters][12]][12]
+ 
+[12]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/14.png?raw=true
+</details>
+
+<details>
+<summary>Sample 7 template</summary>
+ 
+[![Adaptation][13]][13]
+ 
+[13]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/15.png?raw=true
+
+[![Without Adaptation][14]][14]
+ 
+[14]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/16.png?raw=true
+</details>
+
+---
+
+<details>
+<summary>Profile sample 1 template</summary>
+ 
+[![Profile][15]][15]
+ 
+[15]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/8.png?raw=true
+
+</details>
+
+<details>
+<summary>Profile sample 2 template</summary>
+ 
+[![Profile][16]][16]
+ 
+[16]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/11.png?raw=true
+
+</details>
