@@ -96,3 +96,62 @@ print(result)
  
 </details>
 
+<details>
+<summary>Sample 5 template</summary>
+ 
+[![Adaptation][8]][8]
+ 
+[8]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/10.png?raw=true
+
+[![Without Adaptation][9]][9]
+ 
+[9]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/9.png?raw=true
+</details>
+
+<details>
+<summary>Sample 6 template</summary>
+ 
+[![Adaptation][11]][11]
+ 
+[11]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/12.png?raw=true
+
+[![Without Adaptation][10]][10]
+ 
+[10]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/13.png?raw=true
+ 
+ [![Display 1-4 characters][12]][12]
+ 
+[12]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/14.png?raw=true
+</details>
+
+<details>
+<summary>Sample 7 template</summary>
+ 
+[![Adaptation][13]][13]
+ 
+[13]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/15.png?raw=true
+
+[![Without Adaptation][14]][14]
+ 
+[14]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/16.png?raw=true
+</details>
+
+---
+
+<details>
+<summary>Profile sample 1 template</summary>
+ 
+[![Profile][15]][15]
+ 
+[15]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/8.png?raw=true
+
+</details>
+
+<details>
+<summary>Profile sample 2 template</summary>
+ 
+[![Profile][16]][16]
+ 
+[16]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/11.png?raw=true
+
+</details>
