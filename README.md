@@ -3,7 +3,7 @@
 </p>
 
 ____
-<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/Shablon_01.png?raw=true" width = 38% alt="Баннер"/>[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_02.png?raw=true" width = 6% alt="Баннер"/>](https://pypi.org/project/enkacard/) [<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_03.png?raw=true" width = 7% alt="Баннер"/>](https://discord.gg/TwuBfDbE)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_04.png?raw=true" width = 7% alt="Баннер"/>](https://github.com/DEViantUA/EnkaCard)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_05.png?raw=true" width = 6% alt="Баннер"/>](https://enka.network/)
+<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/Shablon_01.png?raw=true" width = 38% alt="Баннер"/>[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_02.png?raw=true" width = 6% alt="Баннер"/>](https://pypi.org/project/enkacard/) [<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_03.png?raw=true" width = 7% alt="Баннер"/>](https://discord.gg/Pcb834pHe3)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_04.png?raw=true" width = 7% alt="Баннер"/>](https://github.com/DEViantUA/EnkaCard)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_05.png?raw=true" width = 6% alt="Баннер"/>](https://enka.network/)
 ____
 
 ## EnkaCard
@@ -15,7 +15,8 @@ An asynchronous module and API that allows you to connect to your bot the genera
 ## Full Documentation:
   - [Documentation EnkaCard](https://deviantua.github.io/EnkaCard-Documentation/) 
   - [API](https://deviantua.github.io/EnkaCard-Documentation/async/Other/api/)
-  - [Little Kazuha](https://discord.gg/TwuBfDbE) - Discord Bot, which perfectly demonstrates the work of the module. Just use the ```/profile``` command
+  - [Little Kazuha](https://discord.gg/Pcb834pHe3) - Discord Bot, which perfectly demonstrates the work of the module. Just use the ```/profile``` command
+  - [ENCard](https://github.com/DEViantUA/ENCard) - Addon to the module.
 
 ## Installation:
 ```
