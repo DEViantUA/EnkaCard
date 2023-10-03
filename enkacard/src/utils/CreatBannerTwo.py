@@ -305,7 +305,10 @@ async def creatUserInfo(hide,uid,player,lang, nameCharter = None, namecard = Fal
     defoldBgNamecard = Image.composite(defoldBgNamecard, bannerUserNamecard, maskaBannerNamecard)
     frameUserNamecard = openFile.infoUserFrameTeampleTwo.copy()
     defoldBgNamecard.alpha_composite(openFile.infoUserFrameBannerTeampleTwo,(0,0))
-    avatar = await imagSize(link = player.avatar.icon.url,size = (150,150))
+    try:
+        avatar = await imagSize(link = player.avatar.icon.url,size = (150,150))
+    except AttributeError:
+        avatar = await imagSize("https://enka.network/ui/UI_AvatarIcon_PlayerGirl.png",size = (150,150))
     avatar = Image.composite(frameUserNamecard, avatar, openFile.infoUserMaskaAvatarTeampleTwo.convert('L'))
     frameUserNamecard.alpha_composite(avatar,(0,0))
     d = ImageDraw.Draw(frameUserNamecard)
