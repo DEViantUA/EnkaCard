@@ -183,7 +183,10 @@ async def creatUserProfile(image,player,lang,hide,uid,assets,teample):
             else:
                 bannerUserNamecard = await imagSize(link = player.namecard.navbar.url, size = (661,105))
             Background.paste(bannerUserNamecard,(123 ,145),bannerUserNamecard)
-            picturesProfile = await imagSize(link = player.avatar.icon.url,fixed_width = 179)
+            try:
+                picturesProfile = await imagSize(link = player.avatar.icon.url,fixed_width = 179)
+            except AttributeError:
+                picturesProfile = await imagSize("https://enka.network/ui/UI_AvatarIcon_PlayerGirl.png",fixed_width = 179)
             picturesProfile = picturesProfile.convert('RGBA')
             Avatar.paste(picturesProfile,(0,0),picturesProfile)
             Background.paste(Avatar,(41,110),openFile.MaskaInfoUser.convert("L"))
