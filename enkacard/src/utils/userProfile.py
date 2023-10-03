@@ -101,7 +101,10 @@ async def nameCard(player, fullBg):
 
 async def avatar(fullBg,player):
     ram_avatar = openFile.ram_avatar
-    picturesProfile = await imagSize(link = player.avatar.icon.url,fixed_width = 159)
+    try:
+        picturesProfile = await imagSize(link = player.avatar.icon.url,fixed_width = 159)
+    except AttributeError:
+        picturesProfile = await imagSize("https://enka.network/ui/UI_AvatarIcon_PlayerGirl.png",fixed_width = 159)
     avatar_user_bg = openFile.avatar_user_bg.copy()
     avatar_user_bg.alpha_composite(picturesProfile,(0,0))
     avatar_user_bg = avatar_user_bg.resize((159,159))
