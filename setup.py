@@ -58,7 +58,7 @@ package_data = \
               'src/assets/teapmleTwo/weapon/*']}
 
 install_requires = \
-['Pillow>=9.4.0,<10.0.0',
+['Pillow>=10.0.1,<10.0.2,
  'asyncache>=0.3.1,<0.4.0',
  'cachetools>=5.2.0,<6.0.0',
  'enkanetwork.py>=1.4.0,<2.0.0']
