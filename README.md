@@ -3,20 +3,19 @@
 </p>
 
 ____
-<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/Shablon_01.png?raw=true" width = 38% alt="Баннер"/>[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_02.png?raw=true" width = 6% alt="Баннер"/>](https://pypi.org/project/enkacard/) [<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_03.png?raw=true" width = 7% alt="Баннер"/>](https://discord.gg/Pcb834pHe3)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_04.png?raw=true" width = 7% alt="Баннер"/>](https://github.com/DEViantUA/EnkaCard)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/white/Shablon_05.png?raw=true" width = 6% alt="Баннер"/>](https://enka.network/)
+<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/Shablon_01.png?raw=true" width = 38% alt="Баннер"/>[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_02.png?raw=true" width = 6% alt="Баннер"/>](https://pypi.org/project/enkacard/)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_03.png?raw=true" width = 7% alt="Баннер"/>](https://discord.gg/Pcb834pHe3)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_04.png?raw=truee" width = 7% alt="Баннер"/>](https://github.com/DEViantUA/EnkaCard)[<img src="https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/dark/Shablon_05.png?raw=true" width = 6% alt="Баннер"/>](https://enka.network/)
 ____
 
-## EnkaCard
+## EnkaCard 
 An asynchronous module and API that allows you to connect to your bot the generation of Genshin character cards from the Enka.Network website. <br><br>
-:white_medium_square: 5 templates to choose from.<br>
-:white_medium_square: 2 profile templates.<br>
-:white_medium_square: Customization of all cards with background adaptation.
+* 5 templates to choose from.<br>
+* 2 profile templates.<br>
+* Customization of all cards with background adaptation.
 
 ## Full Documentation:
-  - [Documentation EnkaCard](https://deviantua.github.io/EnkaCard-Documentation/) 
-  - [API](https://deviantua.github.io/EnkaCard-Documentation/async/Other/api/)
-  - [Little Kazuha](https://discord.gg/Pcb834pHe3) - Discord Bot, which perfectly demonstrates the work of the module. Just use the ```/profile``` command
+  - [Documentation EnkaCard2](https://github.com/DEViantUA/EnkaCard/tree/EnkaCard2) 
   - [ENCard](https://github.com/DEViantUA/ENCard) - Addon to the module.
+  - [NewVerison](https://github.com/DEViantUA/EnkaCard/tree/main)
 
 ## Installation:
 ```
@@ -25,19 +24,17 @@ pip install enkacard
 
 ## Launch:
 ``` python
-from enkacard import encbanner
+from enkacard2 import encbanner2
 import asyncio
 
 async def card():
-    async with encbanner.ENC() as encard:
-        ENCpy = await encard.enc(uids = "811455610")
-        return await encard.creat(ENCpy,1)
+    async with encbanner2.ENC((uid = "811455610") as encard:
+        return await encard.creat(1)
 
 result = asyncio.run(card()) 
 
 print(result)
 ```
-
 <details>
 <summary>Launch Profile</summary>
 
@@ -46,9 +43,8 @@ from enkacard import encbanner
 import asyncio
 
 async def card():
-    async with encbanner.ENC() as encard:
-        ENCpy = await encard.enc(uids = "811455610")
-        return await encard.profile(ENCpy,1)
+    async with encbanner.ENC(uid = "811455610") as encard:
+        return await encard.profile(1)
 
 result = asyncio.run(card()) 
 
@@ -64,7 +60,6 @@ print(result)
 |  português  |     pt  | 한국어      |     kr  | deutsch    |     de  |
 |  日本語      |     jp  | 中文        |     zh  | español    |     es  |
 |  中文        |     zh  | Indonesian |     id  | français   |     fr  |
-|  Khaenri'ah  |     kh  | Khaenri'ah |
 
 
 ## Sample Results:
@@ -176,3 +171,6 @@ print(result)
 [16]: https://github.com/DEViantUA/EnkaCard/blob/main/readmeFile/11.png?raw=true
 
 </details>
+
+# Thank the author for the code: 
+* **Patreon**: https://www.patreon.com/deviantapi
