@@ -19,7 +19,7 @@ An asynchronous module and API that allows you to connect to your bot the genera
 
 ## Installation:
 ```
-pip install enkacard
+pip install enkacard2
 ```
 
 ## Launch:
