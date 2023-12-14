@@ -24,7 +24,7 @@ An asynchronous module and API that allows you to connect to your bot the genera
 :white_medium_square: [Generation results](https://github.com/DEViantUA/EnkaCard/wiki/Resultate)<br>
 :white_medium_square: [StarRailCard](https://github.com/DEViantUA/StarRailCard)<br>
 :white_medium_square: [Additional module](https://github.com/DEViantUA/ENCard)<br>
-:white_medium_square: [Assets](https://github.com/DEViantUA/EnkaCard)
+:white_medium_square: [Assets](https://github.com/DEViantUA/EnkaCardData)
 ## Installation:
 ```
 pip install enkacard
