@@ -1,0 +1,71 @@
+import aiohttp
+from ..utils import pill, git
+from PIL import ImageDraw,Image
+
+_of = git.ImageCache()
+
+api_url = "https://akasha.cv/api/getCalculationsForUser/{uid}"
+api_update = "https://akasha.cv/api/user/refresh/{uid}"
+
+data_akasha = {}
+
+class AkashaCreat:
+    def __init__(self,card,teample,rank,uid) -> None:
+        self.card = card
+        self.teample = teample
+        self.rank = rank
+        self.uid = uid
+        
+    async def update(self):
+        async with aiohttp.ClientSession() as session:
+            async with session.get(api_update.format(uid = self.uid)) as response:
+                return await response.json()
+                    
+                
+                
+    async def get_rank_akasha(self):
+        akaska_info = []
+        if not self.uid in data_akasha:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(api_url.format(uid = self.uid)) as response:
+                    data = await response.json()
+                    for key in data.get("data", []):
+                        calculator = key.get("calculations", {}).get("fit", {})
+                        if calculator:
+                            rank = int(calculator.get("ranking", "0").replace("~", ""))
+                            out = int(calculator.get("outOf", "1"))
+                            percentage = round((rank / out) * 100)
+                            akaska_info.append({"id": key["characterId"], "rank": rank, "out": out, "precent": percentage})
+                            
+                    data_akasha[self.uid] = akaska_info
+        return data_akasha[self.uid]
+         
+        
+    
+
+    async def creat_logo(self):
+        logo = await _of.akasha
+        logo = logo.copy()
+        
+        background = Image.new("RGBA",(264,79) ,(0,0,0,0))
+        
+        background.alpha_composite(logo)
+        
+        font = await pill.get_font(12)
+        d = ImageDraw.Draw(background)
+        d.text((61,55), f'Rank: ~{self.rank.rank}/{self.rank.out}', font = font, fill= (255,255,255,255)) 
+        d.text((61,39), f'Top: {self.rank.precent}%', font = font, fill= (255,255,255,255)) 
+        
+        return background
+        
+        
+    async def start(self):
+        if self.rank is None:
+            return self.card
+        
+        logo = await self.creat_logo()
+
+        if self.teample == 1:
+            self.card.alpha_composite(logo,(11,409))
+        
+        return self.card
