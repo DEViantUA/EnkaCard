@@ -35,7 +35,7 @@ class Creat:
         else:
             self.background = await background.Background(self.character.image.banner.url,self.character.element.value).start()
         
-    async def collect_artifact(self): #НУЖНО ЭТОТ КОД И ВЛОЖЕННЫЕ В НЕМ ФИКСАНУТЬ
+    async def collect_artifact(self):
         task_art = []
         task_prop = []
         ids_next = {"4": None,"2": None,"5": None,"1": None,"3": None}
@@ -52,7 +52,7 @@ class Creat:
         self.artifact = results[:len(task_art)]
         self.prop = results[len(task_art):]
 
-    async def collect_sets(self): #НУЖНО ЭТОТ КОД И ВЛОЖЕННЫЕ В НЕМ ФИКСАНУТЬ
+    async def collect_sets(self):
         self.artifact_sets = await artifact.ArtifactSets(self.character.equipments).start()
     
     async def creat_name(self):
@@ -137,7 +137,7 @@ class Creat:
             y += 112
         
         
-    async def collect_stat(self): #НУЖНО ЭТОТ КОД И ВЛОЖЕННЫЕ В НЕМ ФИКСАНУТЬ
+    async def collect_stat(self):
         self.background_stat = await stat.Stat(self.character.stats, self.prop, self.character.element.value).start()
         
     async def start(self):       

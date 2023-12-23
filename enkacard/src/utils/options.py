@@ -29,6 +29,18 @@ async def data_prop():
         data_prop_json = None
         return None
 
+
+AkashaStats = {
+    "FIGHT_PROP_CRITICAL": "critRate",
+    "FIGHT_PROP_CRITICAL_HURT": "critDMG",
+    "FIGHT_PROP_CHARGE_EFFICIENCY": "energyRecharge",
+    "FIGHT_PROP_ELEMENT_MASTERY":"elementalMastery",
+    "FIGHT_PROP_MAX_HP": "maxHP",
+    "FIGHT_PROP_CUR_ATTACK":"maxDEF",
+    "FIGHT_PROP_CUR_DEFENSE":"maxATK"
+}
+
+
 color_artifact_up = {
     0: (255,255,255,255),
     1: (255,142,142,255),
@@ -52,7 +64,7 @@ async def get_charter_id(data):
 
 async def get_info_enka(uid,USER_AGENT,lang):
     async with EnkaNetworkAPI(user_agent = USER_AGENT, lang=lang) as client:
-        result = await client.fetch_user(uid)
+        result = await client.fetch_user_by_uid(uid)
         if result.characters:
             return result
         else:

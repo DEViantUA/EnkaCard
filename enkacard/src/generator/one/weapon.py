@@ -37,7 +37,7 @@ class Weapon:
     
     async def add_name(self):
         name = await pill.create_image_with_text(self.weapon.detail.name, 25, max_width=294, color=(255, 255, 255, 255))
-        self.background.alpha_composite(name,(225,int(31-name.size[1]/2)))
+        self.background.alpha_composite(name,(225,int(34-name.size[1]/2)))
     
     async def add_stats(self):
         lvl = f"{self.lang}: {self.weapon.level}/{self.weapon.max_level}"
@@ -67,7 +67,7 @@ class Weapon:
         await self.add_name()
         await self.add_stars()
         await self.add_substat()
-                
+
         return {"tcv": float('{:.2f}'.format(self.CRIT_DMG + (self.CRIT_RATE*2))), "img": self.background}
         
         

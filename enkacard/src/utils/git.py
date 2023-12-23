@@ -9,7 +9,6 @@ from cachetools import TTLCache
 lock = threading.Lock()
 
 _cache = TTLCache(maxsize=1000, ttl=300)
-_cache_resize = None
 
 assets = Path(__file__).parent.parent / 'assets'
 _BASE_URL = 'https://raw.githubusercontent.com/DEViantUA/EnkaCardData/main/assets/'
@@ -66,6 +65,29 @@ mapping = {
     "overlay_profile": "profile/overlay.png",
     "profile_bg_mask": "profile/profile_bg_mask.png",
     "shadow_art_profile": "profile/shadow_art_profile.png",
+    
+    
+    "artifact_set_count": "two/artifact_set_count.png",
+    "maska_bg": "two/maska_bg.png",
+    "overlay_bg": "two/overlay_l_bg.png",
+    "total_mask_bg": "two/total_mask_bg.png",
+    "artifact_mask": "two/artifact_mask.png",
+    "line_bg": "two/line_bg.png",
+    "artifact_eff": "two/artifact_eff.png",
+    
+    "snow_texture": "two/snow_texture.png",
+    "snow": "two/snow.png",
+    
+    
+    "avatar_maska": "profile_two/avatar_maska.png",
+    "bg_1": "profile_two/bg_1.png",
+    "bg_2": "profile_two/bg_2.png",
+    "bg_3": "profile_two/bg_3.png",
+    "desc_frame": "profile_two/desc_frame.png",
+    "frame_profile": "profile_two/frame_profile.png",
+    "icons": "profile_two/icons.png",
+    "maska_character": "profile_two/maska_character.png",
+    "maska_prof_bg": "profile_two/maska_prof_bg.png"
 }
 
 class ImageCache:
@@ -102,12 +124,12 @@ class ImageCache:
             url = mapping['icon_stats'].format(prop_id=prop_id)
             full_url = _BASE_URL + url
             if full_url in _cache:
-                return _cache[full_url]
+                return _cache[full_url].copy()
             else:
                 image_data = await self.download_image(full_url)
                 image = Image.open(image_data)
                 _cache[full_url] = image
-                return image
+                return image.copy()
         else:
             raise AttributeError(f"'{self.__class__.__name__}' object has no attribute 'icon_stats'")
 

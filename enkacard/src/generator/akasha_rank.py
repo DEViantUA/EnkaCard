@@ -10,7 +10,7 @@ api_update = "https://akasha.cv/api/user/refresh/{uid}"
 data_akasha = {}
 
 class AkashaCreat:
-    def __init__(self,card,teample,rank,uid) -> None:
+    def __init__(self,card = None,teample= None,rank= None,uid= None) -> None:
         self.card = card
         self.teample = teample
         self.rank = rank
@@ -20,9 +20,18 @@ class AkashaCreat:
         async with aiohttp.ClientSession() as session:
             async with session.get(api_update.format(uid = self.uid)) as response:
                 return await response.json()
-                    
-                
-                
+    
+    async def get_info_character(self, id):
+        url = f'https://akasha.cv/api/leaderboards/qusoleum/{id}?type=current'
+        
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    return data["data"].get("calculations",{})
+                else:
+                    return {}
+            
     async def get_rank_akasha(self):
         akaska_info = []
         if not self.uid in data_akasha:
@@ -32,17 +41,16 @@ class AkashaCreat:
                     for key in data.get("data", []):
                         calculator = key.get("calculations", {}).get("fit", {})
                         if calculator:
-                            rank = int(calculator.get("ranking", "0").replace("~", ""))
+                            rank = int(str(calculator.get("ranking", "0")).replace("~", ""))
                             out = int(calculator.get("outOf", "1"))
                             percentage = round((rank / out) * 100)
+                            if percentage == 0:
+                                percentage = 1
                             akaska_info.append({"id": key["characterId"], "rank": rank, "out": out, "precent": percentage})
                             
                     data_akasha[self.uid] = akaska_info
         return data_akasha[self.uid]
          
-        
-    
-
     async def creat_logo(self):
         logo = await _of.akasha
         logo = logo.copy()
@@ -67,5 +75,6 @@ class AkashaCreat:
 
         if self.teample == 1:
             self.card.alpha_composite(logo,(11,409))
-        
+        elif self.teample == 2:
+            self.card.alpha_composite(logo,(952,13))
         return self.card
