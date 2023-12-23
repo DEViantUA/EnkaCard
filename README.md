@@ -75,6 +75,7 @@ result = asyncio.run(main())
 
 print(result)
 ```
+> _**Aliternative method: [Tools](https://github.com/DEViantUA/EnkaCard/wiki/Tools)**_
 </details>
 
 ## Languages Supported
