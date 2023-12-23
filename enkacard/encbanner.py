@@ -11,7 +11,7 @@ from .src.utils.pickle_cashe import PickleCache
 from .src.utils.translation import translationLang, supportLang
 from .src.modal import enkacardCread
 from .enc_error import ENCardError
-from .src.generator import teample_one, akasha_rank, profile_teample_one
+from .src.generator import teample_one, akasha_rank, profile_teample_one, teample_two,profile_teample_two
 
 async def update():
     async with EnkaNetworkAPI(user_agent= "ENC Library: 3.0.0") as ena:
@@ -71,7 +71,7 @@ class Akasha:
             print(result["data"]["message"])
     
     async def start(self, card, teample):
-        rank = await self.get_stats(self.uid,card["id"])
+        rank = await self.get_stats(card["id"])
         if not rank is None:
             card["card"] = await akasha_rank.AkashaCreat(card["card"],teample,rank.akasha[0],self.uid).start()
         
@@ -100,7 +100,6 @@ class ENC:
         
     async def __aenter__(self):
         self.uid = await get_uid(self.uid)
-        
         
         if self.uid is None:
             raise ENCardError(5,"The UIDS parameter must be a number or a string. To pass multiple UIDs, separate them with commas.\nExample: uids = 55363")
@@ -155,7 +154,7 @@ class ENC:
                 
         return enkacardCread.EnkaCard(**enc_card)
     
-    async def creat(self, template = 1, akasha = False):
+    async def creat(self, template = 1, akasha = False, snow = False):
         template = int(template)
         task = []
         task_save = []
@@ -166,7 +165,7 @@ class ENC:
         if self.pickle["get_generate"]:
             generator = await self.pickle_class.get_generator(template)
                         
-        if not template in [1]:
+        if not template in [1,2]:
             template = 1
                 
         for key in self.enc.characters:
@@ -187,7 +186,11 @@ class ENC:
                 if str(key.id) in self.character_art:
                     art = self.character_art[str(key.id)]
             
-            task.append(teample_one.Creat(key,self.translateLang,art,self.hide_uid,self.uid,self.enc.player.nickname).start())
+            if template == 1:
+                task.append(teample_one.Creat(key,self.translateLang,art,self.hide_uid,self.uid,self.enc.player.nickname).start())
+            else:
+                task.append(teample_two.Creat(key,self.translateLang,art,self.hide_uid,self.uid,self.enc.player.nickname).start(snow))
+                
         
         
         result = await asyncio.gather(*task)
@@ -213,7 +216,7 @@ class ENC:
         
         return self.sorting(result)
 
-    async def profile(self,card = False,background = None):
+    async def profile(self,teamplate = 1, card = False,background = None):
         
         for key in self.enc.characters:
             self.character_ids.append(key.id)
@@ -244,8 +247,10 @@ class ENC:
             data["player"]["avatar"] = self.enc.player.avatar.icon.url
 
         if card:
-            data["card"] = await profile_teample_one.ProfileCard(self.enc.player,self.translateLang,self.character_art,self.hide_uid,self.uid,background).start()
-        
+            if int(teamplate) == 1:
+                data["card"] = await profile_teample_one.ProfileCard(self.enc.player,self.translateLang,self.character_art,self.hide_uid,self.uid,background).start()
+            elif int(teamplate) == 2:
+                data["card"] = await profile_teample_two.ProfileCard(self.enc.player,self.translateLang,self.character_art,self.hide_uid,self.uid,background).start()
             if self.save:
                 await save_card(self.uid, data["card"], "profile")
         
