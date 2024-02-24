@@ -290,6 +290,8 @@ async def dowload(path = None):
     
     if path is None:
         _PATH = await search()
+    else:
+        _PATH = path
     
     print(f"Path to enkanetwork.py: {_PATH}")
     print("="*25)
