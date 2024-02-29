@@ -5,7 +5,14 @@ import base64
 from io import BytesIO
 import aiohttp
 from contextlib import AsyncExitStack
-import magic
+
+import_magic = False
+
+try:
+    import magic
+except ImportError:
+    import_magic = True
+    import imghdr
 
 IMAGE_TYPES = {
     'image/jpeg',
@@ -58,7 +65,14 @@ async def download_image(session, url, headers=None, allow_redirects=True, use_r
 async def get_mimetype(session, url, size=2048, allow_redirects=True, **kwargs):
     async with session:
         data = await download_image(session, url, size=size, allow_redirects=allow_redirects, **kwargs)
-        return magic.Magic(mime=True).from_buffer(data)
+        if import_magic:
+            mime_type = imghdr.what(None, h=data)
+            if mime_type:
+                return mime_type
+            else:
+                return "application/octet-stream"
+        else:
+            return magic.Magic(mime=True).from_buffer(data)
 
 async def is_valid(session, url, allow_redirects=True, **kwargs):
     async with session:

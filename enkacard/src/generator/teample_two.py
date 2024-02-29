@@ -102,7 +102,9 @@ class Creat:
         akashaElement = False
         data_user = []
         
-        dataAkasha = await AkashaCreat().get_info_character(self.character.id)
+        dataAkasha = await AkashaCreat(uid = self.uid).get_info_character(self.character.id)
+        if dataAkasha == []:
+            dataAkasha = {}
         if dataAkasha != {}:
             dataAkasha  = dataAkasha[random.choice(list(dataAkasha.keys()))]['stats']
         dataAkasha_new = []

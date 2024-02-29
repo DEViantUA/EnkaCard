@@ -1,6 +1,5 @@
 import sys
 import os
-import json
 
 async def search():
     python_paths = sys.path

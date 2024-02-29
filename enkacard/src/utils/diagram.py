@@ -6,8 +6,11 @@ import io
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import font_manager
+from pathlib import Path
 
-font_path = 'enkacard\\src\\assets\\total\\font\\Genshin_Impact.ttf'
+assets = assets = Path(__file__).parent.parent / 'assets'
+
+font_path = str(assets / 'font' / 'Genshin_Impact.ttf')
 
 custom_font = font_manager.FontProperties(fname=font_path)
 plt.rcParams['font.family'] = custom_font.get_name()

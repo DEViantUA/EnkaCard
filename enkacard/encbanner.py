@@ -180,7 +180,10 @@ class ENC:
                 if not generator.get(key.id,None) is None:
                     gen_tools.append(generator.get(key.id))
                 continue
-            
+            if str(key.id) == "10000092":
+                key.image.banner.url = "https://api.ambr.top/assets/UI/UI_Gacha_AvatarImg_Gaming.png"
+            elif str(key.id) == "10000093":
+                key.image.banner.url = "https://api.ambr.top/assets/UI/UI_Gacha_AvatarImg_Liuyun.png"
             art = None
             if self.character_art:
                 if str(key.id) in self.character_art:

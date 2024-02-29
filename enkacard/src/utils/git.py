@@ -10,19 +10,19 @@ lock = threading.Lock()
 
 _cache = TTLCache(maxsize=1000, ttl=300)
 
-assets = Path(__file__).parent.parent / 'assets'
 _BASE_URL = 'https://raw.githubusercontent.com/DEViantUA/EnkaCardData/main/assets/'
 
-font = str(assets /'total'/'font' / 'Genshin_Impact.ttf')
-fontKH = str(assets /'total'/ 'font' / 'GSEnochian.ttf')
+assets = Path(__file__).parent.parent / 'assets'
+
+font = str(assets / 'font' / 'Genshin_Impact.ttf')
+fontKH = str(assets / 'font' / 'GSEnochian.ttf')
 
 async def change_Font(x):
     global font
     if x == 0:
-        font = str(assets /'total' / 'font' / 'Genshin_Impact.ttf')
+        font = str(assets / 'font' / 'Genshin_Impact.ttf')
     else:
-        font = str(assets /'total' / 'font' / 'GSEnochian.ttf')
-
+        font = str(assets / 'font' / 'GSEnochian.ttf')
 mapping = {
     "artifact_bg": "one/artifact_bg.png",
     "artifact_bg_none": "one/artifact_bg_none.png",

@@ -1,0 +1,13 @@
+aiofiles
+aiohttp
+asyncio
+cachetools
+cloudpickle
+enkanetworkv2.py
+python-magic
+python-magic-bin
+matplotlib
+more-itertools
+numpy
+Pillow
+pydantic

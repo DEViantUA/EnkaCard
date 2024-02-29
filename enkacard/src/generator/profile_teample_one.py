@@ -81,6 +81,8 @@ class ProfileCard:
     
     async def creat_charter(self,key):
         background = Image.new("RGBA", (180, 263), (0,0,0,0))
+        if self.img is None:
+            self.img = {}
         if str(key.id) in self.img:
             url = self.img[str(key.id)]
         else:

@@ -1,4 +1,5 @@
 import aiohttp
+import random
 from ..utils import pill, git
 from PIL import ImageDraw,Image
 
@@ -6,6 +7,10 @@ _of = git.ImageCache()
 
 api_url = "https://akasha.cv/api/getCalculationsForUser/{uid}"
 api_update = "https://akasha.cv/api/user/refresh/{uid}"
+
+#https://akasha.cv/api/leaderboards/{uid}/{hash}?variant=profilePage - ПОЛУЧИТЬ ХАШ ОБЩИЙ И ДЛЯ ПЕРСОНАЖЕЙ
+#https://akasha.cv/api/substatPriority/{uid}/{hash} - ПОЛУЧИТЬ ИНФОРМАЦИЮ О СТАТАХ ПЕРСОНАЖА
+
 
 data_akasha = {}
 
@@ -15,15 +20,23 @@ class AkashaCreat:
         self.teample = teample
         self.rank = rank
         self.uid = uid
-        
+    
+    async def get_hash(self, charter_id):
+        async with aiohttp.ClientSession() as session:
+            async with session.get(api_url.format(uid = self.uid)) as response:
+                data = await response.json()
+                for key in data["data"]:
+                    if str(charter_id) == str(key["characterId"]):
+                        return key["md5"]
+    
     async def update(self):
         async with aiohttp.ClientSession() as session:
             async with session.get(api_update.format(uid = self.uid)) as response:
                 return await response.json()
     
     async def get_info_character(self, id):
-        url = f'https://akasha.cv/api/leaderboards/qusoleum/{id}?type=current'
-        
+        hash = await self.get_hash(id)
+        url = f'https://akasha.cv/api/leaderboards/{self.uid}/{hash}?variant=profilePage'
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as response:
                 if response.status == 200:
