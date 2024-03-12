@@ -1,7 +1,7 @@
 import aiohttp
 import asyncio
 import json
-import os
+
 
 DATA_URL = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/main/{FOLDER}/{value}"
 LANG_URL = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/main/{LANG_FOLDER}/TextMap{key}.json"

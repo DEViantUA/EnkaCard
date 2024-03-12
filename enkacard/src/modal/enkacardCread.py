@@ -36,8 +36,8 @@ class PickleSize(BaseModel):
 class EnkaCard(BaseModel):
     info: Optional[Info]
     card: Optional[List[Card]]
-    character_id: Optional[List[str]]
-    character_name: Optional[List[str]]
+    character_id: Optional[List[Union[str,int]]]
+    character_name: Optional[List[Union[str,int]]]
     pickle_size: Optional[List[PickleSize]]
     
     
@@ -68,8 +68,8 @@ class Player(BaseModel):
 
 class Characters(BaseModel):
     count: Optional[int]
-    character_name: Optional[List[str]]
-    character_id: Optional[List[str]]
+    character_name: Optional[List[Union[str,int]]]
+    character_id: Optional[List[Union[str,int]]]
 
     async def get_charter(self,name = False):
         if name:
