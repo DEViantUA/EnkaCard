@@ -1,5 +1,4 @@
 import aiohttp
-import random
 from ..utils import pill, git
 from PIL import ImageDraw,Image
 
@@ -41,7 +40,7 @@ class AkashaCreat:
             async with session.get(url) as response:
                 if response.status == 200:
                     data = await response.json()
-                    return data["data"].get("calculations",{})
+                    return data["data"]
                 else:
                     return {}
             

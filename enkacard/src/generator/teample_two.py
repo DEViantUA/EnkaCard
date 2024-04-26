@@ -1,16 +1,13 @@
 import asyncio
 from PIL import ImageDraw,Image,ImageChops
+from enkanetwork.model.stats import CharacterStats
+
 from ..utils import pill, git,diagram,options
 from enkanetwork.enum import EquipmentsType
 from .two import background, artifact, stat, skill
 from .one import weapon,constant
 from .akasha_rank import AkashaCreat
-import random
 _of = git.ImageCache()
-
-
-
-
 
 
 
@@ -98,60 +95,44 @@ class Creat:
         self.background.alpha_composite(logo, (1108,710))
     
     async def creat_diagram(self):
-        elementUp = True
-        akashaElement = False
-        data_user = []
-        
+        user_diagram = False
         dataAkasha = await AkashaCreat(uid = self.uid).get_info_character(self.character.id)
-        if dataAkasha == []:
-            dataAkasha = {}
-        if dataAkasha != {}:
-            dataAkasha  = dataAkasha[random.choice(list(dataAkasha.keys()))]['stats']
-        dataAkasha_new = []
-        
-        for key in self.character.stats:
-            if key[1].id in [40,41,42,43,44,45,46]:
-                if elementUp:
-                    key = max((x for x in self.character.stats if 40 <= x[1].id <= 46), key=lambda x: x[1].value)
-                    elementUp = False
-                    akashaElement = True
-                else:
-                    continue
-            if key[1].value != 0 and key[0] in options.IconAddTrue:
-                akasha_name = options.AkashaStats.get(key[0], None)
-                if not akasha_name is None or akashaElement:
-                    if akashaElement:
-                        for keys in dataAkasha:
-                            if "DMG" in keys and not "_CRITICAL" in keys:
-                                akasha_name = keys
-                                akashaElement = False
-                                    
-                    name = options.assets.get_hash_map(key[0])
-                    
-                    if "." in name:
-                        name = name.replace(".",".\n")
-                    else:
-                        name = name.replace(" ","\n")
-                    
-                    try:
-                        value = key[1].to_percentage()
-                        procent = True
-                    except:
-                        value = key[1].to_rounded()
-                        procent = False
-                        
-                    if dataAkasha != {}:
-                        if procent:
-                            dataAkasha_new.append({"name": name, "value": float('{:.2f}'.format(dataAkasha[akasha_name]))})
-                        else:
-                            dataAkasha_new.append({"name": name, "value": round(dataAkasha[akasha_name])})
+        if not dataAkasha["chartsData"] is None: 
+            chartsData = dataAkasha["chartsData"]["charts1pMetadata"][1]["avgStats"]
+        else:
+            user_diagram = True
+            chartsData = options._map_default
+        user_data = []
+        akasha_data = []
 
-                    data_user.append({"name": name, "value": value})
         
-        if dataAkasha == {}:
-            dataAkasha_new = [{'name': entry['name'], 'value': entry['value']} for entry in data_user]  
-        
-        self.diagram = await diagram.create_normalized_radial_chart(data_user,dataAkasha_new,self.character.element.value)
+        for key in chartsData:
+            if user_diagram:
+                name = options.assets.get_hash_map(options._mapHash.get(key))
+                value = options.map_enka(key, self.character.stats)
+                if value.value == 0 and chartsData[key] == 0:
+                    continue
+                try:
+                    value = value.to_percentage()
+                except:
+                    value = value.to_rounded()
+                chartsData[key] = options.format_value(key, chartsData[key], options._mapProcent.get(key), 1)
+                user_data.append({"name": name.replace(".",".\n").replace(" ","\n"), "value": value})
+                akasha_data.append({"name": name.replace(".",".\n").replace(" ","\n"), "value": value})
+            else:
+                name = options.assets.get_hash_map(options._mapHash.get(key))
+                value = options.map_enka(key, self.character.stats)
+                if value.value == 0 and chartsData[key] == 0:
+                    continue
+                try:
+                    value = value.to_percentage()
+                except:
+                    value = value.to_rounded()
+                chartsData[key] = options.format_value(key, chartsData[key], options._mapProcent.get(key), 1)
+                user_data.append({"name": name.replace(".",".\n").replace(" ","\n"), "value": value})
+                akasha_data.append({"name": name.replace(".",".\n").replace(" ","\n"), "value": chartsData[key]})
+                
+        self.diagram = await diagram.RadialChart(user_data, akasha_data, self.character.element.value).create_normalized_radial_chart() #create_normalized_radial_chart(user_data,akasha_data,self.character.element.value)
 
     async def creat_stat(self):
         self.stat_background = Image.new("RGBA", (519, 601), (0,0,0,0))

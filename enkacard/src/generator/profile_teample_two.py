@@ -34,8 +34,9 @@ class ProfileCard:
     async def creat_charter(self,key):
         
         charter_profile = Image.new("RGBA", (147, 211), (0,0,0,50))
-        if str(key.id) in self.img:
-            url_id = self.img[str(key.id)]
+        if not self.img is None:
+            if str(key.id) in self.img:
+                url_id = self.img[str(key.id)]
         else:
             url_id = key.icon.url
             

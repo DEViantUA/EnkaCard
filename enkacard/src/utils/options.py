@@ -3,6 +3,8 @@
 from enkanetwork import EnkaNetworkAPI, Assets
 import random, aiohttp, json
 from . import affixes
+import math
+
 assets = Assets(lang="en")
 
 async def fetch_json(url):
@@ -40,6 +42,104 @@ AkashaStats = {
     "FIGHT_PROP_CUR_DEFENSE":"maxATK"
 }
 
+
+_mapProcent = {
+    "maxHp": False,
+    "atk": False,
+    "def": False,
+    "energyRecharge": True,
+    "healingBonus": True,
+    "critRate": True,
+    "critDamage": True,
+    "elementalMastery": False,
+    "pyroDamageBonus": True,
+    "hydroDamageBonus": True,
+    "cryoDamageBonus": True,
+    "dendroDamageBonus": True,
+    "electroDamageBonus": True,
+    "anemoDamageBonus": True,
+    "geoDamageBonus": True,
+    "physicalDamageBonus": True,
+}
+
+_mapHash = {
+    "maxHp": "FIGHT_PROP_HP",
+    "atk": "FIGHT_PROP_ATTACK",
+    "def": "FIGHT_PROP_DEFENSE",
+    "energyRecharge": "FIGHT_PROP_CHARGE_EFFICIENCY",
+    "healingBonus": "FIGHT_PROP_HEAL_ADD",
+    "critRate": "FIGHT_PROP_CRITICAL",
+    "critDamage": "FIGHT_PROP_CRITICAL_HURT",
+    "elementalMastery":"FIGHT_PROP_ELEMENT_MASTERY",
+    "pyroDamageBonus": "FIGHT_PROP_FIRE_ADD_HURT",
+    "hydroDamageBonus": "FIGHT_PROP_WATER_ADD_HURT",
+    "cryoDamageBonus": "FIGHT_PROP_ICE_ADD_HURT",
+    "dendroDamageBonus": "FIGHT_PROP_GRASS_ADD_HURT",
+    "electroDamageBonus": "FIGHT_PROP_ELEC_ADD_HURT",
+    "anemoDamageBonus": "FIGHT_PROP_WIND_ADD_HURT",
+    "geoDamageBonus": "FIGHT_PROP_ROCK_ADD_HURT",
+    "physicalDamageBonus": "FIGHT_PROP_PHYSICAL_ADD_HURT",
+}
+
+_map_default = {
+    'maxHp': 0,
+    'atk': 0,
+    'def': 0,
+    'elementalMastery': 0,
+    'energyRecharge': 0,
+    'healingBonus': 0,
+    'critRate': 0,
+    'critDamage': 0,
+    }
+
+def map_enka(key, data):
+    if key == "maxHp":
+        return data.FIGHT_PROP_MAX_HP
+    elif key == "atk":
+        return data.FIGHT_PROP_CUR_ATTACK
+    elif key == "def":
+        return data.FIGHT_PROP_CUR_DEFENSE
+    elif key == "energyRecharge":
+        return data.FIGHT_PROP_CHARGE_EFFICIENCY
+    elif key == "healingBonus":
+        return data.FIGHT_PROP_HEAL_ADD
+    elif key == "critRate":
+        return data.FIGHT_PROP_CRITICAL
+    elif key == "critDamage":
+        return data.FIGHT_PROP_CRITICAL_HURT
+    elif key == "elementalMastery":
+        return data.FIGHT_PROP_ELEMENT_MASTERY
+    elif key == "electroDamageBonus":
+        return data.FIGHT_PROP_ELEC_ADD_HURT
+    elif key == "pyroDamageBonus":
+        return data.FIGHT_PROP_FIRE_ADD_HURT
+    elif key == "hydroDamageBonus":
+        return data.FIGHT_PROP_WATER_ADD_HURT
+    elif key == "cryoDamageBonus":
+        return data.FIGHT_PROP_ICE_ADD_HURT
+    elif key == "dendroDamageBonus":
+        return data.FIGHT_PROP_GRASS_ADD_HURT
+    elif key == "anemoDamageBonus":
+        return data.FIGHT_PROP_WIND_ADD_HURT
+    elif key == "geoDamageBonus":
+        return data.FIGHT_PROP_ROCK_ADD_HURT
+    elif key == "physicalDamageBonus":
+        return data.FIGHT_PROP_PHYSICAL_ADD_HURT
+    
+
+def format_value(stat_name, value, reversed = False,types=0):
+    if types == 0:
+        if stat_name in ['atk', 'def', 'maxHp']:
+            return int(value)
+        elif stat_name == "elementalMastery":
+            return round(value, 1)
+        else:
+            return math.ceil(value)
+    elif types == 1:
+        if reversed:
+            return float('{:.2f}'.format(round(value*100,1)))
+        else:
+            return int(value)
 
 color_artifact_up = {
     0: (255,255,255,255),

@@ -3,8 +3,8 @@ import asyncio
 import json
 
 
-DATA_URL = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/main/{FOLDER}/{value}"
-LANG_URL = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/main/{LANG_FOLDER}/TextMap{key}.json"
+DATA_URL = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master/{FOLDER}/{value}"
+LANG_URL = "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master/{LANG_FOLDER}/TextMap{key}.json"
 _PATH = None
 
 from .pathfinding import search
@@ -43,7 +43,7 @@ _DATA_LANG = {
 
 def save_json(NAME_JSON, data, path = "data"):
     global _PATH
-        
+    
     with open(f"{_PATH}/{path}/{NAME_JSON}", "w", encoding="utf-8") as file:
         json.dump(data, file, indent=4, ensure_ascii=False)
 
@@ -292,6 +292,9 @@ async def dowload(path = None):
         _PATH = await search()
     else:
         _PATH = path
+        
+    if "data" in _PATH:
+        _PATH = _PATH.replace("/data", "")
     
     print(f"Path to enkanetwork.py: {_PATH}")
     print("="*25)

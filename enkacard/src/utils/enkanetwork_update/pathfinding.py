@@ -17,5 +17,5 @@ async def search():
 
         if not os.path.exists(assets_path):
             os.makedirs(assets_path)
-
+            
         return assets_path

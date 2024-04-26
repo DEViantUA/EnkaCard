@@ -189,6 +189,10 @@ class ENC:
                 if str(key.id) in self.character_art:
                     art = self.character_art[str(key.id)]
             
+            if not self.character_id is None:
+                if not str(key.id) in self.character_id:
+                    continue
+            
             if template == 1:
                 task.append(teample_one.Creat(key,self.translateLang,art,self.hide_uid,self.uid,self.enc.player.nickname).start())
             else:
