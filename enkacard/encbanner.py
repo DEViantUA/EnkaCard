@@ -5,7 +5,7 @@ from PIL import Image
 from enkanetwork import EnkaNetworkAPI
 import os
 import datetime
-from .src.utils.options import get_charter_id, get_info_enka,get_character_art,get_uid,set_assets,check_settings
+from .src.utils.options import get_charter_id, get_info_enka,get_character_art,get_uid,set_assets,check_settings, get_setting_art
 from .src.utils.git import change_Font
 from .src.utils.pickle_cashe import PickleCache
 from .src.utils.translation import translationLang, supportLang
@@ -79,7 +79,8 @@ class Akasha:
 
 class ENC:
     def __init__(self,lang = "en", uid = None, character_art = None,
-            character_id = None, hide_uid = False, save = False, pickle = None, agent = "Library: 3.0.0") :
+            character_id = None, hide_uid = False, save = False, pickle = None, agent = "Library: 3.3.7",
+            setting_art = None):
         
         self.character_ids = []
         self.character_name = []
@@ -95,6 +96,7 @@ class ENC:
         self.character_id = character_id
         self.uid = uid
         self.character_art = character_art
+        self.setting_art = setting_art
         
         self.pickle_class = PickleCache(self.uid)
         
@@ -115,6 +117,12 @@ class ENC:
         
         if self.character_id:
             self.character_id = await get_charter_id(self.character_id)
+        
+        if self.setting_art:
+            if not isinstance(self.setting_art, dict):
+                raise ENCardError(4,"The setting_art parameter must be a dictionary, where the key is the name of the character, and the parameter is an percentage from 0.1 to 1.\nExample: setting_art = {'1235': 1.0, '1235': 0.3}")
+            else:
+                self.setting_art = await get_setting_art(self.setting_art)
         
         if self.character_art:
             if not isinstance(self.character_art, dict):
@@ -184,10 +192,17 @@ class ENC:
                 key.image.banner.url = "https://api.ambr.top/assets/UI/UI_Gacha_AvatarImg_Gaming.png"
             elif str(key.id) == "10000093":
                 key.image.banner.url = "https://api.ambr.top/assets/UI/UI_Gacha_AvatarImg_Liuyun.png"
+                
             art = None
+            setting = 0
+            
             if self.character_art:
                 if str(key.id) in self.character_art:
                     art = self.character_art[str(key.id)]
+            
+            if self.setting_art:
+                if str(key.id) in self.setting_art:
+                    setting = self.setting_art[str(key.id)]
             
             if not self.character_id is None:
                 if not str(key.id) in self.character_id:
@@ -196,7 +211,7 @@ class ENC:
             if template == 1:
                 task.append(teample_one.Creat(key,self.translateLang,art,self.hide_uid,self.uid,self.enc.player.nickname).start())
             else:
-                task.append(teample_two.Creat(key,self.translateLang,art,self.hide_uid,self.uid,self.enc.player.nickname).start(snow))
+                task.append(teample_two.Creat(key,self.translateLang,art,self.hide_uid,self.uid,self.enc.player.nickname, setting).start(snow))
                 
         
         

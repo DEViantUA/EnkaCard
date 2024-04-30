@@ -6,10 +6,11 @@ import asyncio
 _of = git.ImageCache()
 
 class Background:
-    def __init__(self,img,element) -> None:
+    def __init__(self,img,element, setting) -> None:
         self.img = img
         self.element = element
         self.element_color = None
+        self.setting = setting
         
     async def get_element_color(self):
         self.element_color = pill.element_color.get(self.element, (149,107,5,255))
@@ -30,7 +31,7 @@ class Background:
             
         userImages_opacity = await pill.apply_opacity(self.img, opacity=0.6)
         if self.element is None:
-            self.grandient.alpha_composite(userImages_opacity,(1242,0))
+            self.grandient.alpha_composite(userImages_opacity,(1242+ self.setting,0))
             self.grandient = self.grandient.filter(ImageFilter.GaussianBlur(30))
         else:
             self.grandient.alpha_composite(userImages_opacity,(698,-75))
@@ -53,7 +54,7 @@ class Background:
         self.background = Image.new("RGBA", (1950, 813), (0,0,0,0))
         
         if self.element is None:
-            self.background_grandient.alpha_composite(self.img,(1242,0))
+            self.background_grandient.alpha_composite(self.img,(1242+ self.setting,0))
         else:
             self.background_grandient.alpha_composite(self.img,(698,-75))
         self.background_grandient.paste(self.grandient,(0,0),maska_bg)

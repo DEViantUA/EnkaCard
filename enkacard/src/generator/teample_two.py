@@ -12,7 +12,7 @@ _of = git.ImageCache()
 
 
 class Creat:
-    def __init__(self,characters,lang,img,hide,uid,name) -> None:
+    def __init__(self,characters,lang,img,hide,uid,name, setting) -> None:
         self.character = characters
         self.lang = lang["lvl"]
         self.img = img
@@ -20,12 +20,13 @@ class Creat:
         self.uid = uid
         self.name = name
         self.tcv = 0
+        self.setting = setting
         
     async def collect_background(self):
         if self.img:
-            self.background =  await background.Background(self.img, None).start()
+            self.background =  await background.Background(self.img, None, setting = self.setting).start()
         else:
-            self.background = await background.Background(self.character.image.banner.url,self.character.element.value).start()
+            self.background = await background.Background(self.character.image.banner.url,self.character.element.value, setting = self.setting).start()
         
     async def collect_weapon(self):
         self.weapon = await weapon.Weapon(self.character.equipments[-1], self.lang).start()
@@ -173,11 +174,11 @@ class Creat:
         self.background_name_user = Image.new("RGBA", (128, 32), (0,0,0,0))
         font_13 = await pill.get_font(13)
         d = ImageDraw.Draw(self.background_name_user)
-        d.text((0,0), self.name, font= font_13, fill=(255,255,255,150))
+        d.text((0,0), self.name, font= font_13, fill=(255,255,255,200))
         if self.hide:
-            d.text((0,18), "UID: Hide", font= font_13, fill=(255,255,255,150))
+            d.text((0,18), "UID: Hide", font= font_13, fill=(255,255,255,200))
         else:
-            d.text((0,18), f"UID: {self.uid}", font= font_13, fill=(255,255,255,150))
+            d.text((0,18), f"UID: {self.uid}", font= font_13, fill=(255,255,255,200))
     
     async def build(self):
         self.background.alpha_composite(self.weapon,(518,7))
@@ -188,7 +189,7 @@ class Creat:
         self.background.alpha_composite(self.diagram.resize((556,413)),(962 ,262))
         self.background.alpha_composite(self.stat_background,(519,155))
         self.background.alpha_composite(self.background_skill,(1096,155))
-        self.background.alpha_composite(self.background_name_user,(1793,769))
+        self.background.alpha_composite(self.background_name_user,(1522,769))
         
         await self.add_tcr()
         await self.add_logo()

@@ -175,7 +175,15 @@ async def get_uid(uids):
         return str(uids).replace(' ', '').split(",")[0]
     else:
         return None
-        
+    
+async def get_setting_art(setting):
+    processed_dict = {}
+    for key, value in setting.items():
+        if value > 0 and value < 1.0:
+            right = 224 * value
+            processed_dict[key] = int(right)
+
+    return processed_dict
 
 async def get_character_art(character_art):
     processed_dict = {}

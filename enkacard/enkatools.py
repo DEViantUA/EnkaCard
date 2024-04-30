@@ -1,6 +1,5 @@
 from .enc_error import ENCardError
 from .src.modal import enkaToolsModel
-from .src.utils.enkanetwork_update import enka_update
 import base64
 from io import BytesIO
 import aiohttp
@@ -86,9 +85,6 @@ async def is_valid(session, url, allow_redirects=True, **kwargs):
 class Tools:
     def __init__(self) -> None:
         pass
-    
-    async def update_assets(self, path = None):
-        await enka_update.dowload(path= path)
 
     async def image_to_base64(self,image, format = "png"):
         buffered = BytesIO()
