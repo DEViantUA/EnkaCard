@@ -111,7 +111,7 @@ class Creat:
             if user_diagram:
                 name = options.assets.get_hash_map(options._mapHash.get(key))
                 value = options.map_enka(key, self.character.stats)
-                if value.value == 0 and chartsData[key] == 0:
+                if value.value == 0 and chartsData[key] == 0 or value.value == 0.0:
                     continue
                 try:
                     value = value.to_percentage()
@@ -123,7 +123,7 @@ class Creat:
             else:
                 name = options.assets.get_hash_map(options._mapHash.get(key))
                 value = options.map_enka(key, self.character.stats)
-                if value.value == 0 and chartsData[key] == 0:
+                if value.value == 0 and chartsData[key] == 0 or value.value == 0.0:
                     continue
                 try:
                     value = value.to_percentage()
@@ -132,7 +132,9 @@ class Creat:
                 chartsData[key] = options.format_value(key, chartsData[key], options._mapProcent.get(key), 1)
                 user_data.append({"name": name.replace(".",".\n").replace(" ","\n"), "value": value})
                 akasha_data.append({"name": name.replace(".",".\n").replace(" ","\n"), "value": chartsData[key]})
-                
+
+        print(akasha_data)
+        
         self.diagram = await diagram.RadialChart(user_data, akasha_data, self.character.element.value).create_normalized_radial_chart() #create_normalized_radial_chart(user_data,akasha_data,self.character.element.value)
 
     async def creat_stat(self):

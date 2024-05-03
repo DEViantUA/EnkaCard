@@ -87,7 +87,7 @@ async def get_icon_add(prop_id, recolor = (255,255,255), size = None):
         return cache[f"{prop_id}_{recolor}_{size}"]
     
     icon = await git.ImageCache().download_icon_stats(prop_id = prop_id)
-    if "ADD_HURT" not in prop_id:
+    if "ADD_HURT" not in prop_id and prop_id != "FIGHT_PROP_PHYSICAL_ADD_HURT":
         icon = await recolor_image(icon,recolor)
     if size:
         icon.thumbnail(size)

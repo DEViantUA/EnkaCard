@@ -140,7 +140,7 @@ class RadialChart:
     @staticmethod
     def _get_value(value_info, max_value_dict):
         max_value = max_value_dict.get(value_info['name'], None)
-        if max_value is None:
+        if max_value is None or max_value == 0:
             return 1
         if value_info['value'] > max_value:
             normalized_value = 7 + (value_info['value'] - max_value) / (max_value * 0.3)
