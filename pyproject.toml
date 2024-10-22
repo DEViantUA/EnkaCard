@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "enkacard"
-version = "3.3.0"
+version = "3.3.9"
 description = "An asynchronous module and API that allows you to connect to your bot the generation of Genshin character cards from the Enka.Network website."
 authors = ["None"]
 
@@ -11,15 +11,15 @@ homepage = "https://github.com/DEViantUA/EnkaCard"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Pillow = "^10.0.1"
-"enkanetworkv2.py" = "^2.0.0"
-cachetools = "^5.2.0"
-asyncache  = "^0.3.1"
-numpy = "^1.24.2"
-more-itertools = "^10.1.0"
-pydantic = "^1.10.14"
-aiofiles = "^23.2.1"
-matplotlib = "^3.8.2"
+Pillow = "*"
+"enkanetworkv2.py" = "*"
+cachetools = "*"
+asyncache  = "*"
+numpy = "*"
+more-itertools = "*"
+pydantic = "*"
+aiofiles = "*"
+matplotlib = "*"
 python-magic = { platform = "windows", version = "^0.4.27" }
 python-magic-bin = { platform = "windows", version = "^0.4.14" }
 
