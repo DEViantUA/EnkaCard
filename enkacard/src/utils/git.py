@@ -10,6 +10,8 @@ lock = threading.Lock()
 
 _cache = TTLCache(maxsize=1000, ttl=300)
 
+DEFAULT_AVATAR = "https://gi.yatta.moe/assets/UI/UI_AvatarIcon_Paimon.png"
+
 _BASE_URL = 'https://raw.githubusercontent.com/DEViantUA/EnkaCardData/main/assets/'
 
 assets = Path(__file__).parent.parent / 'assets'

@@ -6,7 +6,7 @@ from enkanetwork import EnkaNetworkAPI
 import os
 import datetime
 from .src.utils.options import get_charter_id, get_info_enka,get_character_art,get_uid,set_assets,check_settings, get_setting_art
-from .src.utils.git import change_Font
+from .src.utils.git import change_Font, DEFAULT_AVATAR
 from .src.utils.pickle_cashe import PickleCache
 from .src.utils.translation import translationLang, supportLang
 from .src.modal import enkacardCread
@@ -79,8 +79,8 @@ class Akasha:
 
 class ENC:
     def __init__(self,lang = "en", uid = None, character_art = None,
-            character_id = None, hide_uid = False, save = False, pickle = None, agent = "Library: 3.3.7",
-            setting_art = None):
+            character_id = None, hide_uid = False, save = False, pickle = None, agent = "Library: 3.3.9",
+            setting_art = None, auto_fix: bool = False):
         
         self.character_ids = []
         self.character_name = []
@@ -97,6 +97,7 @@ class ENC:
         self.uid = uid
         self.character_art = character_art
         self.setting_art = setting_art
+        self.auto_fix = auto_fix #Should automatically update assets, doesn't work.
         
         self.pickle_class = PickleCache(self.uid)
         
@@ -109,6 +110,7 @@ class ENC:
             self.typelang,self.lang,self.translateLang = await set_lang(self.lang)
         else:
             self.lang = "en"
+        
         
         self.enc = await get_info_enka(self.uid,self.USER_AGENT,self.lang)
 
@@ -188,10 +190,6 @@ class ENC:
                 if not generator.get(key.id,None) is None:
                     gen_tools.append(generator.get(key.id))
                 continue
-            if str(key.id) == "10000092":
-                key.image.banner.url = "https://api.ambr.top/assets/UI/UI_Gacha_AvatarImg_Gaming.png"
-            elif str(key.id) == "10000093":
-                key.image.banner.url = "https://api.ambr.top/assets/UI/UI_Gacha_AvatarImg_Liuyun.png"
                 
             art = None
             setting = 0
@@ -264,7 +262,7 @@ class ENC:
         }
         
         if self.enc.player.avatar.icon is None:
-            data["player"]["avatar"] = "https://api.ambr.top/assets/UI/UI_AvatarIcon_Paimon.png"
+            data["player"]["avatar"] = DEFAULT_AVATAR
         else:
             data["player"]["avatar"] = self.enc.player.avatar.icon.url
 

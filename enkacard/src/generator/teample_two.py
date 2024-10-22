@@ -132,8 +132,6 @@ class Creat:
                 chartsData[key] = options.format_value(key, chartsData[key], options._mapProcent.get(key), 1)
                 user_data.append({"name": name.replace(".",".\n").replace(" ","\n"), "value": value})
                 akasha_data.append({"name": name.replace(".",".\n").replace(" ","\n"), "value": chartsData[key]})
-
-        print(akasha_data)
         
         self.diagram = await diagram.RadialChart(user_data, akasha_data, self.character.element.value).create_normalized_radial_chart() #create_normalized_radial_chart(user_data,akasha_data,self.character.element.value)
 

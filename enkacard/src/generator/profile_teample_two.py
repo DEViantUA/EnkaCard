@@ -37,6 +37,8 @@ class ProfileCard:
         if not self.img is None:
             if str(key.id) in self.img:
                 url_id = self.img[str(key.id)]
+            else:
+                url_id = key.icon.url
         else:
             url_id = key.icon.url
             
@@ -55,7 +57,7 @@ class ProfileCard:
     
     async def get_charter(self):
         task = []
-        for key in self.profile.characters_preview:
+        for key in self.profile.characters_preview[:8]:
             task.append(self.creat_charter(key))
         
         self.charter = await asyncio.gather(*task)
@@ -64,7 +66,7 @@ class ProfileCard:
         self.background_profile_avatar = Image.new("RGBA", (625, 319), (0,0,0,0))
         background_avatar = Image.new("RGBA", (168, 168), (0,0,0,0))
         if self.profile.avatar.icon is None:
-            avatar = "https://api.ambr.top/assets/UI/UI_AvatarIcon_Paimon.png"
+            avatar = git.DEFAULT_AVATAR
         else:
             avatar = self.profile.avatar.icon.url
             

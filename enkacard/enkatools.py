@@ -13,6 +13,9 @@ except ImportError:
     import_magic = True
     import imghdr
 
+
+
+
 IMAGE_TYPES = {
     'image/jpeg',
     'image/png',

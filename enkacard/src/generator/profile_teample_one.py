@@ -3,7 +3,7 @@ from PIL import ImageDraw,Image,ImageChops
 from ..utils import pill, git, options
 _of = git.ImageCache()
 
-url_banner = "https://api.ambr.top/assets/UI/namecard/{id}.png"
+url_banner = "https://gi.yatta.moe/assets/UI/namecard/{id}.png"
 url_splash = "https://enka.network/ui/{id}.png"
 
 class ProfileCard:
@@ -132,7 +132,7 @@ class ProfileCard:
         self.background,self.avatar = await asyncio.gather(self.get_background(),self.creat_avatar_info())
                
         task = []
-        for key in self.profile.characters_preview:
+        for key in self.profile.characters_preview[:8]:
             task.append(self.creat_charter(key))
         
         self.charter = await asyncio.gather(*task)
